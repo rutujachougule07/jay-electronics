@@ -32,7 +32,7 @@ const navigation = [
   { label: "About Us", to: "/about" as const },
   { label: "Solutions", to: "/services" as const },
   { label: "Projects", to: "/projects" as const },
-  { label: "Blogs", to: "/projects" as const },
+  { label: "Blogs", to: "/blogs" as const },
   { label: "Contact Us", to: "/contact" as const },
 ];
 

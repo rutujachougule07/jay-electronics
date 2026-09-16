@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowLeft,
+  ArrowRight,
   BarChart3,
   Bell,
   Building2,
@@ -9,10 +10,12 @@ import {
   Clock,
   ExternalLink,
   Eye,
+  EyeOff,
   FileText,
   Image as ImageIcon,
   Key,
   LayoutDashboard,
+  Lock,
   LogOut,
   Mail,
   MessageSquare,
@@ -52,6 +55,8 @@ function AdminPage() {
   const store = useAdminStore();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState("");
 
   const isLoggedIn = store.isLoggedIn();
@@ -71,91 +76,172 @@ function AdminPage() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-[#070D19] flex items-center justify-center p-4">
-        {/* Glow Effects */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-600/10 blur-3xl rounded-full pointer-events-none" />
-        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none" />
-
-        <div className="relative z-10 w-full max-w-md bg-[#0F172A] border border-slate-800 rounded-3xl p-8 shadow-2xl backdrop-blur-xl">
-          {/* Header Branding */}
-          <div className="text-center space-y-3 mb-8">
-            <div className="inline-flex items-center justify-center p-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl">
-              <img
-                src="/logo.jpg"
-                alt="Jay Electronics Logo"
-                className="h-12 w-auto object-contain rounded-xl bg-white px-3 py-1 shadow-md"
-              />
-            </div>
-            <h1 className="text-2xl font-black text-white tracking-wide">
-              JAY ELECTRONICS
-            </h1>
-            <p className="text-xs font-semibold uppercase tracking-widest text-cyan-400">
-              ADMIN CONTROL CENTER
-            </p>
-          </div>
-
-          {/* Login Form */}
-          <form onSubmit={handleLogin} className="space-y-5">
-            {loginError && (
-              <div className="rounded-xl bg-rose-500/10 border border-rose-500/30 p-3 text-xs text-rose-400 flex items-center gap-2">
-                <ShieldAlert className="size-4 shrink-0 text-rose-400" />
-                <span>{loginError}</span>
-              </div>
-            )}
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Username / Email
-              </label>
-              <div className="relative">
-                <User className="absolute left-3.5 top-3 size-4 text-slate-500" />
-                <input
-                  type="text"
-                  required
-                  placeholder="admin123@gmail.com"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full rounded-xl bg-slate-950 border border-slate-800 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+      <div
+        className="min-h-screen w-full bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 sm:p-8 lg:p-12 relative font-sans overflow-x-hidden"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(238, 234, 227, 0.45), rgba(245, 241, 235, 0.25)), url('/admin-login-bg.png')`,
+          backgroundColor: '#EBE6DE',
+        }}
+      >
+        {/* Main Split Layout Container */}
+        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10 py-6">
+          
+          {/* LEFT COLUMN - BRANDING & SLOGAN & STATS */}
+          <div className="lg:col-span-6 space-y-8 pr-0 lg:pr-6">
+            {/* Top Logo */}
+            <div className="flex items-center gap-3">
+              <div className="bg-white/90 backdrop-blur-md p-2 rounded-2xl shadow-md border border-white/60 inline-flex items-center">
+                <img
+                  src="/logo.jpg"
+                  alt="Jay Electronics Logo"
+                  className="h-10 w-auto object-contain"
                 />
               </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                Password
-              </label>
-              <div className="relative">
-                <Key className="absolute left-3.5 top-3 size-4 text-slate-500" />
-                <input
-                  type="password"
-                  required
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl bg-slate-950 border border-slate-800 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                />
+              <div className="font-extrabold text-2xl tracking-tight text-[#0F172A]">
+                <span className="text-[#DC2626]">JAY</span>{" "}
+                <span className="text-[#2563EB]">electronics</span>
               </div>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full py-6 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-extrabold text-sm shadow-lg shadow-blue-500/25 transition-all"
-            >
-              Sign In to Admin Portal
-            </Button>
-          </form>
+            {/* Main Headline */}
+            <div className="space-y-4">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1E293B] leading-[1.12] tracking-tight">
+                Let’s Build a<br />
+                Smarter World<br />
+                With Electronics
+              </h1>
+              
+              {/* Golden Line Accent */}
+              <div className="w-14 h-1 bg-[#D97706] rounded-full" />
 
-          {/* Credentials Info */}
-          <div className="mt-8 pt-6 border-t border-slate-800/80 text-center">
-            <p className="text-xs text-slate-400">
-              Admin Credentials: <code className="text-cyan-400 bg-slate-950 px-2 py-0.5 rounded font-mono">admin123@gmail.com</code> / <code className="text-cyan-400 bg-slate-950 px-2 py-0.5 rounded font-mono">admin123</code>
-            </p>
-            <div className="mt-4">
-              <Link to="/" className="text-xs text-slate-400 hover:text-cyan-400 inline-flex items-center gap-1">
-                <ArrowLeft className="size-3" /> Back to Main Website
-              </Link>
+              {/* Subtext */}
+              <p className="text-slate-600 text-sm sm:text-base font-medium max-w-md leading-relaxed">
+                Manage your system with security, speed and simplicity.
+              </p>
+            </div>
+
+            {/* Bottom Statistics Section */}
+            <div className="pt-6 lg:pt-12">
+              <div className="grid grid-cols-4 gap-3 sm:gap-6 border-t border-slate-400/30 pt-6">
+                <div>
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">100%</div>
+                  <div className="text-xs font-semibold text-slate-600 mt-1">Secure</div>
+                </div>
+                <div className="border-l border-slate-400/40 pl-3 sm:pl-6">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">24/7</div>
+                  <div className="text-xs font-semibold text-slate-600 mt-1">Access</div>
+                </div>
+                <div className="border-l border-slate-400/40 pl-3 sm:pl-6">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">Global</div>
+                  <div className="text-xs font-semibold text-slate-600 mt-1">Support</div>
+                </div>
+                <div className="border-l border-slate-400/40 pl-3 sm:pl-6">
+                  <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">Better</div>
+                  <div className="text-xs font-semibold text-slate-600 mt-1">Future</div>
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* RIGHT COLUMN - FLOATING WHITE LOGIN CARD */}
+          <div className="lg:col-span-6 flex justify-center lg:justify-end">
+            <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.14)] border border-slate-100 backdrop-blur-md relative overflow-hidden">
+              
+              {/* Header inside card */}
+              <div className="text-center space-y-1.5 mb-8">
+                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#0F172A]">
+                  JAY ELECTRONICS
+                </h2>
+                <p className="text-[11px] font-extrabold uppercase tracking-widest text-[#2563EB]">
+                  ADMIN CONTROL CENTER
+                </p>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleLogin} className="space-y-5">
+                {loginError && (
+                  <div className="rounded-2xl bg-rose-50 border border-rose-200 p-3.5 text-xs font-medium text-rose-600 flex items-start gap-2.5">
+                    <ShieldAlert className="size-4 shrink-0 text-rose-500 mt-0.5" />
+                    <span>{loginError}</span>
+                  </div>
+                )}
+
+                {/* Email Input */}
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-400" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="admin123@gmail.com"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3.5 pl-12 pr-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/10 transition-all font-medium"
+                  />
+                </div>
+
+                {/* Password Input */}
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-400" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3.5 pl-12 pr-12 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/10 transition-all font-medium"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
+                  >
+                    {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
+                  </button>
+                </div>
+
+                {/* Checkbox and Forgot Password Link */}
+                <div className="flex items-center justify-between text-xs font-semibold pt-1">
+                  <label className="flex items-center gap-2 cursor-pointer text-slate-700 select-none">
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 size-4 cursor-pointer"
+                    />
+                    <span>Remember Me</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setLoginError("Default Credentials: admin123@gmail.com / admin123")}
+                    className="text-slate-700 hover:text-blue-600 transition-colors font-bold"
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+
+                {/* Submit Sign In Button */}
+                <button
+                  type="submit"
+                  className="w-full py-4 rounded-2xl bg-[#0F172A] hover:bg-[#1E293B] active:bg-[#020617] text-white font-extrabold text-sm tracking-wide shadow-lg shadow-slate-900/10 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+                >
+                  <span>Sign In</span>
+                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </form>
+
+              {/* Back to main website link */}
+              <div className="mt-8 pt-4 text-center border-t border-slate-100">
+                <Link
+                  to="/"
+                  className="inline-flex items-center justify-center gap-2 text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors"
+                >
+                  <ArrowLeft className="size-3.5" /> Back to Main Website
+                </Link>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
     );
@@ -743,9 +829,12 @@ function BannersManagementView() {
     if (target < 0 || target >= items.length) return;
     const next = [...items];
     const temp = next[index];
-    next[index] = next[target];
-    next[target] = temp;
-    setItems(next);
+    const targetItem = next[target];
+    if (temp && targetItem) {
+      next[index] = targetItem;
+      next[target] = temp;
+      setItems(next);
+    }
   };
 
   const handleAddSlide = (e: React.FormEvent) => {

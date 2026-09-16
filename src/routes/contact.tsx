@@ -1,194 +1,310 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { CheckCircle2, Clock, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { PageHero } from "@/components/site-shell";
 import { adminStore } from "@/lib/admin-store";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Jay Electronics | Sangli" },
+      { title: "Contact Regional Engineering Hubs | Jay Electronics" },
       {
         name: "description",
         content:
-          "Contact Jay Electronics in Sangli for CCTV, networking, telecommunications, security and infrastructure requirements.",
+          "Direct access to senior system engineers, emergency field technicians, and our central testing depots in Sangli, Kolhapur, and Pune.",
       },
-      { property: "og:title", content: "Contact Jay Electronics" },
+      { property: "og:title", content: "Contact Engineering Hubs | Jay Electronics" },
       {
         property: "og:description",
-        content: "Discuss your technology and infrastructure requirement with our team in Sangli.",
+        content: "Connect with Jay Electronics regional offices in Sangli, Kolhapur, and Pune.",
       },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ContactPage,
 });
 
-function ContactPage() {
-  const [sent, setSent] = useState(false);
+interface OfficeInfo {
+  id: string;
+  badge: string;
+  title: string;
+  address: string;
+  phone: string;
+  email: string;
+  hours: string;
+  callLabel: string;
+  phoneHref: string;
+}
 
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+const OFFICES: OfficeInfo[] = [
+  {
+    id: "sangli",
+    badge: "HEADQUARTERS & SPARES DEPOT",
+    title: "Sangli Office",
+    address: "JEPL Tower, Market Yard Main Corridor, Sangli 416416, Maharashtra.",
+    phone: "+91 233 2300000 / 2300001",
+    email: "sangli@jayelectronics.co.in",
+    hours: "Mon-Sat 9:30 AM - 7:00 PM",
+    callLabel: "Call Sangli Desk",
+    phoneHref: "tel:+912332300000",
+  },
+  {
+    id: "kolhapur",
+    badge: "REGIONAL INDUSTRIAL HUB",
+    title: "Kolhapur Office",
+    address: "Shahupuri 2nd Lane, Near Station Road, Kolhapur 416001, Maharashtra.",
+    phone: "+91 231 2650000 / 2650001",
+    email: "kolhapur@jayelectronics.co.in",
+    hours: "Mon-Sat 9:30 AM - 7:00 PM",
+    callLabel: "Call Kolhapur Desk",
+    phoneHref: "tel:+912312650000",
+  },
+  {
+    id: "pune",
+    badge: "CORPORATE & AV SYSTEMS",
+    title: "Pune IT Hub",
+    address: "Baner IT Park Corridor, Near Highway Junction, Pune 411045, Maharashtra.",
+    phone: "+91 20 25600000 / 25600001",
+    email: "pune@jayelectronics.co.in",
+    hours: "Mon-Sat 9:30 AM - 7:00 PM",
+    callLabel: "Call Pune Desk",
+    phoneHref: "tel:+912025600000",
+  },
+];
+
+function ContactPage() {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     const name = (formData.get("name") as string) || "Anonymous Customer";
-    const email = (formData.get("email") as string) || "Not provided";
     const phone = (formData.get("phone") as string) || "Not provided";
-    const service = (formData.get("service") as string) || "General Enquiry";
-    const message = (formData.get("message") as string) || "No message specified";
+    const email = (formData.get("email") as string) || "Not provided";
+    const office = (formData.get("office") as string) || "Sangli HQ & Central Depot";
+    const message = (formData.get("message") as string) || "No message provided";
 
     adminStore.addInquiry({
       name,
       email,
       phone,
-      subject: `${service} Requirement`,
+      subject: `Technical Inquiry for ${office}`,
       message,
     });
 
-    setSent(true);
-  }
+    setSubmitted(true);
+  };
 
   return (
-    <>
-      <PageHero
-        eyebrow="Contact us"
-        title="Tell us what your site needs to achieve."
-        description="Share your requirement and our team will help identify the right security, communication or infrastructure approach."
-      />
+    <div className="bg-[#F8FAFC] text-slate-800 font-sans antialiased min-h-screen py-8 sm:py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* =========================================================================
+           SECTION 1: TOP BREADCRUMB & REGIONAL OFFICES GRID (IMAGE 1)
+           ========================================================================= */}
+        <div className="space-y-8">
+          {/* Breadcrumb & Header */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
+              <Link to="/" className="text-slate-500 hover:text-slate-800">
+                Home
+              </Link>
+              <span className="text-slate-300">/</span>
+              <span className="text-[#DC2626]">CONTACT OFFICES</span>
+            </div>
 
-      <section className="section py-14">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
-          <div>
-            <h2 className="text-2xl font-bold">Jay Electronics Private Limited</h2>
-            <p className="mt-3 leading-7 text-muted-foreground">
-              For enquiries, project discussions and service requirements, contact our Sangli office.
+            <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+              Connect with Our Engineering Hubs
+            </h1>
+
+            <p className="text-slate-600 text-sm sm:text-base max-w-3xl font-normal leading-relaxed">
+              Direct access to senior system engineers, emergency field technicians, and our central testing depots in Sangli, Kolhapur, and Pune.
             </p>
-            <div className="mt-8 space-y-3">
-              {[
-                {
-                  icon: MapPin,
-                  label: "Office",
-                  value: "College Corner, North Shivajinagar, Sangli 416416, Maharashtra",
-                  href: "https://maps.google.com/?q=College+Corner+North+Shivajinagar+Sangli+416416",
-                },
-                {
-                  icon: Phone,
-                  label: "Phone",
-                  value: "+91 94224 07175 · 0233-2326375",
-                  href: "tel:+919422407175",
-                },
-                {
-                  icon: Mail,
-                  label: "Email",
-                  value: "info@jayelectronics.co.in",
-                  href: "mailto:info@jayelectronics.co.in",
-                },
-                {
-                  icon: Clock,
-                  label: "Response",
-                  value: "Enquiries are reviewed during business hours",
-                  href: undefined,
-                },
-              ].map(({ icon: Icon, label, value, href }) => (
-                <div key={label} className="grid grid-cols-[40px_1fr] gap-4 border-b border-border py-4">
-                  <span className="grid size-10 place-items-center bg-secondary">
-                    <Icon className="size-5 text-brand-blue" />
-                  </span>
-                  <div>
-                    <p className="text-xs font-bold uppercase text-muted-foreground">{label}</p>
-                    {href ? (
-                      <a
-                        href={href}
-                        target={href.startsWith("http") ? "_blank" : undefined}
-                        rel={href.startsWith("http") ? "noreferrer" : undefined}
-                        className="mt-1 block text-sm font-semibold hover:text-primary"
-                      >
-                        {value}
+          </div>
+
+          {/* 3 Regional Office Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {OFFICES.map((office) => (
+              <div
+                key={office.id}
+                className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between space-y-6"
+              >
+                <div className="space-y-4">
+                  {/* Badge */}
+                  <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[#DC2626]">
+                    <MapPin className="size-3.5 shrink-0 text-[#DC2626]" />
+                    <span>{office.badge}</span>
+                  </div>
+
+                  {/* Title & Address */}
+                  <div className="space-y-1">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                      {office.title}
+                    </h2>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      {office.address}
+                    </p>
+                  </div>
+
+                  {/* Contact Details List */}
+                  <div className="space-y-2.5 pt-2 text-xs font-medium text-slate-700">
+                    <div className="flex items-center gap-2.5">
+                      <Phone className="size-4 text-[#DC2626] shrink-0" />
+                      <a href={office.phoneHref} className="hover:text-slate-900 font-bold">
+                        {office.phone}
                       </a>
-                    ) : (
-                      <p className="mt-1 text-sm font-semibold">{value}</p>
-                    )}
+                    </div>
+
+                    <div className="flex items-center gap-2.5">
+                      <Mail className="size-4 text-[#DC2626] shrink-0" />
+                      <a href={`mailto:${office.email}`} className="hover:text-slate-900">
+                        {office.email}
+                      </a>
+                    </div>
+
+                    <div className="flex items-center gap-2.5">
+                      <Clock className="size-4 text-slate-400 shrink-0" />
+                      <span className="text-slate-500">{office.hours}</span>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          <div className="border border-border bg-slate-50 p-6 sm:p-8 rounded-2xl shadow-sm">
-            {sent ? (
-              <div className="flex min-h-[430px] flex-col items-center justify-center text-center">
-                <CheckCircle2 className="size-14 text-emerald-500" />
-                <h2 className="mt-5 text-2xl font-bold text-slate-900">Thank you for your enquiry!</h2>
-                <p className="mt-3 max-w-md text-sm text-slate-600 leading-relaxed">
-                  Your inquiry has been received and saved into our Admin System. Our team will contact you shortly. For immediate assistance, please call +91 94224 07175.
-                </p>
-                <Button className="mt-6 bg-cyan-600 hover:bg-cyan-700 text-white font-bold" onClick={() => setSent(false)}>
-                  Send another enquiry
-                </Button>
+                {/* Call Button */}
+                <a
+                  href={office.phoneHref}
+                  className="w-full py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-800 text-xs font-extrabold text-center transition duration-200 block shadow-xs"
+                >
+                  {office.callLabel}
+                </a>
               </div>
-            ) : (
-              <form onSubmit={submit}>
-                <h2 className="text-2xl font-bold text-slate-900">Project Enquiry</h2>
-                <p className="mt-1 text-sm text-slate-500">Fields marked with * are required.</p>
-                <div className="mt-7 grid gap-5 sm:grid-cols-2">
-                  <label className="form-label font-bold text-xs uppercase text-slate-700">
-                    Name *
-                    <Input required name="name" autoComplete="name" className="mt-1 bg-white" />
-                  </label>
-                  <label className="form-label font-bold text-xs uppercase text-slate-700">
-                    Company
-                    <Input name="company" autoComplete="organization" className="mt-1 bg-white" />
-                  </label>
-                  <label className="form-label font-bold text-xs uppercase text-slate-700">
-                    Email *
-                    <Input required name="email" type="email" autoComplete="email" className="mt-1 bg-white" />
-                  </label>
-                  <label className="form-label font-bold text-xs uppercase text-slate-700">
-                    Phone *
-                    <Input required name="phone" type="tel" autoComplete="tel" className="mt-1 bg-white" />
-                  </label>
-                  <label className="form-label sm:col-span-2 font-bold text-xs uppercase text-slate-700">
-                    Service Area *
-                    <select
-                      required
-                      name="service"
-                      defaultValue=""
-                      className="mt-1 h-10 w-full border border-input bg-white rounded-md px-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    >
-                      <option value="" disabled>
-                        Select a service
-                      </option>
-                      <option>IP CCTV & Surveillance</option>
-                      <option>LAN / WAN Networking & Fibre</option>
-                      <option>EPABX / IP-PBX Systems</option>
-                      <option>Audio Visual Solutions</option>
-                      <option>Fire Security</option>
-                      <option>Telecom Civil Works</option>
-                      <option>Office Automation</option>
-                      <option>Solar Solutions</option>
-                    </select>
-                  </label>
-                  <label className="form-label sm:col-span-2 font-bold text-xs uppercase text-slate-700">
-                    Requirement Details *
-                    <Textarea
-                      required
-                      name="message"
-                      className="mt-1 min-h-32 bg-white"
-                      placeholder="Tell us about your site, location, and system requirement..."
-                    />
-                  </label>
-                </div>
-                <Button type="submit" size="lg" className="mt-6 w-full sm:w-auto bg-gradient-to-r from-cyan-600 to-sky-600 hover:from-cyan-500 hover:to-sky-500 text-white font-bold">
-                  Submit Enquiry
-                </Button>
-              </form>
-            )}
+            ))}
           </div>
         </div>
-      </section>
-    </>
+
+        {/* =========================================================================
+           SECTION 2: TECHNICAL INQUIRY FORM CARD (IMAGE 2)
+           ========================================================================= */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-8 sm:p-12 shadow-sm max-w-4xl mx-auto space-y-8">
+          <div className="text-center space-y-1.5">
+            <div className="text-xs font-black uppercase tracking-widest text-[#DC2626]">
+              DIRECT ENGINEERING CORRESPONDENCE
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              Send a Technical Inquiry
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto font-normal">
+              Your request will be routed directly to the regional lead engineer for immediate follow-up.
+            </p>
+          </div>
+
+          {submitted ? (
+            <div className="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-8 text-center space-y-4">
+              <CheckCircle2 className="size-12 text-emerald-600 mx-auto" />
+              <h3 className="text-xl font-extrabold text-slate-900">
+                Technical Inquiry Submitted Successfully!
+              </h3>
+              <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+                Your request has been routed to our regional lead engineer and logged into our Admin Portal. We will get back to you within business hours.
+              </p>
+              <button
+                type="button"
+                onClick={() => setSubmitted(false)}
+                className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition"
+              >
+                Send Another Inquiry
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Row 1: Full Name & Phone Number */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-800">
+                    Your Full Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="e.g. Sunil Patil"
+                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3 px-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-800">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    placeholder="+91 98..."
+                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3 px-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium"
+                  />
+                </div>
+              </div>
+
+              {/* Row 2: Work Email & Target Regional Office */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-800">
+                    Work Email Address
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="name@company.com"
+                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3 px-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-800">
+                    Target Regional Office <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="office"
+                    required
+                    defaultValue="Sangli HQ & Central Depot"
+                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3 px-4 text-sm text-slate-800 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium cursor-pointer"
+                  >
+                    <option value="Sangli HQ & Central Depot">
+                      Sangli HQ & Central Depot
+                    </option>
+                    <option value="Kolhapur Regional Office">
+                      Kolhapur Regional Office
+                    </option>
+                    <option value="Pune IT Hub & Corporate">
+                      Pune IT Hub & Corporate
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Row 3: Technical Requirement / Question */}
+              <div className="space-y-1.5 text-left">
+                <label className="text-xs font-bold text-slate-800">
+                  Technical Requirement / Question <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  name="message"
+                  required
+                  rows={4}
+                  placeholder="Describe your security challenge, existing hardware brand, tender BOQ timeline, or AMC requirement..."
+                  className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 p-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium resize-y"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full py-4 rounded-2xl bg-[#DC2626] hover:bg-[#B91C1C] active:bg-[#991B1B] text-white font-extrabold text-sm tracking-wide shadow-lg shadow-red-900/20 transition duration-200 flex items-center justify-center gap-2 cursor-pointer group"
+              >
+                <Send className="size-4 group-hover:translate-x-0.5 transition-transform" />
+                <span>Send Technical Inquiry to JEPL Desk</span>
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
