@@ -1,0 +1,1281 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowLeft,
+  BarChart3,
+  Bell,
+  Building2,
+  CheckCircle2,
+  ChevronDown,
+  Clock,
+  ExternalLink,
+  Eye,
+  FileText,
+  Image as ImageIcon,
+  Key,
+  LayoutDashboard,
+  LogOut,
+  Mail,
+  MessageSquare,
+  MoveDown,
+  MoveUp,
+  Plus,
+  Radio,
+  RefreshCw,
+  Save,
+  Search,
+  Settings,
+  ShieldAlert,
+  ShieldCheck,
+  Sparkles,
+  Trash2,
+  TrendingUp,
+  User,
+  UserCheck,
+  UserPlus,
+  Users,
+} from "lucide-react";
+import { useState } from "react";
+import { adminStore, useAdminStore, type HeroSlide, type TeamMember, type ContactInquiry } from "@/lib/admin-store";
+import { Button } from "@/components/ui/button";
+
+export const Route = createFileRoute("/admin")({
+  head: () => ({
+    meta: [
+      { title: "Admin Portal | Jay Electronics Pvt Ltd" },
+      { name: "description", content: "Jay Electronics Admin Dashboard Control Center" },
+    ],
+  }),
+  component: AdminPage,
+});
+
+function AdminPage() {
+  const store = useAdminStore();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+
+  const isLoggedIn = store.isLoggedIn();
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    const success = store.login(username, password);
+    if (!success) {
+      setLoginError("Invalid username or password! (Default: admin123@gmail.com / admin123)");
+    }
+  };
+
+  const handleLogout = () => {
+    store.logout();
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-[#070D19] flex items-center justify-center p-4">
+        {/* Glow Effects */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-600/10 blur-3xl rounded-full pointer-events-none" />
+        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none" />
+
+        <div className="relative z-10 w-full max-w-md bg-[#0F172A] border border-slate-800 rounded-3xl p-8 shadow-2xl backdrop-blur-xl">
+          {/* Header Branding */}
+          <div className="text-center space-y-3 mb-8">
+            <div className="inline-flex items-center justify-center p-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl">
+              <img
+                src="/logo.jpg"
+                alt="Jay Electronics Logo"
+                className="h-12 w-auto object-contain rounded-xl bg-white px-3 py-1 shadow-md"
+              />
+            </div>
+            <h1 className="text-2xl font-black text-white tracking-wide">
+              JAY ELECTRONICS
+            </h1>
+            <p className="text-xs font-semibold uppercase tracking-widest text-cyan-400">
+              ADMIN CONTROL CENTER
+            </p>
+          </div>
+
+          {/* Login Form */}
+          <form onSubmit={handleLogin} className="space-y-5">
+            {loginError && (
+              <div className="rounded-xl bg-rose-500/10 border border-rose-500/30 p-3 text-xs text-rose-400 flex items-center gap-2">
+                <ShieldAlert className="size-4 shrink-0 text-rose-400" />
+                <span>{loginError}</span>
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Username / Email
+              </label>
+              <div className="relative">
+                <User className="absolute left-3.5 top-3 size-4 text-slate-500" />
+                <input
+                  type="text"
+                  required
+                  placeholder="admin123@gmail.com"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full rounded-xl bg-slate-950 border border-slate-800 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Password
+              </label>
+              <div className="relative">
+                <Key className="absolute left-3.5 top-3 size-4 text-slate-500" />
+                <input
+                  type="password"
+                  required
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-xl bg-slate-950 border border-slate-800 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full py-6 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-extrabold text-sm shadow-lg shadow-blue-500/25 transition-all"
+            >
+              Sign In to Admin Portal
+            </Button>
+          </form>
+
+          {/* Credentials Info */}
+          <div className="mt-8 pt-6 border-t border-slate-800/80 text-center">
+            <p className="text-xs text-slate-400">
+              Admin Credentials: <code className="text-cyan-400 bg-slate-950 px-2 py-0.5 rounded font-mono">admin123@gmail.com</code> / <code className="text-cyan-400 bg-slate-950 px-2 py-0.5 rounded font-mono">admin123</code>
+            </p>
+            <div className="mt-4">
+              <Link to="/" className="text-xs text-slate-400 hover:text-cyan-400 inline-flex items-center gap-1">
+                <ArrowLeft className="size-3" /> Back to Main Website
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return <DashboardLayout onLogout={handleLogout} />;
+}
+
+/* =========================================================================
+   DASHBOARD LAYOUT (ULTRA PROFESSIONAL & ATTRACTIVE SAAS DESIGN)
+   ========================================================================= */
+type SidebarTab = "dashboard" | "banners" | "about" | "team" | "inquiries";
+
+function DashboardLayout({ onLogout }: { onLogout: () => void }) {
+  const [activeTab, setActiveTab] = useState<SidebarTab>("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen bg-[#F6F8FC] text-slate-800 flex font-sans antialiased">
+      {/* 1. FIXED LEFT SIDEBAR */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-[#0F1C3F] via-[#0B132B] to-[#070D1D] text-white flex flex-col justify-between p-5 border-r border-slate-800/60 shadow-xl transition-transform duration-300 lg:static lg:translate-x-0 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="space-y-7">
+          {/* Sidebar Top Logo Branding */}
+          <div className="flex items-center gap-3 px-2 py-1">
+            <img
+              src="/logo.jpg"
+              alt="Jay Electronics Logo"
+              className="h-10 w-auto max-w-[42px] shrink-0 rounded-xl object-contain bg-white p-1 shadow-md shadow-blue-500/20 border border-white/10"
+            />
+            <div>
+              <div className="font-extrabold text-sm leading-tight text-white tracking-wide">
+                JAY ELECTRONICS
+              </div>
+              <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-400 flex items-center gap-1 mt-0.5">
+                <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                ADMIN PORTAL
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation Items */}
+          <nav className="space-y-2" aria-label="Sidebar Navigation">
+            {[
+              { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+              { id: "banners", label: "Hero Banners", icon: ImageIcon },
+              { id: "about", label: "About Us", icon: FileText },
+              { id: "team", label: "Team Members", icon: Users },
+              { id: "inquiries", label: "Inquiries", icon: Mail },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveTab(item.id as SidebarTab);
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-semibold transition-all duration-200 group ${
+                    isActive
+                      ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold shadow-md shadow-blue-600/30 translate-x-0.5"
+                      : "text-slate-400 hover:text-white hover:bg-white/5 hover:translate-x-0.5"
+                  }`}
+                >
+                  <Icon
+                    className={`size-4.5 transition-colors ${
+                      isActive ? "text-cyan-300" : "text-slate-400 group-hover:text-cyan-400"
+                    }`}
+                  />
+                  <span className="tracking-wide">{item.label}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Sidebar Bottom Actions (View Live Site & Logout) */}
+        <div className="space-y-2.5 pt-4 border-t border-slate-800/80">
+          <Link
+            to="/"
+            target="_blank"
+            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-800/80 shadow-xs transition"
+          >
+            <div className="flex items-center gap-2.5">
+              <ExternalLink className="size-4 text-cyan-400" />
+              <span>View Live Site</span>
+            </div>
+            <span className="text-[10px] bg-blue-500/20 text-cyan-300 font-bold px-1.5 py-0.2 rounded">
+              Live
+            </span>
+          </Link>
+
+          <button
+            onClick={onLogout}
+            className="w-full flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 text-xs font-semibold transition"
+          >
+            <LogOut className="size-4 text-rose-500" />
+            <span>Logout Portal</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Overlay for Mobile Drawer */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm lg:hidden"
+        />
+      )}
+
+      {/* 2. MAIN CONTENT AREA */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen">
+        {/* TOP HEADER */}
+        <header className="bg-transparent px-6 sm:px-10 py-6 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            {/* Mobile Drawer Button */}
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-xs"
+            >
+              <LayoutDashboard className="size-5" />
+            </button>
+
+            <div>
+              <div className="flex items-center gap-2.5">
+                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                  Dashboard
+                </h1>
+                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-100 px-3 py-0.5 text-[11px] font-extrabold text-blue-600">
+                  <Sparkles className="size-3" /> System Overview
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mt-0.5 font-medium">
+                Overview of your website content
+              </p>
+            </div>
+          </div>
+
+          {/* Right Controls: Search, Notification Bell, Admin Avatar */}
+          <div className="flex items-center gap-3.5">
+            {/* Search Input */}
+            <div className="relative hidden sm:block">
+              <Search className="absolute left-3.5 top-2.5 size-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-48 md:w-60 bg-white border border-slate-200/90 rounded-full py-2 pl-9 pr-12 text-xs text-slate-800 placeholder:text-slate-400 shadow-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+              />
+              <span className="absolute right-3 top-2 text-[10px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
+                ⌘K
+              </span>
+            </div>
+
+            {/* Notification Bell */}
+            <div className="relative">
+              <button
+                type="button"
+                className="flex size-9.5 items-center justify-center rounded-full bg-white border border-slate-200/90 text-slate-600 hover:text-slate-900 shadow-xs hover:bg-slate-50 transition"
+              >
+                <Bell className="size-4" />
+              </button>
+              <span className="absolute top-0 right-0 size-2.5 rounded-full bg-rose-500 ring-2 ring-white animate-pulse" />
+            </div>
+
+            {/* Admin Profile/Avatar Area */}
+            <div className="flex items-center gap-3 pl-3 border-l border-slate-200">
+              <div className="relative">
+                <img
+                  src="/about-owner.png"
+                  alt="Admin Avatar"
+                  className="size-9.5 rounded-full object-cover border border-slate-200 shadow-xs"
+                  onError={(e) => {
+                    (e.target as HTMLElement).setAttribute(
+                      "src",
+                      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200"
+                    );
+                  }}
+                />
+                <span className="absolute bottom-0 right-0 size-2.5 rounded-full bg-emerald-500 ring-2 ring-white" />
+              </div>
+              <div className="hidden md:block text-left">
+                <div className="text-xs font-extrabold text-slate-900 leading-tight flex items-center gap-1">
+                  Admin <ChevronDown className="size-3 text-slate-400" />
+                </div>
+                <div className="text-[10px] text-slate-400 font-medium">Administrator</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* MAIN BODY CONTENT */}
+        <main className="flex-1 px-6 sm:px-10 pb-12 space-y-8">
+          {activeTab === "dashboard" && <DashboardMainView onNavigateTab={(tab) => setActiveTab(tab)} />}
+          {activeTab === "banners" && <BannersManagementView />}
+          {activeTab === "about" && <AboutManagementView />}
+          {activeTab === "team" && <TeamManagementView />}
+          {activeTab === "inquiries" && <InquiriesManagementView />}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   MAIN DASHBOARD VIEW (ULTRA PROFESSIONAL & ATTRACTIVE)
+   ========================================================================= */
+function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab) => void }) {
+  const store = useAdminStore();
+  const heroSlides = store.getHeroSlides();
+  const teamMembers = store.getTeamMembers();
+  const inquiries = store.getInquiries();
+
+  const newInquiriesCount = inquiries.filter((i) => i.status === "New").length;
+
+  return (
+    <div className="space-y-8">
+      {/* 4 STATISTICS CARDS IN ONE ROW */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Card 1: Hero Banners */}
+        <div
+          onClick={() => onNavigateTab("banners")}
+          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 group"
+        >
+          <div className="flex items-center gap-3.5">
+            <div className="size-11 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 text-blue-600 border border-blue-200/60 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-xs">
+              <ImageIcon className="size-5" />
+            </div>
+            <div>
+              <span className="text-xs font-semibold text-slate-500">Hero Banners</span>
+              <h3 className="text-2xl font-black text-slate-900 leading-tight mt-0.5">
+                {heroSlides.length} Slides
+              </h3>
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-[11px] text-slate-400 font-medium">Homepage Slider</span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-100 px-2.5 py-0.5 text-[11px] font-bold text-blue-600">
+              ↑ 0%
+            </span>
+          </div>
+        </div>
+
+        {/* Card 2: Website Status */}
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4 group">
+          <div className="flex items-center gap-3.5">
+            <div className="size-11 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300 shadow-xs">
+              <CheckCircle2 className="size-5" />
+            </div>
+            <div>
+              <span className="text-xs font-semibold text-slate-500">Website Status</span>
+              <h3 className="text-2xl font-black text-slate-900 leading-tight mt-0.5 flex items-center gap-1.5">
+                Active <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+              </h3>
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-[11px] text-slate-400 font-medium">All systems working</span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600">
+              ↑ 100%
+            </span>
+          </div>
+        </div>
+
+        {/* Card 3: Team Members */}
+        <div
+          onClick={() => onNavigateTab("team")}
+          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 group"
+        >
+          <div className="flex items-center gap-3.5">
+            <div className="size-11 rounded-2xl bg-gradient-to-br from-purple-500/10 to-indigo-500/10 text-purple-600 border border-purple-200/60 flex items-center justify-center shrink-0 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 shadow-xs">
+              <Users className="size-5" />
+            </div>
+            <div>
+              <span className="text-xs font-semibold text-slate-500">Team Members</span>
+              <h3 className="text-2xl font-black text-slate-900 leading-tight mt-0.5">
+                {teamMembers.length} Members
+              </h3>
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-[11px] text-slate-400 font-medium">~2 this month</span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 border border-purple-100 px-2.5 py-0.5 text-[11px] font-bold text-purple-600">
+              ↑ 20%
+            </span>
+          </div>
+        </div>
+
+        {/* Card 4: Inquiries */}
+        <div
+          onClick={() => onNavigateTab("inquiries")}
+          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 group"
+        >
+          <div className="flex items-center gap-3.5">
+            <div className="size-11 rounded-2xl bg-gradient-to-br from-rose-500/10 to-amber-500/10 text-rose-500 border border-rose-200/60 flex items-center justify-center shrink-0 group-hover:bg-rose-500 group-hover:text-white transition-all duration-300 shadow-xs">
+              <Mail className="size-5" />
+            </div>
+            <div>
+              <span className="text-xs font-semibold text-slate-500">Inquiries</span>
+              <h3 className="text-2xl font-black text-slate-900 leading-tight mt-0.5">
+                {inquiries.length} Messages
+              </h3>
+            </div>
+          </div>
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-[11px] text-rose-500 font-extrabold flex items-center gap-1">
+              <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
+              {newInquiriesCount} new unread
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-500">
+              ↑ 50%
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ANALYTICS SECTION (TWO COLUMNS: LINE CHART + DONUT CHART) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* LEFT COLUMN: WEBSITE INQUIRIES SMOOTH LINE CHART */}
+        <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                Website Inquiries
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5 font-medium">Last 7 days activity</p>
+            </div>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 transition cursor-pointer shadow-xs">
+              <span>This Week</span>
+              <ChevronDown className="size-3.5 text-slate-400" />
+            </div>
+          </div>
+
+          {/* Smooth SVG Line Chart */}
+          <div className="relative pt-4 pb-2">
+            <div className="h-56 w-full relative">
+              {/* Y Axis Grid Lines */}
+              <div className="absolute inset-0 flex flex-col justify-between text-[11px] text-slate-400 pointer-events-none">
+                <div className="border-b border-slate-100 flex items-center justify-between pb-1">
+                  <span>30</span>
+                </div>
+                <div className="border-b border-slate-100 flex items-center justify-between pb-1">
+                  <span>20</span>
+                </div>
+                <div className="border-b border-slate-100 flex items-center justify-between pb-1">
+                  <span>10</span>
+                </div>
+                <div className="border-b border-slate-100 flex items-center justify-between pb-1">
+                  <span>0</span>
+                </div>
+              </div>
+
+              {/* Smooth Curved Line Path */}
+              <svg className="w-full h-full overflow-visible relative z-10" viewBox="0 0 500 180" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#2563EB" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+
+                {/* Filled Gradient Area */}
+                <path
+                  d="M 10,140 C 60,130 110,90 160,110 C 210,130 260,70 310,60 C 360,50 410,80 460,30 L 460,170 L 10,170 Z"
+                  fill="url(#chartGradient)"
+                />
+
+                {/* Line Path */}
+                <path
+                  d="M 10,140 C 60,130 110,90 160,110 C 210,130 260,70 310,60 C 360,50 410,80 460,30"
+                  fill="none"
+                  stroke="#2563EB"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                />
+
+                {/* Node Points on Curve */}
+                <circle cx="10" cy="140" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
+                <circle cx="85" cy="120" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
+                <circle cx="160" cy="110" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
+                <circle cx="235" cy="85" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
+                <circle cx="310" cy="60" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
+                <circle cx="385" cy="70" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
+                <circle cx="460" cy="30" r="5.5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="3" />
+              </svg>
+            </div>
+
+            {/* X Axis Days Labels */}
+            <div className="flex justify-between text-[11px] font-semibold text-slate-400 pt-3 px-2">
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: CONTENT DISTRIBUTION DONUT CHART */}
+        <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-6 flex flex-col justify-between">
+          <h3 className="text-base font-extrabold text-slate-900">Content Distribution</h3>
+
+          <div className="flex flex-col sm:flex-row items-center justify-around gap-6 py-2">
+            {/* SVG Donut Chart */}
+            <div className="relative size-44 shrink-0 flex items-center justify-center">
+              <svg className="size-full transform -rotate-90" viewBox="0 0 36 36">
+                {/* Background Ring */}
+                <path
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#F1F5F9"
+                  strokeWidth="4"
+                />
+
+                {/* Hero Banners 40% */}
+                <path
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#2563EB"
+                  strokeWidth="4"
+                  strokeDasharray="40, 100"
+                />
+
+                {/* About Us 20% */}
+                <path
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#06B6D4"
+                  strokeWidth="4"
+                  strokeDasharray="20, 100"
+                  strokeDashoffset="-40"
+                />
+
+                {/* Team Members 20% */}
+                <path
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#9333EA"
+                  strokeWidth="4"
+                  strokeDasharray="20, 100"
+                  strokeDashoffset="-60"
+                />
+
+                {/* Inquiries 20% */}
+                <path
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  fill="none"
+                  stroke="#F97316"
+                  strokeWidth="4"
+                  strokeDasharray="20, 100"
+                  strokeDashoffset="-80"
+                />
+              </svg>
+
+              {/* Center Donut Label */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <span className="text-xl font-black text-slate-900">100%</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Site Data</span>
+              </div>
+            </div>
+
+            {/* Donut Legend Items */}
+            <div className="space-y-3.5 w-full max-w-[180px]">
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="size-2.5 rounded-full bg-[#2563EB]" />
+                  <span className="font-semibold text-slate-600">Hero Banners</span>
+                </div>
+                <span className="font-extrabold text-slate-900">40%</span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="size-2.5 rounded-full bg-[#06B6D4]" />
+                  <span className="font-semibold text-slate-600">About Us</span>
+                </div>
+                <span className="font-extrabold text-slate-900">20%</span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="size-2.5 rounded-full bg-[#9333EA]" />
+                  <span className="font-semibold text-slate-600">Team Members</span>
+                </div>
+                <span className="font-extrabold text-slate-900">20%</span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="size-2.5 rounded-full bg-[#F97316]" />
+                  <span className="font-semibold text-slate-600">Inquiries</span>
+                </div>
+                <span className="font-extrabold text-slate-900">20%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* QUICK RECENT INQUIRIES FEED WIDGET */}
+      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div>
+            <h3 className="text-base font-extrabold text-slate-900">Recent Customer Inquiries</h3>
+            <p className="text-xs text-slate-400 mt-0.5">Latest project inquiries received via website contact form</p>
+          </div>
+          <button
+            onClick={() => onNavigateTab("inquiries")}
+            className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+          >
+            <span>View All Inquiries</span> →
+          </button>
+        </div>
+
+        <div className="divide-y divide-slate-100">
+          {inquiries.slice(0, 3).map((item) => (
+            <div key={item.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="size-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs shrink-0">
+                  {item.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <h4 className="text-xs font-extrabold text-slate-900">{item.name}</h4>
+                  <p className="text-[11px] text-slate-500">{item.subject}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] text-slate-400 font-mono">{item.date}</span>
+                <span
+                  className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${
+                    item.status === "New"
+                      ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
+                      : item.status === "In Progress"
+                      ? "bg-amber-50 text-amber-600 border border-amber-200"
+                      : "bg-slate-100 text-slate-600 border border-slate-200"
+                  }`}
+                >
+                  {item.status}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   HERO BANNERS MANAGEMENT VIEW
+   ========================================================================= */
+function BannersManagementView() {
+  const store = useAdminStore();
+  const slides = store.getHeroSlides();
+  const [items, setItems] = useState<HeroSlide[]>(slides);
+  const [toast, setToast] = useState("");
+
+  const [newImage, setNewImage] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newSubtitle, setNewSubtitle] = useState("");
+
+  const handleSave = (updated: HeroSlide[]) => {
+    store.saveHeroSlides(updated);
+    setToast("Hero Banner Slides saved successfully!");
+    setTimeout(() => setToast(""), 3000);
+  };
+
+  const handleUpdateField = (id: string, field: keyof HeroSlide, val: string) => {
+    const updated = items.map((s) => (s.id === id ? { ...s, [field]: val } : s));
+    setItems(updated);
+  };
+
+  const handleRemove = (id: string) => {
+    const updated = items.filter((s) => s.id !== id);
+    setItems(updated);
+  };
+
+  const handleMove = (index: number, direction: "up" | "down") => {
+    const target = direction === "up" ? index - 1 : index + 1;
+    if (target < 0 || target >= items.length) return;
+    const next = [...items];
+    const temp = next[index];
+    next[index] = next[target];
+    next[target] = temp;
+    setItems(next);
+  };
+
+  const handleAddSlide = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newImage) return;
+    const slide: HeroSlide = {
+      id: `slide-${Date.now()}`,
+      image: newImage,
+      title: newTitle || "Jay Electronics Technology",
+      subtitle: newSubtitle || "Empowering Connectivity & Security",
+      alt: newTitle || "Hero Slide",
+    };
+    const updated = [...items, slide];
+    setItems(updated);
+    setNewImage("");
+    setNewTitle("");
+    setNewSubtitle("");
+  };
+
+  return (
+    <div className="space-y-6">
+      {toast && (
+        <div className="fixed top-5 right-5 z-50 bg-blue-600 text-white px-5 py-3 rounded-xl font-bold text-sm shadow-xl flex items-center gap-2">
+          <CheckCircle2 className="size-5" />
+          <span>{toast}</span>
+        </div>
+      )}
+
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+        <div>
+          <h2 className="text-xl font-extrabold text-slate-900">Hero Banner Images</h2>
+          <p className="text-xs text-slate-500 mt-1">Manage HD slides displayed on the home page hero slider.</p>
+        </div>
+        <Button onClick={() => handleSave(items)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold gap-2">
+          <Save className="size-4" /> Save Banner Changes
+        </Button>
+      </div>
+
+      {/* Add New Form */}
+      <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
+        <h3 className="text-xs font-bold text-blue-600 uppercase tracking-wider flex items-center gap-2">
+          <Plus className="size-4" /> Add New Hero Slide
+        </h3>
+        <form onSubmit={handleAddSlide} className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <div className="space-y-1.5 md:col-span-3">
+            <label className="text-xs font-bold text-slate-600">Image Path / URL</label>
+            <input
+              type="text"
+              required
+              placeholder="/hero-slide-3.jpeg or https://images.unsplash.com/..."
+              value={newImage}
+              onChange={(e) => setNewImage(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-600">Title</label>
+            <input
+              type="text"
+              placeholder="IP CCTV & Advanced Surveillance"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-600">Subtitle</label>
+            <input
+              type="text"
+              placeholder="High-definition monitoring..."
+              value={newSubtitle}
+              onChange={(e) => setNewSubtitle(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+          <Button type="submit" className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs">
+            Add Slide
+          </Button>
+        </form>
+      </div>
+
+      {/* Slide Items List */}
+      <div className="space-y-4">
+        {items.map((slide, idx) => (
+          <div key={slide.id} className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col lg:flex-row items-center gap-6">
+            <div className="w-full lg:w-48 h-28 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shrink-0 relative">
+              <img src={slide.image} alt={slide.alt} className="w-full h-full object-cover" />
+              <span className="absolute top-2 left-2 bg-slate-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                Slide #{idx + 1}
+              </span>
+            </div>
+            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+              <div className="space-y-1 md:col-span-2">
+                <label className="text-[11px] font-bold text-slate-500 uppercase">Image URL</label>
+                <input
+                  type="text"
+                  value={slide.image}
+                  onChange={(e) => handleUpdateField(slide.id, "image", e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:border-blue-500"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-slate-500 uppercase">Title</label>
+                <input
+                  type="text"
+                  value={slide.title}
+                  onChange={(e) => handleUpdateField(slide.id, "title", e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:border-blue-500"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[11px] font-bold text-slate-500 uppercase">Subtitle</label>
+                <input
+                  type="text"
+                  value={slide.subtitle}
+                  onChange={(e) => handleUpdateField(slide.id, "subtitle", e.target.value)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:border-blue-500"
+                />
+              </div>
+            </div>
+            <div className="flex lg:flex-col gap-2 shrink-0">
+              <button onClick={() => handleMove(idx, "up")} disabled={idx === 0} className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30">
+                <MoveUp className="size-4" />
+              </button>
+              <button onClick={() => handleMove(idx, "down")} disabled={idx === items.length - 1} className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30">
+                <MoveDown className="size-4" />
+              </button>
+              <button onClick={() => handleRemove(slide.id)} className="p-2 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200">
+                <Trash2 className="size-4" />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   ABOUT US MANAGEMENT VIEW
+   ========================================================================= */
+function AboutManagementView() {
+  const store = useAdminStore();
+  const [data, setData] = useState(store.getAboutData());
+  const [toast, setToast] = useState("");
+
+  const handleSave = () => {
+    store.saveAboutData(data);
+    setToast("About Us details updated!");
+    setTimeout(() => setToast(""), 3000);
+  };
+
+  return (
+    <div className="space-y-6">
+      {toast && (
+        <div className="fixed top-5 right-5 z-50 bg-blue-600 text-white px-5 py-3 rounded-xl font-bold text-sm shadow-xl flex items-center gap-2">
+          <CheckCircle2 className="size-5" />
+          <span>{toast}</span>
+        </div>
+      )}
+
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+        <div>
+          <h2 className="text-xl font-extrabold text-slate-900">About Us Info & Images</h2>
+          <p className="text-xs text-slate-500 mt-1">Update building photo, corporate bio, and founder information.</p>
+        </div>
+        <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 text-white font-bold gap-2">
+          <Save className="size-4" /> Save About Changes
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-8 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-5">
+          <h3 className="text-xs font-bold text-blue-600 uppercase tracking-wider">Company & Building Info</h3>
+          <div className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-600">Building Photo Path / URL</label>
+              <input
+                type="text"
+                value={data.buildingImage}
+                onChange={(e) => setData({ ...data, buildingImage: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-600">Heading</label>
+                <input
+                  type="text"
+                  value={data.heading}
+                  onChange={(e) => setData({ ...data, heading: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-600">Tagline</label>
+                <input
+                  type="text"
+                  value={data.tagline}
+                  onChange={(e) => setData({ ...data, tagline: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+                />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-600">Company Overview</label>
+              <textarea
+                rows={4}
+                value={data.description}
+                onChange={(e) => setData({ ...data, description: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+              />
+            </div>
+          </div>
+
+          <hr className="border-slate-200 my-4" />
+
+          <h3 className="text-xs font-bold text-blue-600 uppercase tracking-wider">Founder / Owner Info</h3>
+          <div className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-600">Owner Photo Path / URL</label>
+              <input
+                type="text"
+                value={data.founderImage}
+                onChange={(e) => setData({ ...data, founderImage: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-600">Founder Name</label>
+                <input
+                  type="text"
+                  value={data.founderName}
+                  onChange={(e) => setData({ ...data, founderName: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-600">Designation</label>
+                <input
+                  type="text"
+                  value={data.founderDesignation}
+                  onChange={(e) => setData({ ...data, founderDesignation: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-600">Experience</label>
+                <input
+                  type="text"
+                  value={data.founderExperience}
+                  onChange={(e) => setData({ ...data, founderExperience: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+                />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-600">Founder Bio</label>
+              <textarea
+                rows={3}
+                value={data.founderDescription}
+                onChange={(e) => setData({ ...data, founderDescription: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Live Preview Column */}
+        <div className="lg:col-span-4 space-y-4">
+          <div className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs space-y-4 sticky top-24">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 border-b pb-2">Live Preview</h4>
+            <div className="space-y-2">
+              <span className="text-[10px] font-bold text-slate-400 uppercase">Building Photo</span>
+              <div className="h-40 rounded-2xl overflow-hidden bg-slate-100 border">
+                <img src={data.buildingImage} alt="Building" className="w-full h-full object-cover" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <span className="text-[10px] font-bold text-slate-400 uppercase">Owner Photo</span>
+              <div className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl border">
+                <img src={data.founderImage} alt="Owner" className="size-14 rounded-full object-cover border-2 border-blue-500 shrink-0" />
+                <div>
+                  <div className="font-extrabold text-sm text-slate-900">{data.founderName}</div>
+                  <div className="text-xs text-blue-600 font-semibold">{data.founderDesignation}</div>
+                  <div className="text-[10px] text-slate-500">{data.founderExperience}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   TEAM MANAGEMENT VIEW
+   ========================================================================= */
+function TeamManagementView() {
+  const store = useAdminStore();
+  const members = store.getTeamMembers();
+  const [toast, setToast] = useState("");
+
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+  const [experience, setExperience] = useState("");
+  const [image, setImage] = useState("");
+  const [bio, setBio] = useState("");
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !role) return;
+    store.addTeamMember({
+      name,
+      role,
+      experience: experience || "5+ Yrs Experience",
+      image: image || "/team-1.png",
+      accent: "from-[#00E5FF] to-[#0088FF]",
+      bio: bio || "Key engineering expert.",
+    });
+    setName("");
+    setRole("");
+    setExperience("");
+    setImage("");
+    setBio("");
+    setToast("Team Member added!");
+    setTimeout(() => setToast(""), 3000);
+  };
+
+  return (
+    <div className="space-y-6">
+      {toast && (
+        <div className="fixed top-5 right-5 z-50 bg-blue-600 text-white px-5 py-3 rounded-xl font-bold text-sm shadow-xl flex items-center gap-2">
+          <CheckCircle2 className="size-5" />
+          <span>{toast}</span>
+        </div>
+      )}
+
+      <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+        <h2 className="text-xl font-extrabold text-slate-900">Team Members ({members.length})</h2>
+        <p className="text-xs text-slate-500 mt-1">Add, edit or delete experts in the 3D team carousel.</p>
+      </div>
+
+      {/* Add New Member Form */}
+      <div className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-4">
+        <h3 className="text-xs font-bold text-blue-600 uppercase tracking-wider flex items-center gap-2">
+          <UserPlus className="size-4" /> Add New Team Member
+        </h3>
+        <form onSubmit={handleAdd} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-600">Full Name</label>
+            <input
+              type="text"
+              required
+              placeholder="Er. Payal Wankar"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-600">Role / Title</label>
+            <input
+              type="text"
+              required
+              placeholder="System Architect"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-600">Experience</label>
+            <input
+              type="text"
+              placeholder="8+ Yrs Experience"
+              value={experience}
+              onChange={(e) => setExperience(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-slate-600">Photo Path / URL</label>
+            <input
+              type="text"
+              placeholder="/team-2.png"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:border-blue-500"
+            />
+          </div>
+          <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:col-span-2 lg:col-span-4 py-2.5">
+            Add Team Member
+          </Button>
+        </form>
+      </div>
+
+      {/* Team Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {members.map((member) => (
+          <div key={member.id} className="bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs flex flex-col justify-between space-y-4">
+            <div className="flex items-start gap-4">
+              <img src={member.image} alt={member.name} className="size-16 rounded-2xl object-cover border-2 border-blue-500/30 bg-slate-100 shrink-0" />
+              <div className="flex-1 space-y-1">
+                <input
+                  type="text"
+                  value={member.name}
+                  onChange={(e) => store.updateTeamMember(member.id, { name: e.target.value })}
+                  className="font-extrabold text-sm text-slate-900 bg-transparent border-b border-transparent focus:border-blue-500 w-full focus:outline-none"
+                />
+                <input
+                  type="text"
+                  value={member.role}
+                  onChange={(e) => store.updateTeamMember(member.id, { role: e.target.value })}
+                  className="text-xs text-blue-600 font-semibold bg-transparent border-b border-transparent focus:border-blue-500 w-full focus:outline-none"
+                />
+                <input
+                  type="text"
+                  value={member.experience}
+                  onChange={(e) => store.updateTeamMember(member.id, { experience: e.target.value })}
+                  className="text-[11px] text-slate-400 bg-transparent border-b border-transparent focus:border-blue-500 w-full focus:outline-none"
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+              <span className="text-[10px] font-bold text-slate-400 uppercase">ID: {member.id}</span>
+              <button
+                onClick={() => {
+                  store.deleteTeamMember(member.id);
+                  setToast("Member deleted!");
+                  setTimeout(() => setToast(""), 3000);
+                }}
+                className="px-3 py-1 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 text-xs font-bold flex items-center gap-1.5"
+              >
+                <Trash2 className="size-3.5" /> Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   INQUIRIES MANAGEMENT VIEW
+   ========================================================================= */
+function InquiriesManagementView() {
+  const store = useAdminStore();
+  const inquiries = store.getInquiries();
+  const [filter, setFilter] = useState<"All" | "New" | "In Progress" | "Resolved">("All");
+  const [toast, setToast] = useState("");
+
+  const filtered = inquiries.filter((i) => (filter === "All" ? true : i.status === filter));
+
+  return (
+    <div className="space-y-6">
+      {toast && (
+        <div className="fixed top-5 right-5 z-50 bg-blue-600 text-white px-5 py-3 rounded-xl font-bold text-sm shadow-xl flex items-center gap-2">
+          <CheckCircle2 className="size-5" />
+          <span>{toast}</span>
+        </div>
+      )}
+
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+        <div>
+          <h2 className="text-xl font-extrabold text-slate-900">Inquiries ({inquiries.length})</h2>
+          <p className="text-xs text-slate-500 mt-1">Review contact form submissions and project requests.</p>
+        </div>
+        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
+          {(["All", "New", "In Progress", "Resolved"] as const).map((st) => (
+            <button
+              key={st}
+              onClick={() => setFilter(st)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                filter === st ? "bg-white text-slate-900 shadow-xs" : "text-slate-500 hover:text-slate-900"
+              }`}
+            >
+              {st}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {filtered.map((item) => (
+          <div key={item.id} className="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div>
+                <h4 className="font-extrabold text-base text-slate-900">{item.name}</h4>
+                <p className="text-xs text-slate-500">{item.email} • {item.phone}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-slate-400 font-mono">{item.date}</span>
+                <select
+                  value={item.status}
+                  onChange={(e) => {
+                    store.updateInquiryStatus(item.id, e.target.value as any);
+                    setToast(`Status updated to ${e.target.value}`);
+                    setTimeout(() => setToast(""), 3000);
+                  }}
+                  className="rounded-xl px-3 py-1 text-xs font-bold border border-slate-200 bg-slate-50 text-slate-800"
+                >
+                  <option value="New">🟢 New</option>
+                  <option value="In Progress">🟡 In Progress</option>
+                  <option value="Resolved">⚪ Resolved</option>
+                </select>
+                <button
+                  onClick={() => {
+                    store.deleteInquiry(item.id);
+                    setToast("Inquiry deleted!");
+                    setTimeout(() => setToast(""), 3000);
+                  }}
+                  className="p-1.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200"
+                >
+                  <Trash2 className="size-4" />
+                </button>
+              </div>
+            </div>
+            <div>
+              <h5 className="text-xs font-bold text-blue-600 uppercase tracking-wider">{item.subject}</h5>
+              <p className="text-xs text-slate-700 leading-relaxed mt-1 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+                {item.message}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
