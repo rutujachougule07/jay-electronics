@@ -117,9 +117,8 @@ function HeroSection() {
       {slides.map((item, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            currentSlide === index ? "opacity-100 z-0" : "opacity-0 -z-10"
-          }`}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${currentSlide === index ? "opacity-100 z-0" : "opacity-0 -z-10"
+            }`}
         >
           <img
             src={item.image}
@@ -140,7 +139,7 @@ function AboutSection() {
   return (
     <section className="bg-gradient-to-b from-sky-50/50 via-white to-slate-50 py-16 sm:py-24 relative overflow-hidden font-sans border-y border-slate-200/60">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
-        
+
         {/* TOP SECTION HEADER & STATS COUNTER BAR */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-100/90 border border-sky-200 shadow-xs">
@@ -169,7 +168,7 @@ function AboutSection() {
               className="w-full h-[320px] sm:h-[380px] object-cover object-center group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-            
+
             <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg border border-slate-200/60">
               <h3 className="text-sm font-extrabold text-slate-900 tracking-wide">
                 Sangli Headquarters &amp; Central Testing Depot
@@ -228,7 +227,7 @@ function AboutSection() {
 
         {/* BOTTOM SPLIT SHOWCASE: FOUNDER SPOTLIGHT & TRUST STATS */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
+
           {/* Left Split (7 Cols): Founder Profile Showcase */}
           <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl shadow-slate-200/50 border border-slate-200/80 flex flex-col justify-between space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
@@ -436,11 +435,10 @@ function ServicesSection() {
                 onMouseEnter={() => setHoveredCard(service.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 onClick={() => setActiveCard(service.id)}
-                className={`group relative rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 cursor-pointer overflow-hidden min-h-[220px] ${
-                  isActive
+                className={`group relative rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 cursor-pointer overflow-hidden min-h-[220px] ${isActive
                     ? `bg-gradient-to-br ${service.gradient} text-white shadow-xl shadow-sky-500/25 scale-[1.02] border-2 border-cyan-300/80`
                     : "bg-white text-slate-800 border border-slate-200/80 shadow-sm hover:shadow-lg"
-                }`}
+                  }`}
               >
                 {/* Glow Light Sweep Animation on Hover */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
@@ -449,22 +447,20 @@ function ServicesSection() {
                   {/* Top Vector Icon & Dynamic Badge */}
                   <div className="flex items-center justify-between mb-4">
                     <div
-                      className={`size-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                        isActive
+                      className={`size-12 rounded-xl flex items-center justify-center transition-all duration-300 ${isActive
                           ? "bg-white/20 text-white backdrop-blur-md border border-white/30 shadow-inner rotate-3 scale-105"
                           : "bg-sky-50 text-sky-600 border border-sky-100 shadow-xs"
-                      }`}
+                        }`}
                     >
                       <IconComp className="size-6" />
                     </div>
 
                     {/* Dynamic Floating Badge on Hover / Active */}
                     <span
-                      className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full transition-all duration-300 ${
-                        isActive
+                      className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full transition-all duration-300 ${isActive
                           ? "bg-white/20 text-cyan-200 backdrop-blur-md border border-white/30 opacity-100 translate-y-0"
                           : "bg-slate-100 text-slate-500 border border-slate-200 opacity-60"
-                      }`}
+                        }`}
                     >
                       {service.badge}
                     </span>
@@ -473,16 +469,14 @@ function ServicesSection() {
                   {/* Title & Description */}
                   <div className="space-y-1.5">
                     <h3
-                      className={`text-base font-extrabold leading-snug tracking-tight transition-colors ${
-                        isActive ? "text-white" : "text-slate-900 group-hover:text-sky-600"
-                      }`}
+                      className={`text-base font-extrabold leading-snug tracking-tight transition-colors ${isActive ? "text-white" : "text-slate-900 group-hover:text-sky-600"
+                        }`}
                     >
                       {service.title}
                     </h3>
                     <p
-                      className={`text-xs leading-relaxed ${
-                        isActive ? "text-sky-100/90 font-medium" : "text-slate-500 font-normal"
-                      }`}
+                      className={`text-xs leading-relaxed ${isActive ? "text-sky-100/90 font-medium" : "text-slate-500 font-normal"
+                        }`}
                     >
                       {service.desc}
                     </p>
@@ -492,9 +486,8 @@ function ServicesSection() {
                 {/* Bottom Action Row with Circular Arrow Button */}
                 <div className="mt-5 pt-3 flex items-center justify-between border-t border-transparent">
                   <span
-                    className={`text-[11px] font-extrabold transition-colors ${
-                      isActive ? "text-cyan-200" : "text-slate-400 group-hover:text-sky-600"
-                    }`}
+                    className={`text-[11px] font-extrabold transition-colors ${isActive ? "text-cyan-200" : "text-slate-400 group-hover:text-sky-600"
+                      }`}
                   >
                     {isActive ? "Explore Service →" : "Learn More"}
                   </span>
@@ -503,11 +496,10 @@ function ServicesSection() {
                     to="/services"
                     onClick={(e) => e.stopPropagation()}
                     aria-label={`Learn more about ${service.title}`}
-                    className={`flex size-8 items-center justify-center rounded-full transition-all duration-300 shadow-sm ${
-                      isActive
+                    className={`flex size-8 items-center justify-center rounded-full transition-all duration-300 shadow-sm ${isActive
                         ? "bg-white text-blue-700 hover:bg-cyan-300 hover:scale-110 shadow-cyan-400/50"
                         : "bg-[#2563EB] text-white hover:bg-sky-500 hover:scale-110"
-                    }`}
+                      }`}
                   >
                     <ArrowRight className="size-4" />
                   </Link>
@@ -660,7 +652,7 @@ function IndustriesWeProtectSection() {
   return (
     <section className="bg-gradient-to-b from-slate-50 via-sky-50/30 to-white py-16 sm:py-24 relative overflow-hidden font-sans border-t border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
+
         {/* Top Header (Matching Image 1 EXACTLY) */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-200/80 border border-slate-300/80 shadow-xs">
@@ -701,11 +693,10 @@ function IndustriesWeProtectSection() {
               <div
                 key={item.id}
                 onMouseEnter={() => setActiveTab(item.id)}
-                className={`group relative bg-white p-6 sm:p-7 rounded-3xl border transition-all duration-300 flex flex-col justify-between cursor-pointer ${
-                  isActive
+                className={`group relative bg-white p-6 sm:p-7 rounded-3xl border transition-all duration-300 flex flex-col justify-between cursor-pointer ${isActive
                     ? "border-sky-500 shadow-xl shadow-sky-500/15 ring-2 ring-sky-400/30 -translate-y-1.5"
                     : "border-slate-200/80 shadow-sm hover:border-sky-300 hover:shadow-md"
-                }`}
+                  }`}
               >
                 <div>
                   {/* Top Badge Tag & Number */}
@@ -971,11 +962,10 @@ function ExpertTeamSection() {
               key={idx}
               onClick={() => setActiveIndex(idx)}
               aria-label={`Go to team member slide ${idx + 1}`}
-              className={`transition-all duration-300 rounded-full ${
-                activeIndex === idx
+              className={`transition-all duration-300 rounded-full ${activeIndex === idx
                   ? "w-8 h-2.5 bg-cyan-400 shadow-md shadow-cyan-400/50"
                   : "w-2.5 h-2.5 bg-slate-700 hover:bg-slate-500"
-              }`}
+                }`}
             />
           ))}
         </div>
