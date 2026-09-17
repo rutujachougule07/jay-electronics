@@ -7,6 +7,7 @@ import {
   Building2,
   CheckCircle2,
   ChevronDown,
+  ChevronRight,
   Clock,
   ExternalLink,
   Eye,
@@ -319,93 +320,179 @@ type SidebarTab = "dashboard" | "banners" | "about" | "team" | "inquiries";
 function DashboardLayout({ onLogout }: { onLogout: () => void }) {
   const [activeTab, setActiveTab] = useState<SidebarTab>("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  const store = useAdminStore();
+  const heroSlides = store.getHeroSlides();
+  const teamMembers = store.getTeamMembers();
+  const inquiries = store.getInquiries();
+  const newInquiriesCount = inquiries.filter((i) => i.status === "New").length;
 
   return (
     <div className="min-h-screen bg-[#F6F8FC] text-slate-800 flex font-sans antialiased">
-      {/* 1. FIXED LEFT SIDEBAR */}
+      {/* 1. SIDEBAR (EXACT MATCH TO DESIGN SCREENSHOT) */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-[#0F1C3F] via-[#0B132B] to-[#070D1D] text-white flex flex-col justify-between p-5 border-r border-slate-800/60 shadow-xl transition-transform duration-300 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-[#091434] text-white flex flex-col justify-between p-5 border-r border-slate-800/80 shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="space-y-7">
+        <div className="space-y-6">
           {/* Sidebar Top Logo Branding */}
-          <div className="flex items-center gap-3 px-2 py-1">
-            <img
-              src="/logo.jpg"
-              alt="Jay Electronics Logo"
-              className="h-10 w-auto max-w-[42px] shrink-0 rounded-xl object-contain bg-white p-1 shadow-md shadow-blue-500/20 border border-white/10"
-            />
-            <div>
-              <div className="font-extrabold text-sm leading-tight text-white tracking-wide">
+          <div className="pt-2 px-1">
+            <div className="w-14 h-14 bg-white rounded-2xl p-2 shadow-lg flex items-center justify-center shrink-0">
+              <img
+                src="/logo.jpg"
+                alt="Jay Electronics Logo"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="mt-4">
+              <h1 className="text-sm font-black tracking-wide text-white uppercase leading-none">
                 JAY ELECTRONICS
-              </div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-400 flex items-center gap-1 mt-0.5">
-                <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                ADMIN PORTAL
+              </h1>
+              <div className="text-[10px] font-extrabold text-cyan-400 tracking-wider flex items-center gap-1.5 mt-2 uppercase">
+                <span className="size-2 rounded-full bg-emerald-400 shrink-0" />
+                <span>ADMIN CONTROL CENTER</span>
               </div>
             </div>
           </div>
 
-          {/* Navigation Items */}
-          <nav className="space-y-2" aria-label="Sidebar Navigation">
-            {[
-              { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-              { id: "banners", label: "Hero Banners", icon: ImageIcon },
-              { id: "about", label: "About Us", icon: FileText },
-              { id: "team", label: "Team Members", icon: Users },
-              { id: "inquiries", label: "Inquiries", icon: Mail },
-            ].map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    setActiveTab(item.id as SidebarTab);
-                    setSidebarOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-semibold transition-all duration-200 group ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold shadow-md shadow-blue-600/30 translate-x-0.5"
-                      : "text-slate-400 hover:text-white hover:bg-white/5 hover:translate-x-0.5"
-                  }`}
-                >
-                  <Icon
-                    className={`size-4.5 transition-colors ${
-                      isActive ? "text-cyan-300" : "text-slate-400 group-hover:text-cyan-400"
+          {/* Navigation Category */}
+          <div>
+            <div className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400 mb-3 px-1">
+              MAIN MENU
+            </div>
+
+            <nav className="space-y-2" aria-label="Sidebar Navigation">
+              {[
+                {
+                  id: "dashboard",
+                  label: "Dashboard",
+                  icon: LayoutDashboard,
+                  badge: null,
+                  badgeType: null,
+                },
+                {
+                  id: "banners",
+                  label: "Hero Banners",
+                  icon: ImageIcon,
+                  badge: `${heroSlides.length}`,
+                  badgeType: "blue",
+                },
+                {
+                  id: "about",
+                  label: "About Us",
+                  icon: FileText,
+                  badge: null,
+                  badgeType: null,
+                },
+                {
+                  id: "team",
+                  label: "Team Members",
+                  icon: Users,
+                  badge: `${teamMembers.length}`,
+                  badgeType: "purple",
+                },
+                {
+                  id: "inquiries",
+                  label: "Inquiries",
+                  icon: Mail,
+                  badge: newInquiriesCount > 0 ? `${newInquiriesCount} New` : `${inquiries.length}`,
+                  badgeType: "pink",
+                },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.id as SidebarTab);
+                      setSidebarOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-xs font-semibold transition-all duration-200 group ${
+                      isActive
+                        ? "bg-gradient-to-r from-[#00A3FF] via-[#0077FF] to-[#0055FF] text-white font-bold shadow-lg shadow-blue-500/25"
+                        : "text-slate-300 hover:text-white hover:bg-white/5"
                     }`}
-                  />
-                  <span className="tracking-wide">{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`p-2 rounded-xl flex items-center justify-center transition-colors ${
+                          isActive
+                            ? "bg-white/20 text-white"
+                            : "text-slate-400 group-hover:text-cyan-400"
+                        }`}
+                      >
+                        <Icon className="size-4.5" />
+                      </div>
+                      <span className="tracking-wide text-xs font-semibold">{item.label}</span>
+                    </div>
+
+                    {item.badge && (
+                      <span
+                        className={`text-[11px] font-bold flex items-center justify-center ${
+                          item.badgeType === "blue"
+                            ? "bg-[#0E46A3] text-white size-6 rounded-full shadow-xs"
+                            : item.badgeType === "purple"
+                            ? "bg-[#6B11B0] text-white size-6 rounded-full shadow-xs"
+                            : item.badgeType === "pink"
+                            ? "bg-[#FF0055] text-white px-3 py-1 rounded-full text-[10px] font-extrabold shadow-md shadow-rose-500/30"
+                            : "bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full"
+                        }`}
+                      >
+                        {item.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
         </div>
 
-        {/* Sidebar Bottom Actions (View Live Site & Logout) */}
-        <div className="space-y-2.5 pt-4 border-t border-slate-800/80">
-          <Link
-            to="/"
-            target="_blank"
-            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-800/80 shadow-xs transition"
-          >
-            <div className="flex items-center gap-2.5">
-              <ExternalLink className="size-4 text-cyan-400" />
-              <span>View Live Site</span>
+        {/* Sidebar Bottom Profile Card (With Popup Actions) */}
+        <div className="relative mt-auto pt-4">
+          {profileMenuOpen && (
+            <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0C1842] border border-slate-700/80 rounded-2xl p-2 shadow-2xl backdrop-blur-xl space-y-1 z-50 animate-in fade-in slide-in-from-bottom-2">
+              <Link
+                to="/"
+                target="_blank"
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition"
+              >
+                <ExternalLink className="size-4 text-cyan-400" />
+                <span>View Live Website</span>
+              </Link>
+              <button
+                onClick={onLogout}
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition"
+              >
+                <LogOut className="size-4 text-rose-400" />
+                <span>Sign Out Control Center</span>
+              </button>
             </div>
-            <span className="text-[10px] bg-blue-500/20 text-cyan-300 font-bold px-1.5 py-0.2 rounded">
-              Live
-            </span>
-          </Link>
+          )}
 
-          <button
-            onClick={onLogout}
-            className="w-full flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 text-xs font-semibold transition"
+          <div
+            onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+            className="bg-[#0D1C48]/90 hover:bg-[#12235A] border border-slate-700/60 rounded-2xl p-3 flex items-center justify-between cursor-pointer transition-all shadow-md group"
           >
-            <LogOut className="size-4 text-rose-500" />
-            <span>Logout Portal</span>
-          </button>
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="size-9 rounded-full bg-gradient-to-br from-blue-500 via-sky-500 to-cyan-400 flex items-center justify-center text-white shrink-0 shadow-md">
+                <User className="size-5" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-white leading-tight truncate">
+                  Admin User
+                </div>
+                <div className="text-[10px] text-slate-400 font-medium leading-tight truncate">
+                  admin@jayelectronics.com
+                </div>
+              </div>
+            </div>
+
+            <ChevronRight className="size-4 text-slate-400 group-hover:text-white transition-colors shrink-0" />
+          </div>
         </div>
       </aside>
 
@@ -519,6 +606,17 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
   const teamMembers = store.getTeamMembers();
   const inquiries = store.getInquiries();
 
+  const heroCount = heroSlides.length;
+  const aboutCount = 1;
+  const teamCount = teamMembers.length;
+  const inqCount = inquiries.length;
+  const totalCount = Math.max(heroCount + aboutCount + teamCount + inqCount, 1);
+
+  const heroPct = Math.round((heroCount / totalCount) * 100);
+  const aboutPct = Math.round((aboutCount / totalCount) * 100);
+  const teamPct = Math.round((teamCount / totalCount) * 100);
+  const inqPct = Math.max(0, 100 - (heroPct + aboutPct + teamPct));
+
   const newInquiriesCount = inquiries.filter((i) => i.status === "New").length;
 
   return (
@@ -544,7 +642,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
           <div className="flex items-center justify-between pt-1">
             <span className="text-[11px] text-slate-400 font-medium">Homepage Slider</span>
             <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-100 px-2.5 py-0.5 text-[11px] font-bold text-blue-600">
-              ↑ 0%
+              ↑ {heroPct}%
             </span>
           </div>
         </div>
@@ -589,7 +687,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
           <div className="flex items-center justify-between pt-1">
             <span className="text-[11px] text-slate-400 font-medium">~2 this month</span>
             <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 border border-purple-100 px-2.5 py-0.5 text-[11px] font-bold text-purple-600">
-              ↑ 20%
+              ↑ {teamPct}%
             </span>
           </div>
         </div>
@@ -616,7 +714,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
               {newInquiriesCount} new unread
             </span>
             <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-500">
-              ↑ 50%
+              ↑ {inqPct}%
             </span>
           </div>
         </div>
@@ -722,43 +820,43 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   strokeWidth="4"
                 />
 
-                {/* Hero Banners 40% */}
+                {/* Hero Banners */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
                   stroke="#2563EB"
                   strokeWidth="4"
-                  strokeDasharray="40, 100"
+                  strokeDasharray={`${heroPct}, 100`}
                 />
 
-                {/* About Us 20% */}
+                {/* About Us */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
                   stroke="#06B6D4"
                   strokeWidth="4"
-                  strokeDasharray="20, 100"
-                  strokeDashoffset="-40"
+                  strokeDasharray={`${aboutPct}, 100`}
+                  strokeDashoffset={`-${heroPct}`}
                 />
 
-                {/* Team Members 20% */}
+                {/* Team Members */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
                   stroke="#9333EA"
                   strokeWidth="4"
-                  strokeDasharray="20, 100"
-                  strokeDashoffset="-60"
+                  strokeDasharray={`${teamPct}, 100`}
+                  strokeDashoffset={`-${heroPct + aboutPct}`}
                 />
 
-                {/* Inquiries 20% */}
+                {/* Inquiries */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
                   stroke="#F97316"
                   strokeWidth="4"
-                  strokeDasharray="20, 100"
-                  strokeDashoffset="-80"
+                  strokeDasharray={`${inqPct}, 100`}
+                  strokeDashoffset={`-${heroPct + aboutPct + teamPct}`}
                 />
               </svg>
 
@@ -776,7 +874,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   <span className="size-2.5 rounded-full bg-[#2563EB]" />
                   <span className="font-semibold text-slate-600">Hero Banners</span>
                 </div>
-                <span className="font-extrabold text-slate-900">40%</span>
+                <span className="font-extrabold text-slate-900">{heroPct}%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
@@ -784,7 +882,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   <span className="size-2.5 rounded-full bg-[#06B6D4]" />
                   <span className="font-semibold text-slate-600">About Us</span>
                 </div>
-                <span className="font-extrabold text-slate-900">20%</span>
+                <span className="font-extrabold text-slate-900">{aboutPct}%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
@@ -792,7 +890,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   <span className="size-2.5 rounded-full bg-[#9333EA]" />
                   <span className="font-semibold text-slate-600">Team Members</span>
                 </div>
-                <span className="font-extrabold text-slate-900">20%</span>
+                <span className="font-extrabold text-slate-900">{teamPct}%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
@@ -800,7 +898,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   <span className="size-2.5 rounded-full bg-[#F97316]" />
                   <span className="font-semibold text-slate-600">Inquiries</span>
                 </div>
-                <span className="font-extrabold text-slate-900">20%</span>
+                <span className="font-extrabold text-slate-900">{inqPct}%</span>
               </div>
             </div>
           </div>

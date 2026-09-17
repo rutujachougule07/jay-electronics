@@ -39,6 +39,8 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useAdminStore } from "@/lib/admin-store";
+import { subscribeHeroSlidesFromFirestore, subscribeTeamMembersFromFirestore } from "@/lib/firestore-service";
 import cctvImage from "@/assets/gallery-2.jpg.asset.json";
 import aboutImage from "@/assets/about-image-3.jpg.asset.json";
 import eventImage from "@/assets/about-image-1.jpg.asset.json";
@@ -79,32 +81,28 @@ function HomePage() {
 }
 
 /* =========================================================================
-   1. HERO SECTION (HD IMAGE SLIDER)
+   1. HERO SECTION (HD DYNAMIC IMAGE SLIDER)
    ========================================================================= */
 function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const store = useAdminStore();
+  const [firestoreSlides, setFirestoreSlides] = useState<any[]>([]);
 
-  const slides = [
-    {
-      image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=1600&auto=format&fit=crop",
-      alt: "IP CCTV & Security Systems",
-    },
-    {
-      image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop",
-      alt: "Network Infrastructure & Servers",
-    },
-    {
-      image: "/hero-slide-3.jpeg",
-      alt: "Jay Electronics Solutions",
-    },
-    {
-      image: "/hero-slide-4.jpeg",
-      alt: "Jay Electronics Inauguration Event",
-    },
-  ];
+  useEffect(() => {
+    const unsub = subscribeHeroSlidesFromFirestore((items) => {
+      if (items && items.length > 0) {
+        setFirestoreSlides(items);
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  const storeSlides = store.getHeroSlides();
+  const slides = firestoreSlides.length > 0 ? firestoreSlides : storeSlides;
 
   // Auto slide transition every 6 seconds
   useEffect(() => {
+    if (slides.length === 0) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
@@ -116,19 +114,18 @@ function HeroSection() {
       {/* Background HD Images Slider */}
       {slides.map((item, index) => (
         <div
-          key={index}
+          key={item.id || index}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
             currentSlide === index ? "opacity-100 z-0" : "opacity-0 -z-10"
           }`}
         >
           <img
             src={item.image}
-            alt={item.alt}
+            alt={item.alt || item.title || "Hero Slide"}
             className="h-full w-full object-cover object-center"
           />
         </div>
       ))}
-
     </section>
   );
 }
@@ -136,7 +133,13 @@ function HeroSection() {
 /* =========================================================================
    2. ABOUT US SECTION
    ========================================================================= */
+/* =========================================================================
+   2. ABOUT US SECTION (DYNAMIC FROM ADMIN STORE / FIRESTORE)
+   ========================================================================= */
 function AboutSection() {
+  const store = useAdminStore();
+  const about = store.getAboutData();
+
   return (
     <section className="bg-slate-50/60 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
@@ -145,7 +148,7 @@ function AboutSection() {
           {/* Left Column: Building Image */}
           <div className="lg:col-span-6 overflow-hidden rounded-2xl shadow-md group">
             <img
-              src="/about-building.png"
+              src={about.buildingImage || "/about-building.png"}
               alt="Jay Electronics Building Headquarters"
               className="w-full h-[320px] sm:h-[400px] object-cover object-center group-hover:scale-105 transition-transform duration-500"
             />
@@ -156,24 +159,23 @@ function AboutSection() {
             {/* Eyebrow Badge */}
             <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-100/90 px-3.5 py-1 text-xs font-bold text-sky-700 uppercase tracking-wider border border-sky-200">
               <Shield className="size-3.5" />
-              <span>ABOUT US</span>
+              <span>{about.eyebrow || "ABOUT US"}</span>
             </div>
 
             {/* Main Heading */}
             <h2 className="text-3xl sm:text-4xl lg:text-4xl font-extrabold text-slate-900 leading-tight">
-              Welcome to <br />
-              <span className="text-slate-900">JAY ELECTRONICS </span>
-              <span className="text-sky-500">PVT LTD</span>
+              {about.heading || "Welcome to JAY ELECTRONICS PVT LTD"}
             </h2>
 
             {/* Tagline */}
             <p className="text-xs sm:text-sm font-bold tracking-widest uppercase text-slate-500">
-              INNOVATIVE SOLUTIONS FOR A SAFER TOMORROW
+              {about.tagline || "INNOVATIVE SOLUTIONS FOR A SAFER TOMORROW"}
             </p>
 
             {/* Description Paragraph */}
             <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              For more than three decades, JAY ELECTRONICS PRIVATE LIMITED has been delivering innovative technology solutions that help businesses, industries, educational institutions, hospitals, government organizations, and residential customers improve security, communication and operational efficiency.
+              {about.description ||
+                "For more than three decades, JAY ELECTRONICS PRIVATE LIMITED has been delivering innovative technology solutions that help businesses, industries, educational institutions, hospitals, government organizations, and residential customers improve security, communication and operational efficiency."}
             </p>
 
             {/* 4 Feature Badges Grid */}
@@ -204,7 +206,7 @@ function AboutSection() {
             {/* Eyebrow Badge */}
             <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-100/90 px-3.5 py-1 text-xs font-bold text-sky-700 uppercase tracking-wider border border-sky-200">
               <User className="size-3.5" />
-              <span>OUR FOUNDER</span>
+              <span>{about.founderEyebrow || "OUR FOUNDER"}</span>
             </div>
 
             {/* Heading & Subheading */}
@@ -213,16 +215,17 @@ function AboutSection() {
                 Meet Our Owner
               </h2>
               <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
-                Mr. <span className="text-sky-500">Jayesh Patil</span>
+                <span className="text-sky-500">{about.founderName || "Er. Jayant Wankar"}</span>
               </h3>
               <p className="text-xs font-bold text-slate-500 tracking-wide uppercase mt-0.5">
-                Founder &amp; Managing Director
+                {about.founderDesignation || "Founder & Managing Director"}
               </p>
             </div>
 
             {/* Founder Description */}
             <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              With a vision to make advanced security and communication technology accessible to everyone, Mr. Jayesh Patil established JAY Electronics with a strong commitment to quality, innovation and customer satisfaction. His leadership and expertise continue to guide the company towards new milestones.
+              {about.founderDescription ||
+                "With a strong foundation in Electronics & Telecommunications Engineering, Er. Jayant Wankar established Jay Electronics in 1989. Under his visionary leadership, the company has grown into a premier provider of integrated security, networking, and telecom infrastructure."}
             </p>
 
             {/* Key Statistics */}
@@ -232,7 +235,9 @@ function AboutSection() {
                   <Award className="size-5" />
                 </div>
                 <div>
-                  <div className="text-base font-extrabold text-slate-900">35+</div>
+                  <div className="text-base font-extrabold text-slate-900">
+                    {about.founderExperience || "35+ Years"}
+                  </div>
                   <div className="text-[10px] text-slate-500 font-medium">Years of Experience</div>
                 </div>
               </div>
@@ -267,7 +272,7 @@ function AboutSection() {
                     "Our goal is to create safer, smarter and more connected spaces through reliable technology solutions."
                   </p>
                   <p className="text-xs font-bold text-slate-600 text-right mt-2">
-                    — Mr. Jayesh Patil
+                    — {about.founderName || "Er. Jayant Wankar"}
                   </p>
                 </div>
               </div>
@@ -277,14 +282,14 @@ function AboutSection() {
           {/* Right Column: Founder Image with Card Badge Overlay */}
           <div className="lg:col-span-6 relative overflow-hidden rounded-2xl shadow-md group">
             <img
-              src="/about-owner.png"
-              alt="Mr. Jayesh Patil - Founder & Managing Director"
+              src={about.founderImage || "/about-owner.png"}
+              alt={`${about.founderName} - Founder & Managing Director`}
               className="w-full h-[360px] sm:h-[440px] object-cover object-top group-hover:scale-105 transition-transform duration-500"
             />
             {/* Overlay Badge */}
             <div className="absolute bottom-4 right-4 bg-slate-900/90 backdrop-blur-md px-5 py-3 rounded-2xl border border-slate-700/80 shadow-xl text-white">
-              <h4 className="text-sm font-bold text-white">Mr. Jayesh Patil</h4>
-              <p className="text-[11px] text-sky-400 font-medium">Founder &amp; Managing Director</p>
+              <h4 className="text-sm font-bold text-white">{about.founderName || "Er. Jayant Wankar"}</h4>
+              <p className="text-[11px] text-sky-400 font-medium">{about.founderDesignation || "Founder & Managing Director"}</p>
               <p className="text-[10px] text-slate-400 uppercase tracking-wider">JAY ELECTRONICS PVT LTD</p>
             </div>
           </div>
@@ -692,44 +697,25 @@ function IndustriesWeProtectSection() {
 }
 
 /* =========================================================================
-   4. OUR EXPERT TEAM MEMBER SECTION
+   4. OUR EXPERT TEAM MEMBER SECTION (DYNAMIC FROM STORE & FIRESTORE)
    ========================================================================= */
 function ExpertTeamSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const store = useAdminStore();
+  const [firestoreMembers, setFirestoreMembers] = useState<any[]>([]);
 
-  const teamMembers = [
-    {
-      id: 1,
-      name: "Mr. Jayesh Patil",
-      role: "Managing Director",
-      image: "/team-1.png",
-    },
-    {
-      id: 2,
-      name: "Rajesh Shinde",
-      role: "Security Head",
-      image: "/team-2.png",
-    },
-    {
-      id: 3,
-      name: "Ananya Sharma",
-      role: "CCTV Analyst",
-      image: "/team-3.png",
-    },
-    {
-      id: 4,
-      name: "Vikram Malhotra",
-      role: "Network Architect",
-      image: "/team-4.png",
-    },
-    {
-      id: 5,
-      name: "Priya Deshmukh",
-      role: "Incident Responder",
-      image: "/team-5.png",
-    },
-  ];
+  useEffect(() => {
+    const unsub = subscribeTeamMembersFromFirestore((items) => {
+      if (items && items.length > 0) {
+        setFirestoreMembers(items);
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  const storeMembers = store.getTeamMembers();
+  const teamMembers = firestoreMembers.length > 0 ? firestoreMembers : storeMembers;
 
   const total = teamMembers.length;
 
