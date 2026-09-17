@@ -9,6 +9,7 @@ import {
   MapPin,
   Menu,
   Phone,
+  Search,
   Send,
   Shield,
   Twitter,
@@ -38,6 +39,8 @@ const navigation = [
 ];
 
 export function SiteHeader() {
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full bg-[#041321] border-b border-[#082136]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
@@ -94,6 +97,15 @@ export function SiteHeader() {
               <ArrowRight className="size-3.5" />
             </Link>
 
+            {/* Search Toggle */}
+            <button
+              type="button"
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="text-slate-300 hover:text-[#08A9DF] p-2 rounded-lg hover:bg-[#082136] transition"
+              aria-label="Search"
+            >
+              <Search className="size-5" />
+            </button>
 
             {/* Mobile Sheet Trigger */}
             <Sheet>
@@ -141,6 +153,26 @@ export function SiteHeader() {
             </Sheet>
           </div>
         </div>
+
+        {/* Search Drawer */}
+        {searchOpen && (
+          <div className="mt-3 rounded-xl bg-[#082136] p-3 border border-slate-700 flex items-center gap-3 text-white animate-in fade-in duration-200">
+            <Search className="size-4 text-[#08A9DF] shrink-0" />
+            <input
+              type="text"
+              placeholder="Search services, products, solution specs..."
+              className="w-full bg-transparent text-sm text-white placeholder:text-slate-400 focus:outline-none"
+              autoFocus
+            />
+            <button
+              type="button"
+              onClick={() => setSearchOpen(false)}
+              className="text-xs font-semibold text-slate-300 hover:text-white px-2 py-1 rounded bg-[#041321]"
+            >
+              Close
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
