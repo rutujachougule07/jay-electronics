@@ -144,6 +144,16 @@
     border-color: var(--color-border);
   }
 
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -222,6 +232,42 @@
   .bg-hero-overlay {
     background: linear-gradient(90deg, color-mix(in oklab, var(--brand-navy) 96%, transparent) 0%, color-mix(in oklab, var(--brand-navy) 76%, transparent) 48%, color-mix(in oklab, var(--brand-navy) 28%, transparent) 100%);
   }
+
+  @keyframes marquee-left {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-right {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+  .animate-marquee-left {
+    display: flex;
+    width: max-content;
+    animation: marquee-left 30s linear infinite;
+  }
+
+  .animate-marquee-right {
+    display: flex;
+    width: max-content;
+    animation: marquee-right 30s linear infinite;
+  }
+
+  .animate-marquee-left:hover,
+  .animate-marquee-right:hover {
+    animation-play-state: paused;
+  }
+
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,16 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
+  Award,
+  Building2,
   Cable,
   Camera,
   CheckCircle2,
   ChevronRight,
+  Clock,
   Fingerprint,
   Flame,
   GitFork,
   Headphones,
   Home,
+  MapPin,
   Network,
+  PhoneCall,
+  ShieldCheck,
   Tv,
   Volume2,
   type LucideIcon,
@@ -403,53 +409,68 @@ export function SolutionsPage() {
     SOLUTIONS_DATA.find((s) => s.id === selectedSolutionId) || SOLUTIONS_DATA[0]!;
 
   return (
-    <div className="bg-[#F8FAFC] text-slate-800 font-sans antialiased min-h-screen py-6 sm:py-10">
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
-        
-        {/* =========================================================================
-           TOP SUB-HEADER HUB BADGE & BREADCRUMB
-           ========================================================================= */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-slate-200/90 rounded-2xl p-4 sm:px-6 shadow-xs">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
-            <span className="text-sky-600 font-black">📍 HUBS:</span>
-            <span>SANGLI | KOLHAPUR | PUNE</span>
+    <div className="bg-[#F7F9FC] text-[#17202A] font-sans antialiased min-h-screen py-6 sm:py-10">
+      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
+        {/* SUB-HEADER HUB BADGE */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-[#DCE7EE] rounded-2xl p-3.5 sm:px-6 shadow-xs">
+          <div className="flex items-center gap-2.5 text-xs font-bold text-[#17202A]">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EAF6FC] text-[#0A76A8] text-[10px] font-black uppercase tracking-wider border border-[#DCE7EE]">
+              <MapPin className="size-3 text-[#0A76A8]" />
+              <span>REGIONAL HUBS</span>
+            </span>
+            <span className="text-[#17202A] font-extrabold text-xs">SANGLI | KOLHAPUR | PUNE</span>
           </div>
-          <div className="text-xs font-medium text-slate-500">
-            ⏱ Mon-Sat 9:30 AM - 7:00 PM
+
+          <div className="flex items-center gap-4 text-xs font-semibold text-[#647786]">
+            <div className="flex items-center gap-1.5">
+              <Clock className="size-3.5 text-[#647786]" />
+              <span>Mon-Sat 9:30 AM - 7:00 PM</span>
+            </div>
+            <div className="hidden sm:flex items-center gap-1.5 text-[#0A76A8] font-bold">
+              <PhoneCall className="size-3.5" />
+              <span>Direct Support Active</span>
+            </div>
           </div>
         </div>
 
-        {/* =========================================================================
-           PAGE HEADER TITLE
-           ========================================================================= */}
-        <div className="space-y-2">
+        {/* PAGE HEADER BANNER */}
+        <div className="bg-white border border-[#DCE7EE] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xs space-y-3">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
-            <Link to="/" className="text-slate-500 hover:text-slate-800">
+            <Link to="/" className="text-[#647786] hover:text-[#0A76A8] transition-colors">
               Home
             </Link>
-            <span className="text-slate-300">/</span>
-            <span className="text-sky-600 font-bold">SOLUTIONS</span>
+            <span className="text-[#DCE7EE]">/</span>
+            <span className="text-[#0A76A8] font-black">SOLUTIONS</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
-            Turnkey Technology Solutions
+
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAF6FC] text-[#0A76A8] text-[10.5px] font-black uppercase tracking-widest border border-[#DCE7EE]">
+            <Building2 className="size-3.5 text-[#0A76A8]" />
+            <span>ENTERPRISE ARCHITECTURE BLUEPRINTS</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#17202A] tracking-tight leading-tight">
+            Turnkey Technology <span className="text-[#0A76A8]">Solutions</span>
           </h1>
-          <p className="text-slate-600 text-xs sm:text-base max-w-3xl font-normal leading-relaxed">
-            Select a technology architecture from the menu to inspect detailed engineering blueprints, hardware specifications, and certified deployment brands.
+
+          <p className="text-[#647786] text-xs sm:text-sm font-normal leading-relaxed max-w-3xl">
+            Select a technology architecture from the left menu to inspect detailed engineering blueprints, hardware specifications, statutory standards, and certified deployment OEM brand partners.
           </p>
         </div>
 
-        {/* =========================================================================
-           MAIN 2-COLUMN LAYOUT (LEFT SIDEBAR MENU + RIGHT CONTENT DISPLAY)
-           ========================================================================= */}
+        {/* MAIN 2-COLUMN LAYOUT */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-          
-          {/* 1. LEFT SIDEBAR MENU: SELECT TECHNOLOGY ARCHITECTURE */}
-          <div className="lg:col-span-5 bg-white border border-slate-200/90 rounded-3xl p-3.5 sm:p-5 shadow-xs space-y-3 lg:sticky lg:top-24">
-            <div className="text-[11px] font-black uppercase tracking-widest text-slate-400 px-3 pt-2">
-              SELECT TECHNOLOGY ARCHITECTURE
+          {/* LEFT SIDEBAR MENU */}
+          <div className="lg:col-span-5 bg-white border border-[#DCE7EE] rounded-3xl p-4 sm:p-5 shadow-xs space-y-3.5 lg:sticky lg:top-24">
+            <div className="flex items-center justify-between px-2 pt-1 pb-1">
+              <span className="text-[11px] font-black uppercase tracking-widest text-[#647786]">
+                SELECT TECHNOLOGY ARCHITECTURE
+              </span>
+              <span className="text-[10px] font-black bg-[#EAF6FC] text-[#0A76A8] px-2 py-0.5 rounded-full border border-[#DCE7EE]">
+                {SOLUTIONS_DATA.length} MODULES
+              </span>
             </div>
 
-            <div className="space-y-1.5 max-h-[420px] sm:max-h-none overflow-y-auto pr-1">
+            <div className="space-y-2">
               {SOLUTIONS_DATA.map((item) => {
                 const Icon = item.icon;
                 const isSelected = item.id === selectedSolutionId;
@@ -459,35 +480,45 @@ export function SolutionsPage() {
                     onClick={() => {
                       setSelectedSolutionId(item.id);
                       setActiveTab("blueprint");
-                      const displayElem = document.getElementById("solution-details-display");
-                      if (displayElem && window.innerWidth < 1024) {
-                        displayElem.scrollIntoView({ behavior: "smooth", block: "start" });
-                      }
                     }}
-                    className={`w-full flex items-center justify-between p-3 sm:p-4 rounded-2xl text-xs font-extrabold transition-all duration-200 cursor-pointer text-left ${
+                    className={`w-full flex items-center justify-between p-3.5 sm:p-4 rounded-2xl transition-all duration-300 cursor-pointer text-left relative overflow-hidden group ${
                       isSelected
-                        ? "bg-[#06143D] text-white shadow-md border border-slate-800"
-                        : "bg-white hover:bg-slate-50 text-slate-700 border border-transparent hover:border-slate-200"
+                        ? "bg-[#041321] text-white shadow-md border border-[#082136]"
+                        : "bg-white hover:bg-[#F7F9FC] text-[#17202A] border border-[#DCE7EE]"
                     }`}
                   >
-                    <div className="flex items-center gap-3 min-w-0">
+                    {isSelected && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#08A9DF] rounded-r-full" />
+                    )}
+
+                    <div className="flex items-center gap-3.5 min-w-0 pl-1">
                       <div
-                        className={`size-8.5 sm:size-9 rounded-xl flex items-center justify-center shrink-0 ${
+                        className={`size-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                           isSelected
-                            ? "bg-white/15 text-cyan-300"
-                            : "bg-slate-100 text-slate-600"
+                            ? "bg-[#0A76A8] text-white"
+                            : "bg-[#EAF6FC] text-[#0A76A8]"
                         }`}
                       >
-                        <Icon className="size-4.5" />
+                        <Icon className="size-5" />
                       </div>
-                      <span className="truncate tracking-tight text-xs sm:text-base font-bold">
-                        {item.title}
-                      </span>
+
+                      <div className="min-w-0">
+                        <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#647786]">
+                          {item.category}
+                        </div>
+                        <div
+                          className={`truncate text-sm sm:text-base font-black tracking-tight ${
+                            isSelected ? "text-white" : "text-[#17202A]"
+                          }`}
+                        >
+                          {item.title}
+                        </div>
+                      </div>
                     </div>
 
                     <ChevronRight
                       className={`size-4 shrink-0 transition-transform ${
-                        isSelected ? "text-cyan-400 translate-x-0.5" : "text-slate-400"
+                        isSelected ? "text-[#08A9DF] translate-x-1" : "text-[#647786]"
                       }`}
                     />
                   </button>
@@ -496,37 +527,37 @@ export function SolutionsPage() {
             </div>
           </div>
 
-          {/* 2. RIGHT DISPLAY: ACTIVE SOLUTION DETAILS */}
-          <div id="solution-details-display" className="lg:col-span-7 bg-white border border-slate-200/90 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between scroll-mt-24">
-            
-            {/* Top Image Banner & Hero Header */}
-            <div className="relative h-56 sm:h-72 w-full bg-slate-900 overflow-hidden">
+          {/* RIGHT DISPLAY: ACTIVE SOLUTION DETAILS */}
+          <div className="lg:col-span-7 bg-white border border-[#DCE7EE] rounded-3xl overflow-hidden shadow-xs flex flex-col justify-between">
+            {/* Top Banner */}
+            <div className="relative h-64 sm:h-76 w-full bg-[#041321] overflow-hidden">
               <img
                 src={selectedSolution.image}
                 alt={selectedSolution.title}
-                className="w-full h-full object-cover opacity-60"
+                className="w-full h-full object-cover opacity-60 scale-105 transition-transform duration-700"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src =
                     "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000";
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#06143D] via-[#06143D]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#041321] via-[#041321]/70 to-transparent" />
 
-              <div className="absolute bottom-5 left-5 right-5 space-y-1 text-white">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-gradient-to-r from-sky-600 to-cyan-500 text-white text-[10px] font-black uppercase tracking-widest shadow-md">
-                  {selectedSolution.category}
+              <div className="absolute bottom-6 left-6 right-6 space-y-2 text-white">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A76A8] text-white text-[10px] font-black uppercase tracking-widest shadow-md">
+                  <ShieldCheck className="size-3" />
+                  <span>{selectedSolution.category}</span>
                 </div>
-                <h2 className="text-xl sm:text-4xl font-black tracking-tight text-white">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
                   {selectedSolution.title}
                 </h2>
-                <p className="text-xs sm:text-sm text-cyan-300 font-semibold tracking-wide">
+                <p className="text-xs sm:text-sm text-[#08A9DF] font-semibold tracking-wide">
                   {selectedSolution.tagline}
                 </p>
               </div>
             </div>
 
-            {/* Content Tabs Header Bar */}
-            <div className="flex items-center border-b border-slate-200/90 px-3 sm:px-6 bg-slate-50/50 overflow-x-auto">
+            {/* Tabs Header Bar */}
+            <div className="flex items-center border-b border-[#DCE7EE] px-4 sm:px-6 bg-[#F7F9FC] overflow-x-auto">
               {[
                 { id: "blueprint", label: "System Architecture" },
                 { id: "specs", label: "Hardware & Specs" },
@@ -537,10 +568,10 @@ export function SolutionsPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as any)}
-                    className={`py-3.5 px-3 sm:px-6 text-xs sm:text-sm font-extrabold border-b-2 transition-all cursor-pointer shrink-0 ${
+                    className={`py-4 px-4 sm:px-6 text-xs sm:text-sm font-extrabold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
                       isActive
-                        ? "border-sky-600 text-sky-600 font-black"
-                        : "border-transparent text-slate-500 hover:text-slate-900"
+                        ? "border-[#0A76A8] text-[#0A76A8] font-black"
+                        : "border-transparent text-[#647786] hover:text-[#17202A]"
                     }`}
                   >
                     {tab.label}
@@ -549,28 +580,28 @@ export function SolutionsPage() {
               })}
             </div>
 
-            {/* Active Tab Body Content */}
-            <div className="p-4 sm:p-8 space-y-6">
+            {/* Active Tab Body */}
+            <div className="p-6 sm:p-8 space-y-6">
               {activeTab === "blueprint" && (
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <div className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                      ENGINEERING BLUEPRINT
+                    <div className="text-[11px] font-black uppercase tracking-widest text-[#647786]">
+                      ENGINEERING BLUEPRINT &amp; OVERVIEW
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className="text-xs sm:text-sm text-[#647786] leading-relaxed font-normal bg-[#F7F9FC] border border-[#DCE7EE] p-4 rounded-2xl">
                       {selectedSolution.fullDesc}
                     </p>
                   </div>
 
                   <div className="space-y-3">
-                    <div className="text-[11px] font-black uppercase tracking-widest text-sky-600">
+                    <div className="text-[11px] font-black uppercase tracking-widest text-[#0A76A8]">
                       KEY TECHNICAL CAPABILITIES
                     </div>
                     <div className="space-y-2.5">
                       {selectedSolution.features.map((feat, idx) => (
-                        <div key={idx} className="flex items-start gap-3 bg-slate-50 border border-slate-200/80 p-3.5 rounded-2xl">
-                          <CheckCircle2 className="size-4 shrink-0 text-emerald-600 mt-0.5" />
-                          <span className="text-xs font-semibold text-slate-800 leading-relaxed">
+                        <div key={idx} className="flex items-start gap-3 bg-white border border-[#DCE7EE] p-3.5 rounded-2xl shadow-xs">
+                          <CheckCircle2 className="size-4 shrink-0 text-[#0A76A8] mt-0.5" />
+                          <span className="text-xs font-semibold text-[#17202A] leading-relaxed">
                             {feat}
                           </span>
                         </div>
@@ -579,14 +610,14 @@ export function SolutionsPage() {
                   </div>
 
                   <div className="space-y-2 pt-2">
-                    <div className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                      RECOMMENDED APPLICATIONS
+                    <div className="text-[11px] font-black uppercase tracking-widest text-[#647786]">
+                      RECOMMENDED INSTITUTIONAL APPLICATIONS
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {selectedSolution.applications.map((app) => (
                         <span
                           key={app}
-                          className="bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold px-3 py-1 rounded-full"
+                          className="bg-white border border-[#DCE7EE] text-[#17202A] text-xs font-bold px-3 py-1.5 rounded-full shadow-xs"
                         >
                           {app}
                         </span>
@@ -598,29 +629,30 @@ export function SolutionsPage() {
 
               {activeTab === "specs" && (
                 <div className="space-y-6">
-                  <div className="text-[11px] font-black uppercase tracking-widest text-sky-600">
-                    HARDWARE SPECIFICATIONS & RATINGS
+                  <div className="text-[11px] font-black uppercase tracking-widest text-[#0A76A8]">
+                    HARDWARE SPECIFICATIONS &amp; RATINGS
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {selectedSolution.specs.map((spec, idx) => (
-                      <div key={idx} className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 space-y-1">
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                      <div key={idx} className="bg-[#F7F9FC] border border-[#DCE7EE] rounded-2xl p-4 space-y-1.5 border-l-4 border-l-[#0A76A8]">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-[#647786]">
                           {spec.label}
                         </div>
-                        <div className="text-xs sm:text-sm font-black text-slate-900">
+                        <div className="text-xs sm:text-sm font-black text-[#17202A]">
                           {spec.value}
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="bg-slate-900 text-white rounded-2xl p-5 space-y-2 border border-slate-800">
-                    <div className="text-xs font-bold text-cyan-400 uppercase tracking-wider">
-                      STATUTORY STANDARDS & COMPLIANCE
+                  <div className="bg-[#041321] text-white rounded-2xl p-5 space-y-2 border border-slate-700 shadow-md">
+                    <div className="flex items-center gap-2 text-xs font-bold text-[#08A9DF] uppercase tracking-wider">
+                      <Award className="size-4 text-[#08A9DF]" />
+                      <span>STATUTORY STANDARDS &amp; COMPLIANCE</span>
                     </div>
                     <p className="text-xs text-slate-300 leading-relaxed font-medium">
-                      All hardware deployed under JEPL {selectedSolution.title} meets Maharashtra state PWD norms, NBC 2016 regulations, and OEM warranty standards.
+                      All hardware deployed under JEPL {selectedSolution.title} meets Maharashtra state PWD norms, NBC 2016 fire standards, RBI physical security circulars, and OEM warranty standards.
                     </p>
                   </div>
                 </div>
@@ -628,7 +660,7 @@ export function SolutionsPage() {
 
               {activeTab === "brands" && (
                 <div className="space-y-6">
-                  <div className="text-[11px] font-black uppercase tracking-widest text-sky-600">
+                  <div className="text-[11px] font-black uppercase tracking-widest text-[#0A76A8]">
                     CERTIFIED OEM BRAND PARTNERS
                   </div>
 
@@ -636,45 +668,41 @@ export function SolutionsPage() {
                     {selectedSolution.partnerBrands.map((brand) => (
                       <div
                         key={brand}
-                        className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center font-extrabold text-sm text-slate-800 shadow-xs"
+                        className="bg-white border border-[#DCE7EE] rounded-2xl p-4 text-center font-extrabold text-sm text-[#17202A] shadow-xs hover:border-[#0A76A8] transition-colors"
                       >
                         {brand}
                       </div>
                     ))}
                   </div>
 
-                  <div className="bg-sky-50/70 border border-sky-100 rounded-2xl p-5 space-y-2">
-                    <div className="text-xs font-bold text-sky-700">
-                      TURNKEY SURVEY & BOQ PREPARATION
+                  <div className="bg-[#EAF6FC] border border-[#DCE7EE] rounded-2xl p-5 space-y-2">
+                    <div className="text-xs font-bold text-[#0A76A8]">
+                      TURNKEY SURVEY &amp; BOQ PREPARATION
                     </div>
-                    <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                    <p className="text-xs text-[#17202A] leading-relaxed font-medium">
                       Need a formal BOQ estimate or site survey for your facility? Our senior engineers prepare detailed technical proposals with CAD layout schematics.
                     </p>
                   </div>
                 </div>
               )}
 
-              {/* Bottom Request BOQ Action Bar */}
-              <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-4">
-                <div className="text-xs font-semibold text-slate-500 hidden sm:block">
-                  Need custom BOQ specs for tenders?
+              {/* Action Bar */}
+              <div className="pt-6 border-t border-[#DCE7EE] flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-xs font-semibold text-[#647786] hidden sm:block">
+                  Need custom BOQ specs or tender documentation?
                 </div>
 
                 <Link
                   to="/contact"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-sky-600 to-cyan-500 hover:from-sky-500 hover:to-cyan-400 text-white text-xs font-extrabold tracking-wide flex items-center justify-center gap-2 transition duration-200 group cursor-pointer shadow-lg shadow-cyan-500/20"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#0A76A8] hover:bg-[#0896d7] text-white text-xs font-black tracking-wide flex items-center justify-center gap-2 transition-all duration-200 group cursor-pointer shadow-md"
                 >
-                  <span>Request Engineering BOQ & Survey</span>
+                  <span>Request Engineering BOQ &amp; Survey</span>
                   <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
     </div>
   );

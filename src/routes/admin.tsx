@@ -2,22 +2,28 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowLeft,
   ArrowRight,
+  Award,
   BarChart3,
   Bell,
+  BookOpen,
   Building2,
   CheckCircle2,
   ChevronDown,
+  ChevronRight,
   Clock,
+  Cpu,
   ExternalLink,
   Eye,
   EyeOff,
   FileText,
   Image as ImageIcon,
   Key,
+  Layers,
   LayoutDashboard,
   Lock,
   LogOut,
   Mail,
+  MapPin,
   MessageSquare,
   MoveDown,
   MoveUp,
@@ -30,6 +36,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   Sparkles,
+  Tag,
   Trash2,
   TrendingUp,
   User,
@@ -38,7 +45,16 @@ import {
   Users,
 } from "lucide-react";
 import { useState } from "react";
-import { adminStore, useAdminStore, type HeroSlide, type TeamMember, type ContactInquiry } from "@/lib/admin-store";
+import {
+  adminStore,
+  useAdminStore,
+  type HeroSlide,
+  type TeamMember,
+  type ContactInquiry,
+  type SolutionModule,
+  type ProjectItemData,
+  type BlogPostData,
+} from "@/lib/admin-store";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "@/components/ui/button";
 
@@ -153,8 +169,8 @@ function AdminPage() {
             </div>
 
             {/* Bottom Statistics Section */}
-            <div className="pt-4 lg:pt-12">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6 border-t border-slate-400/30 pt-6">
+            <div className="pt-6 lg:pt-12">
+              <div className="grid grid-cols-4 gap-3 sm:gap-6 border-t border-slate-400/30 pt-6">
                 <div>
                   <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">100%</div>
                   <div className="text-xs font-semibold text-slate-600 mt-1">Secure</div>
@@ -163,11 +179,11 @@ function AdminPage() {
                   <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">24/7</div>
                   <div className="text-xs font-semibold text-slate-600 mt-1">Access</div>
                 </div>
-                <div className="border-t sm:border-t-0 border-l-0 sm:border-l border-slate-400/40 pt-2 sm:pt-0 pl-0 sm:pl-6">
+                <div className="border-l border-slate-400/40 pl-3 sm:pl-6">
                   <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">Global</div>
                   <div className="text-xs font-semibold text-slate-600 mt-1">Support</div>
                 </div>
-                <div className="border-t sm:border-t-0 border-l border-slate-400/40 pt-2 sm:pt-0 pl-3 sm:pl-6">
+                <div className="border-l border-slate-400/40 pl-3 sm:pl-6">
                   <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">Better</div>
                   <div className="text-xs font-semibold text-slate-600 mt-1">Future</div>
                 </div>
@@ -314,98 +330,222 @@ function AdminPage() {
 /* =========================================================================
    DASHBOARD LAYOUT (ULTRA PROFESSIONAL & ATTRACTIVE SAAS DESIGN)
    ========================================================================= */
-type SidebarTab = "dashboard" | "banners" | "about" | "team" | "inquiries";
+type SidebarTab =
+  | "dashboard"
+  | "solutions"
+  | "projects"
+  | "blogs"
+  | "banners"
+  | "about"
+  | "team"
+  | "inquiries";
 
 function DashboardLayout({ onLogout }: { onLogout: () => void }) {
   const [activeTab, setActiveTab] = useState<SidebarTab>("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  const store = useAdminStore();
+  const heroSlides = store.getHeroSlides();
+  const teamMembers = store.getTeamMembers();
+  const inquiries = store.getInquiries();
+  const solutions = store.getSolutions();
+  const projects = store.getProjects();
+  const blogs = store.getBlogs();
+  const newInquiriesCount = inquiries.filter((i) => i.status === "New").length;
 
   return (
     <div className="min-h-screen bg-[#F6F8FC] text-slate-800 flex font-sans antialiased">
-      {/* 1. FIXED LEFT SIDEBAR */}
+      {/* 1. SIDEBAR (EXACT MATCH TO DESIGN SCREENSHOT) */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-[#0F1C3F] via-[#0B132B] to-[#070D1D] text-white flex flex-col justify-between p-5 border-r border-slate-800/60 shadow-xl transition-transform duration-300 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-[#091434] text-white flex flex-col justify-between p-5 border-r border-slate-800/80 shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="space-y-7">
+        <div className="space-y-6">
           {/* Sidebar Top Logo Branding */}
-          <div className="flex items-center gap-3 px-2 py-1">
-            <img
-              src="/logo.jpg"
-              alt="Jay Electronics Logo"
-              className="h-10 w-auto max-w-[42px] shrink-0 rounded-xl object-contain bg-white p-1 shadow-md shadow-blue-500/20 border border-white/10"
-            />
-            <div>
-              <div className="font-extrabold text-sm leading-tight text-white tracking-wide">
+          <div className="pt-2 px-1">
+            <div className="w-14 h-14 bg-white rounded-2xl p-2 shadow-lg flex items-center justify-center shrink-0">
+              <img
+                src="/logo.jpg"
+                alt="Jay Electronics Logo"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="mt-4">
+              <h1 className="text-base font-black tracking-wide text-white uppercase leading-none">
                 JAY ELECTRONICS
-              </div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-cyan-400 flex items-center gap-1 mt-0.5">
-                <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                ADMIN PORTAL
+              </h1>
+              <div className="text-xs font-extrabold text-cyan-400 tracking-wider flex items-center gap-1.5 mt-2 uppercase">
+                <span className="size-2.5 rounded-full bg-emerald-400 shrink-0" />
+                <span>ADMIN CONTROL CENTER</span>
               </div>
             </div>
           </div>
 
-          {/* Navigation Items */}
-          <nav className="space-y-2" aria-label="Sidebar Navigation">
-            {[
-              { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-              { id: "banners", label: "Hero Banners", icon: ImageIcon },
-              { id: "about", label: "About Us", icon: FileText },
-              { id: "team", label: "Team Members", icon: Users },
-              { id: "inquiries", label: "Inquiries", icon: Mail },
-            ].map((item) => {
-              const Icon = item.icon;
-              const isActive = activeTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    setActiveTab(item.id as SidebarTab);
-                    setSidebarOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-semibold transition-all duration-200 group ${
-                    isActive
-                      ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold shadow-md shadow-blue-600/30 translate-x-0.5"
-                      : "text-slate-400 hover:text-white hover:bg-white/5 hover:translate-x-0.5"
-                  }`}
-                >
-                  <Icon
-                    className={`size-4.5 transition-colors ${
-                      isActive ? "text-cyan-300" : "text-slate-400 group-hover:text-cyan-400"
+          {/* Navigation Category */}
+          <div>
+            <div className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 px-1">
+              MAIN MENU
+            </div>
+
+            <nav className="space-y-2" aria-label="Sidebar Navigation">
+              {[
+                {
+                  id: "dashboard",
+                  label: "Dashboard",
+                  icon: LayoutDashboard,
+                  badge: null,
+                  badgeType: null,
+                },
+                {
+                  id: "solutions",
+                  label: "Solutions Modules",
+                  icon: Layers,
+                  badge: `${solutions.length}`,
+                  badgeType: "emerald",
+                },
+                {
+                  id: "projects",
+                  label: "Landmark Projects",
+                  icon: Building2,
+                  badge: `${projects.length}`,
+                  badgeType: "cyan",
+                },
+                {
+                  id: "blogs",
+                  label: "Blogs & Circulars",
+                  icon: BookOpen,
+                  badge: `${blogs.length}`,
+                  badgeType: "orange",
+                },
+                {
+                  id: "banners",
+                  label: "Hero Banners",
+                  icon: ImageIcon,
+                  badge: `${heroSlides.length}`,
+                  badgeType: "blue",
+                },
+                {
+                  id: "about",
+                  label: "About Us",
+                  icon: FileText,
+                  badge: null,
+                  badgeType: null,
+                },
+                {
+                  id: "team",
+                  label: "Team Members",
+                  icon: Users,
+                  badge: `${teamMembers.length}`,
+                  badgeType: "purple",
+                },
+                {
+                  id: "inquiries",
+                  label: "Inquiries",
+                  icon: Mail,
+                  badge: newInquiriesCount > 0 ? `${newInquiriesCount} New` : `${inquiries.length}`,
+                  badgeType: "pink",
+                },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.id as SidebarTab);
+                      setSidebarOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all duration-200 group ${
+                      isActive
+                        ? "bg-gradient-to-r from-[#00A3FF] via-[#0077FF] to-[#0055FF] text-white shadow-lg shadow-blue-500/30 font-bold"
+                        : "text-slate-200 hover:text-white hover:bg-white/5 font-semibold"
                     }`}
-                  />
-                  <span className="tracking-wide">{item.label}</span>
-                </button>
-              );
-            })}
-          </nav>
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`p-2 rounded-xl flex items-center justify-center transition-colors ${
+                          isActive
+                            ? "bg-white/20 text-white"
+                            : "text-slate-400 group-hover:text-cyan-400"
+                        }`}
+                      >
+                        <Icon className="size-4.5" />
+                      </div>
+                      <span className="tracking-wide text-xs sm:text-sm">{item.label}</span>
+                    </div>
+
+                    {item.badge && (
+                      <span
+                        className={`font-black flex items-center justify-center ${
+                          item.badgeType === "emerald"
+                            ? "bg-[#059669] text-white text-[11px] size-6 rounded-full shadow-xs"
+                            : item.badgeType === "cyan"
+                            ? "bg-[#0284C7] text-white text-[11px] size-6 rounded-full shadow-xs"
+                            : item.badgeType === "orange"
+                            ? "bg-[#D97706] text-white text-[11px] size-6 rounded-full shadow-xs"
+                            : item.badgeType === "blue"
+                            ? "bg-[#0E46A3] text-white text-[11px] size-6 rounded-full shadow-xs"
+                            : item.badgeType === "purple"
+                            ? "bg-[#6B11B0] text-white text-[11px] size-6 rounded-full shadow-xs"
+                            : item.badgeType === "pink"
+                            ? "bg-[#FF0055] text-white px-2.5 py-0.5 rounded-full text-[10px] font-black shadow-md shadow-rose-500/30"
+                            : "bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full text-xs"
+                        }`}
+                      >
+                        {item.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
         </div>
 
-        {/* Sidebar Bottom Actions (View Live Site & Logout) */}
-        <div className="space-y-2.5 pt-4 border-t border-slate-800/80">
-          <Link
-            to="/"
-            target="_blank"
-            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-800/80 shadow-xs transition"
-          >
-            <div className="flex items-center gap-2.5">
-              <ExternalLink className="size-4 text-cyan-400" />
-              <span>View Live Site</span>
+        {/* Sidebar Bottom Profile Card (With Popup Actions) */}
+        <div className="relative mt-auto pt-4">
+          {profileMenuOpen && (
+            <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0C1842] border border-slate-700/80 rounded-2xl p-2 shadow-2xl backdrop-blur-xl space-y-1 z-50 animate-in fade-in slide-in-from-bottom-2">
+              <Link
+                to="/"
+                target="_blank"
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition"
+              >
+                <ExternalLink className="size-4 text-cyan-400" />
+                <span>View Live Website</span>
+              </Link>
+              <button
+                onClick={onLogout}
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition"
+              >
+                <LogOut className="size-4 text-rose-400" />
+                <span>Sign Out Control Center</span>
+              </button>
             </div>
-            <span className="text-[10px] bg-blue-500/20 text-cyan-300 font-bold px-1.5 py-0.2 rounded">
-              Live
-            </span>
-          </Link>
+          )}
 
-          <button
-            onClick={onLogout}
-            className="w-full flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 text-xs font-semibold transition"
+          <div
+            onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+            className="bg-[#0D1C48]/90 hover:bg-[#12235A] border border-slate-700/60 rounded-2xl p-3 flex items-center justify-between cursor-pointer transition-all shadow-md group"
           >
-            <LogOut className="size-4 text-rose-500" />
-            <span>Logout Portal</span>
-          </button>
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="size-9 rounded-full bg-gradient-to-br from-blue-500 via-sky-500 to-cyan-400 flex items-center justify-center text-white shrink-0 shadow-md">
+                <User className="size-5" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-bold text-white leading-tight truncate">
+                  Admin User
+                </div>
+                <div className="text-[10px] text-slate-400 font-medium leading-tight truncate">
+                  admin@jayelectronics.com
+                </div>
+              </div>
+            </div>
+
+            <ChevronRight className="size-4 text-slate-400 group-hover:text-white transition-colors shrink-0" />
+          </div>
         </div>
       </aside>
 
@@ -420,33 +560,33 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
       {/* 2. MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col min-w-0 min-h-screen">
         {/* TOP HEADER */}
-        <header className="bg-transparent px-4 sm:px-10 py-4 sm:py-6 flex items-center justify-between gap-3">
+        <header className="bg-transparent px-6 sm:px-10 py-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             {/* Mobile Drawer Button */}
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-xs"
+              className="lg:hidden p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 shadow-xs"
             >
               <LayoutDashboard className="size-5" />
             </button>
 
             <div>
               <div className="flex items-center gap-2.5">
-                <h1 className="text-xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                   Dashboard
                 </h1>
                 <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-100 px-3 py-0.5 text-[11px] font-extrabold text-blue-600">
                   <Sparkles className="size-3" /> System Overview
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5 font-medium hidden sm:block">
+              <p className="text-xs text-slate-400 mt-0.5 font-medium">
                 Overview of your website content
               </p>
             </div>
           </div>
 
           {/* Right Controls: Search, Notification Bell, Admin Avatar */}
-          <div className="flex items-center gap-2.5 sm:gap-3.5">
+          <div className="flex items-center gap-3.5">
             {/* Search Input */}
             <div className="relative hidden sm:block">
               <Search className="absolute left-3.5 top-2.5 size-4 text-slate-400" />
@@ -464,7 +604,7 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
             <div className="relative">
               <button
                 type="button"
-                className="flex size-9 sm:size-9.5 items-center justify-center rounded-full bg-white border border-slate-200/90 text-slate-600 hover:text-slate-900 shadow-xs hover:bg-slate-50 transition"
+                className="flex size-9.5 items-center justify-center rounded-full bg-white border border-slate-200/90 text-slate-600 hover:text-slate-900 shadow-xs hover:bg-slate-50 transition"
               >
                 <Bell className="size-4" />
               </button>
@@ -472,12 +612,12 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
             </div>
 
             {/* Admin Profile/Avatar Area */}
-            <div className="flex items-center gap-3 pl-2 sm:pl-3 border-l border-slate-200">
+            <div className="flex items-center gap-3 pl-3 border-l border-slate-200">
               <div className="relative">
                 <img
                   src="/about-owner.png"
                   alt="Admin Avatar"
-                  className="size-8.5 sm:size-9.5 rounded-full object-cover border border-slate-200 shadow-xs"
+                  className="size-9.5 rounded-full object-cover border border-slate-200 shadow-xs"
                   onError={(e) => {
                     (e.target as HTMLElement).setAttribute(
                       "src",
@@ -498,8 +638,11 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
         </header>
 
         {/* MAIN BODY CONTENT */}
-        <main className="flex-1 px-3.5 sm:px-10 pb-12 space-y-6 sm:space-y-8">
+        <main className="flex-1 px-6 sm:px-10 pb-12 space-y-8">
           {activeTab === "dashboard" && <DashboardMainView onNavigateTab={(tab) => setActiveTab(tab)} />}
+          {activeTab === "solutions" && <SolutionsManagementView />}
+          {activeTab === "projects" && <ProjectsManagementView />}
+          {activeTab === "blogs" && <BlogsManagementView />}
           {activeTab === "banners" && <BannersManagementView />}
           {activeTab === "about" && <AboutManagementView />}
           {activeTab === "team" && <TeamManagementView />}
@@ -518,6 +661,17 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
   const heroSlides = store.getHeroSlides();
   const teamMembers = store.getTeamMembers();
   const inquiries = store.getInquiries();
+
+  const heroCount = heroSlides.length;
+  const aboutCount = 1;
+  const teamCount = teamMembers.length;
+  const inqCount = inquiries.length;
+  const totalCount = Math.max(heroCount + aboutCount + teamCount + inqCount, 1);
+
+  const heroPct = Math.round((heroCount / totalCount) * 100);
+  const aboutPct = Math.round((aboutCount / totalCount) * 100);
+  const teamPct = Math.round((teamCount / totalCount) * 100);
+  const inqPct = Math.max(0, 100 - (heroPct + aboutPct + teamPct));
 
   const newInquiriesCount = inquiries.filter((i) => i.status === "New").length;
 
@@ -544,7 +698,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
           <div className="flex items-center justify-between pt-1">
             <span className="text-[11px] text-slate-400 font-medium">Homepage Slider</span>
             <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-100 px-2.5 py-0.5 text-[11px] font-bold text-blue-600">
-              ↑ 0%
+              ↑ {heroPct}%
             </span>
           </div>
         </div>
@@ -589,7 +743,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
           <div className="flex items-center justify-between pt-1">
             <span className="text-[11px] text-slate-400 font-medium">~2 this month</span>
             <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 border border-purple-100 px-2.5 py-0.5 text-[11px] font-bold text-purple-600">
-              ↑ 20%
+              ↑ {teamPct}%
             </span>
           </div>
         </div>
@@ -616,7 +770,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
               {newInquiriesCount} new unread
             </span>
             <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-500">
-              ↑ 50%
+              ↑ {inqPct}%
             </span>
           </div>
         </div>
@@ -722,43 +876,43 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   strokeWidth="4"
                 />
 
-                {/* Hero Banners 40% */}
+                {/* Hero Banners */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
                   stroke="#2563EB"
                   strokeWidth="4"
-                  strokeDasharray="40, 100"
+                  strokeDasharray={`${heroPct}, 100`}
                 />
 
-                {/* About Us 20% */}
+                {/* About Us */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
                   stroke="#06B6D4"
                   strokeWidth="4"
-                  strokeDasharray="20, 100"
-                  strokeDashoffset="-40"
+                  strokeDasharray={`${aboutPct}, 100`}
+                  strokeDashoffset={`-${heroPct}`}
                 />
 
-                {/* Team Members 20% */}
+                {/* Team Members */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
                   stroke="#9333EA"
                   strokeWidth="4"
-                  strokeDasharray="20, 100"
-                  strokeDashoffset="-60"
+                  strokeDasharray={`${teamPct}, 100`}
+                  strokeDashoffset={`-${heroPct + aboutPct}`}
                 />
 
-                {/* Inquiries 20% */}
+                {/* Inquiries */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
                   stroke="#F97316"
                   strokeWidth="4"
-                  strokeDasharray="20, 100"
-                  strokeDashoffset="-80"
+                  strokeDasharray={`${inqPct}, 100`}
+                  strokeDashoffset={`-${heroPct + aboutPct + teamPct}`}
                 />
               </svg>
 
@@ -776,7 +930,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   <span className="size-2.5 rounded-full bg-[#2563EB]" />
                   <span className="font-semibold text-slate-600">Hero Banners</span>
                 </div>
-                <span className="font-extrabold text-slate-900">40%</span>
+                <span className="font-extrabold text-slate-900">{heroPct}%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
@@ -784,7 +938,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   <span className="size-2.5 rounded-full bg-[#06B6D4]" />
                   <span className="font-semibold text-slate-600">About Us</span>
                 </div>
-                <span className="font-extrabold text-slate-900">20%</span>
+                <span className="font-extrabold text-slate-900">{aboutPct}%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
@@ -792,7 +946,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   <span className="size-2.5 rounded-full bg-[#9333EA]" />
                   <span className="font-semibold text-slate-600">Team Members</span>
                 </div>
-                <span className="font-extrabold text-slate-900">20%</span>
+                <span className="font-extrabold text-slate-900">{teamPct}%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
@@ -800,7 +954,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   <span className="size-2.5 rounded-full bg-[#F97316]" />
                   <span className="font-semibold text-slate-600">Inquiries</span>
                 </div>
-                <span className="font-extrabold text-slate-900">20%</span>
+                <span className="font-extrabold text-slate-900">{inqPct}%</span>
               </div>
             </div>
           </div>
@@ -1471,6 +1625,712 @@ function InquiriesManagementView() {
             </div>
           ))
         )}
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   SOLUTIONS MANAGEMENT VIEW (ADD & DELETE MODULES)
+   ========================================================================= */
+function SolutionsManagementView() {
+  const store = useAdminStore();
+  const solutions = store.getSolutions();
+
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("ELECTRONIC SECURITY");
+  const [tagline, setTagline] = useState("");
+  const [shortDesc, setShortDesc] = useState("");
+  const [fullDesc, setFullDesc] = useState("");
+  const [featuresText, setFeaturesText] = useState("");
+  const [brandsText, setBrandsText] = useState("");
+  const [image, setImage] = useState("");
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) return;
+
+    const features = featuresText
+      .split("\n")
+      .map((f) => f.trim())
+      .filter(Boolean);
+    const partnerBrands = brandsText
+      .split(",")
+      .map((b) => b.trim())
+      .filter(Boolean);
+
+    store.addSolution({
+      slug: title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      title,
+      category: category || "ELECTRONIC SECURITY",
+      tagline: tagline || title,
+      shortDesc: shortDesc || title,
+      fullDesc: fullDesc || shortDesc || title,
+      features: features.length > 0 ? features : ["Turnkey Installation & Engineering Support"],
+      partnerBrands: partnerBrands.length > 0 ? partnerBrands : ["CP PLUS", "Cisco", "Honeywell"],
+      image: image || "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000",
+    });
+
+    setTitle("");
+    setTagline("");
+    setShortDesc("");
+    setFullDesc("");
+    setFeaturesText("");
+    setBrandsText("");
+    setImage("");
+    setShowAddForm(false);
+  };
+
+  const handleDelete = (id: string, solutionTitle: string) => {
+    if (confirm(`Are you sure you want to delete solution "${solutionTitle}"?`)) {
+      store.deleteSolution(id);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
+              <Layers className="size-5" />
+            </span>
+            <h3 className="text-xl font-black text-slate-900 tracking-tight">Solutions & Architecture Modules</h3>
+          </div>
+          <p className="text-xs text-slate-500 mt-1">
+            Add or delete technology architecture modules displayed on the Solutions page.
+          </p>
+        </div>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="px-5 py-2.5 rounded-2xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-extrabold tracking-wide flex items-center justify-center gap-2 transition cursor-pointer shadow-md shadow-emerald-900/10"
+        >
+          <Plus className="size-4" />
+          <span>{showAddForm ? "Cancel Add" : "Add New Solution Module"}</span>
+        </button>
+      </div>
+
+      {showAddForm && (
+        <form onSubmit={handleAdd} className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-md space-y-4 animate-in fade-in slide-in-from-top-2">
+          <h4 className="font-extrabold text-base text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
+            <Plus className="size-4 text-emerald-600" /> Create Solution Module
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Module Title *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g., Fire Safety Systems"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Category Tag *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g., FIRE & SAFETY"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Tagline</label>
+              <input
+                type="text"
+                placeholder="e.g., NBC 2016 Compliant Smoke & Heat Detection"
+                value={tagline}
+                onChange={(e) => setTagline(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Image URL</label>
+              <input
+                type="text"
+                placeholder="https://images.unsplash.com/... or /service-cctv.png"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Full Description</label>
+            <textarea
+              rows={3}
+              placeholder="Detailed description of the technology architecture..."
+              value={fullDesc}
+              onChange={(e) => setFullDesc(e.target.value)}
+              className="w-full rounded-xl bg-slate-50 border border-slate-200 p-3.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Key Features (One feature per line)</label>
+              <textarea
+                rows={3}
+                placeholder="Feature 1&#10;Feature 2&#10;Feature 3"
+                value={featuresText}
+                onChange={(e) => setFeaturesText(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 p-3 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Certified Brands (Comma separated)</label>
+              <input
+                type="text"
+                placeholder="Honeywell, Bosch, CP PLUS"
+                value={brandsText}
+                onChange={(e) => setBrandsText(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <button
+              type="submit"
+              className="px-6 py-3 rounded-2xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-extrabold tracking-wide flex items-center gap-2 cursor-pointer shadow-md"
+            >
+              <Save className="size-4" /> Save Solution Module
+            </button>
+          </div>
+        </form>
+      )}
+
+      {/* List of Solution Modules */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {solutions.map((item) => (
+          <div key={item.id} className="bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between group">
+            <div>
+              <div className="relative h-40 w-full bg-slate-900 overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000";
+                  }}
+                />
+                <div className="absolute top-3 left-3 bg-[#059669] text-white text-[9px] font-black uppercase px-2.5 py-1 rounded-md shadow-xs">
+                  {item.category}
+                </div>
+              </div>
+
+              <div className="p-5 space-y-3">
+                <h4 className="font-extrabold text-base text-slate-900">{item.title}</h4>
+                <p className="text-xs text-[#059669] font-bold">{item.tagline}</p>
+                <p className="text-xs text-slate-600 line-clamp-2">{item.fullDesc || item.shortDesc}</p>
+
+                {item.features && item.features.length > 0 && (
+                  <div className="space-y-1 pt-1 border-t border-slate-100">
+                    <span className="text-[10px] font-black uppercase text-slate-400">Features ({item.features.length})</span>
+                    <ul className="space-y-1">
+                      {item.features.slice(0, 2).map((f, i) => (
+                        <li key={i} className="text-[11px] font-medium text-slate-700 flex items-center gap-1.5 truncate">
+                          <CheckCircle2 className="size-3 text-emerald-600 shrink-0" />
+                          <span className="truncate">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="p-5 pt-0 border-t border-slate-100 flex items-center justify-between mt-3">
+              <span className="text-[10px] font-mono text-slate-400">ID: {item.id}</span>
+              <button
+                onClick={() => handleDelete(item.id, item.title)}
+                className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+              >
+                <Trash2 className="size-3.5" /> Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   PROJECTS MANAGEMENT VIEW (ADD & DELETE LANDMARK PROJECTS)
+   ========================================================================= */
+function ProjectsManagementView() {
+  const store = useAdminStore();
+  const projects = store.getProjects();
+
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [title, setTitle] = useState("");
+  const [categoryTag, setCategoryTag] = useState("Government & Municipal");
+  const [location, setLocation] = useState("");
+  const [scale, setScale] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [challenge, setChallenge] = useState("");
+  const [solution, setSolution] = useState("");
+  const [footerBadge, setFooterBadge] = useState("100% Uptime Maintained");
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) return;
+
+    store.addProject({
+      title,
+      categoryTag,
+      categoryBadge: categoryTag.toUpperCase(),
+      location: location || "Maharashtra, India",
+      scale: scale || "Turnkey Enterprise Installation",
+      description: description || title,
+      image: image || "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000",
+      challenge: challenge || "High security and uninterrupted SLA requirements.",
+      solution: solution || "Engineered fiber backbone with redundant surveillance coverage.",
+      footerBadge: footerBadge || "Verified Deployment",
+    });
+
+    setTitle("");
+    setLocation("");
+    setScale("");
+    setDescription("");
+    setImage("");
+    setChallenge("");
+    setSolution("");
+    setShowAddForm(false);
+  };
+
+  const handleDelete = (id: string, projectTitle: string) => {
+    if (confirm(`Are you sure you want to delete project "${projectTitle}"?`)) {
+      store.deleteProject(id);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-sky-50 text-[#0284C7]">
+              <Building2 className="size-5" />
+            </span>
+            <h3 className="text-xl font-black text-slate-900 tracking-tight">Landmark Projects & Case Studies</h3>
+          </div>
+          <p className="text-xs text-slate-500 mt-1">
+            Add or delete infrastructure deployments shown on the Projects page.
+          </p>
+        </div>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="px-5 py-2.5 rounded-2xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-extrabold tracking-wide flex items-center justify-center gap-2 transition cursor-pointer shadow-md shadow-sky-900/10"
+        >
+          <Plus className="size-4" />
+          <span>{showAddForm ? "Cancel Add" : "Add New Project"}</span>
+        </button>
+      </div>
+
+      {showAddForm && (
+        <form onSubmit={handleAdd} className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-md space-y-4 animate-in fade-in slide-in-from-top-2">
+          <h4 className="font-extrabold text-base text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
+            <Plus className="size-4 text-[#0284C7]" /> Create Landmark Project
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Project Title *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g., Sugar Mill Fiber Backhaul & CCTV"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Category Tag *</label>
+              <select
+                value={categoryTag}
+                onChange={(e) => setCategoryTag(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-600 focus:bg-white font-bold"
+              >
+                <option value="Government & Municipal">Government & Municipal</option>
+                <option value="Manufacturing & Heavy Industry">Manufacturing & Heavy Industry</option>
+                <option value="Hospitals & Healthcare">Hospitals & Healthcare</option>
+                <option value="Banks & Financial">Banks & Financial</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Location</label>
+              <input
+                type="text"
+                placeholder="e.g., Kolhapur, Maharashtra"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Scale / Capacity</label>
+              <input
+                type="text"
+                placeholder="e.g., SCALE: 15 KM ARMORED FIBER • 12 SHEDS"
+                value={scale}
+                onChange={(e) => setScale(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Image URL</label>
+            <input
+              type="text"
+              placeholder="https://images.unsplash.com/... or /project-smartcity.png"
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-600 focus:bg-white"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Project Description</label>
+            <textarea
+              rows={2}
+              placeholder="Short summary of the deployment..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full rounded-xl bg-slate-50 border border-slate-200 p-3.5 text-xs text-slate-900 focus:outline-none focus:border-sky-600 focus:bg-white"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Engineering Challenge</label>
+              <textarea
+                rows={2}
+                placeholder="Key difficulties (e.g. EMI interference, extreme weather)..."
+                value={challenge}
+                onChange={(e) => setChallenge(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 p-3 text-xs text-slate-900 focus:outline-none focus:border-sky-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Deployed Solution</label>
+              <textarea
+                rows={2}
+                placeholder="How JEPL solved the problem..."
+                value={solution}
+                onChange={(e) => setSolution(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 p-3 text-xs text-slate-900 focus:outline-none focus:border-sky-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-2">
+            <div>
+              <input
+                type="text"
+                placeholder="Footer Badge e.g. 100% Uptime"
+                value={footerBadge}
+                onChange={(e) => setFooterBadge(e.target.value)}
+                className="rounded-xl bg-slate-50 border border-slate-200 px-3 py-1.5 text-xs text-slate-900"
+              />
+            </div>
+            <button
+              type="submit"
+              className="px-6 py-3 rounded-2xl bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-extrabold tracking-wide flex items-center gap-2 cursor-pointer shadow-md"
+            >
+              <Save className="size-4" /> Save Project
+            </button>
+          </div>
+        </form>
+      )}
+
+      {/* List of Projects */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {projects.map((item) => (
+          <div key={item.id} className="bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between group">
+            <div>
+              <div className="relative h-44 w-full bg-slate-900 overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000";
+                  }}
+                />
+                <div className="absolute top-3 left-3 bg-[#0284C7] text-white text-[9px] font-black uppercase px-2.5 py-1 rounded-md shadow-xs">
+                  {item.categoryTag}
+                </div>
+                {item.location && (
+                  <div className="absolute bottom-3 left-3 bg-slate-950/80 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full backdrop-blur-xs flex items-center gap-1">
+                    <MapPin className="size-3 text-sky-400" /> {item.location}
+                  </div>
+                )}
+              </div>
+
+              <div className="p-5 space-y-3">
+                <h4 className="font-extrabold text-base text-slate-900">{item.title}</h4>
+                {item.scale && <p className="text-[10px] font-black uppercase text-slate-400 tracking-wider">{item.scale}</p>}
+                <p className="text-xs text-slate-600 line-clamp-2">{item.description}</p>
+              </div>
+            </div>
+
+            <div className="p-5 pt-0 border-t border-slate-100 flex items-center justify-between mt-3">
+              <span className="text-[10px] font-mono text-slate-400">ID: {item.id}</span>
+              <button
+                onClick={() => handleDelete(item.id, item.title)}
+                className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+              >
+                <Trash2 className="size-3.5" /> Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================================
+   BLOGS MANAGEMENT VIEW (ADD & DELETE ARTICLES)
+   ========================================================================= */
+function BlogsManagementView() {
+  const store = useAdminStore();
+  const blogs = store.getBlogs();
+
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [title, setTitle] = useState("");
+  const [tag, setTag] = useState("COMPLIANCE & SECURITY");
+  const [readTime, setReadTime] = useState("5 min read");
+  const [date, setDate] = useState(
+    new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
+  );
+  const [description, setDescription] = useState("");
+  const [takeaway, setTakeaway] = useState("");
+  const [image, setImage] = useState("");
+  const [content, setContent] = useState("");
+
+  const handleAdd = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) return;
+
+    store.addBlog({
+      title,
+      tag: tag || "TECHNICAL INSIGHT",
+      readTime: readTime || "4 min read",
+      date: date || "September 2026",
+      description: description || title,
+      takeaway: takeaway || "Key engineering recommendation by JEPL specialists.",
+      image: image || "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=600&q=80",
+      content: content || description || title,
+    });
+
+    setTitle("");
+    setDescription("");
+    setTakeaway("");
+    setImage("");
+    setContent("");
+    setShowAddForm(false);
+  };
+
+  const handleDelete = (id: string, blogTitle: string) => {
+    if (confirm(`Are you sure you want to delete article "${blogTitle}"?`)) {
+      store.deleteBlog(id);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200/80 shadow-xs">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-xl bg-amber-50 text-[#D97706]">
+              <BookOpen className="size-5" />
+            </span>
+            <h3 className="text-xl font-black text-slate-900 tracking-tight">Blogs & Compliance Circulars</h3>
+          </div>
+          <p className="text-xs text-slate-500 mt-1">
+            Publish or remove technical blogs, compliance guidelines, and engineering insights.
+          </p>
+        </div>
+        <button
+          onClick={() => setShowAddForm(!showAddForm)}
+          className="px-5 py-2.5 rounded-2xl bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-extrabold tracking-wide flex items-center justify-center gap-2 transition cursor-pointer shadow-md shadow-amber-900/10"
+        >
+          <Plus className="size-4" />
+          <span>{showAddForm ? "Cancel Add" : "Add New Blog Article"}</span>
+        </button>
+      </div>
+
+      {showAddForm && (
+        <form onSubmit={handleAdd} className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-md space-y-4 animate-in fade-in slide-in-from-top-2">
+          <h4 className="font-extrabold text-base text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
+            <Plus className="size-4 text-[#D97706]" /> Create Blog Article
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Article Title *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g., Understanding RBI Physical Security Norms"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-amber-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Category Tag *</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g., COMPLIANCE & BANKING"
+                value={tag}
+                onChange={(e) => setTag(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-amber-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Read Time</label>
+              <input
+                type="text"
+                placeholder="e.g., 5 min read"
+                value={readTime}
+                onChange={(e) => setReadTime(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-amber-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Publication Date</label>
+              <input
+                type="text"
+                placeholder="e.g., September 17, 2026"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-amber-600 focus:bg-white"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Image URL</label>
+              <input
+                type="text"
+                placeholder="https://images.unsplash.com/..."
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-amber-600 focus:bg-white"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Short Description / Summary</label>
+            <textarea
+              rows={2}
+              placeholder="Short summary for the blog card..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full rounded-xl bg-slate-50 border border-slate-200 p-3.5 text-xs text-slate-900 focus:outline-none focus:border-amber-600 focus:bg-white"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Key Takeaway Box Text</label>
+            <input
+              type="text"
+              placeholder="e.g., Banks must calculate true H.265+ bitrate budgets..."
+              value={takeaway}
+              onChange={(e) => setTakeaway(e.target.value)}
+              className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-amber-600 focus:bg-white"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Full Article Body Content</label>
+            <textarea
+              rows={4}
+              placeholder="Full article content text..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full rounded-xl bg-slate-50 border border-slate-200 p-3.5 text-xs text-slate-900 focus:outline-none focus:border-amber-600 focus:bg-white"
+            />
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <button
+              type="submit"
+              className="px-6 py-3 rounded-2xl bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-extrabold tracking-wide flex items-center gap-2 cursor-pointer shadow-md"
+            >
+              <Save className="size-4" /> Publish Blog Article
+            </button>
+          </div>
+        </form>
+      )}
+
+      {/* List of Blog Posts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {blogs.map((item) => (
+          <div key={item.id} className="bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col justify-between group">
+            <div>
+              <div className="relative h-44 w-full bg-slate-900 overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=600&q=80";
+                  }}
+                />
+                <div className="absolute top-3 left-3 bg-[#D97706] text-white text-[9px] font-black uppercase px-2.5 py-1 rounded-md shadow-xs">
+                  {item.tag}
+                </div>
+                <div className="absolute bottom-3 left-3 bg-slate-950/80 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full backdrop-blur-xs">
+                  {item.date} • {item.readTime}
+                </div>
+              </div>
+
+              <div className="p-5 space-y-3">
+                <h4 className="font-extrabold text-base text-slate-900">{item.title}</h4>
+                <p className="text-xs text-slate-600 line-clamp-2">{item.description}</p>
+                {item.takeaway && (
+                  <div className="bg-amber-50 border border-amber-200/80 p-3 rounded-2xl text-[11px] text-amber-900 font-semibold">
+                    💡 {item.takeaway}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="p-5 pt-0 border-t border-slate-100 flex items-center justify-between mt-3">
+              <span className="text-[10px] font-mono text-slate-400">ID: {item.id}</span>
+              <button
+                onClick={() => handleDelete(item.id, item.title)}
+                className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+              >
+                <Trash2 className="size-3.5" /> Delete
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

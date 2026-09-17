@@ -123,9 +123,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        {!isAdminPage && <SiteHeader />}
-        <main><Outlet /></main>
-        {!isAdminPage && <SiteFooter />}
+        <div className="min-h-screen w-full max-w-full overflow-x-hidden flex flex-col bg-[#041321]">
+          {!isAdminPage && <SiteHeader />}
+          <main className="flex-1 w-full max-w-full overflow-x-hidden"><Outlet /></main>
+          {!isAdminPage && <SiteFooter />}
+        </div>
       </AuthProvider>
     </QueryClientProvider>
   );
