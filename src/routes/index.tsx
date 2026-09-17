@@ -10,14 +10,20 @@ import {
   ChevronRight,
   ChevronUp,
   Cloud,
+  Factory,
+  Flame,
   FolderKanban,
+  GraduationCap,
   Headphones,
+  Home as HomeIcon,
   Instagram,
+  Landmark,
   Linkedin,
   Lock,
   Mail,
   Network,
   Phone,
+  Plus,
   Quote,
   Radio,
   Settings,
@@ -28,12 +34,15 @@ import {
   User,
   Users,
   Video,
+  Volume2,
+  Warehouse,
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import cctvImage from "@/assets/gallery-2.jpg.asset.json";
+import aboutImage from "@/assets/about-image-3.jpg.asset.json";
 import eventImage from "@/assets/about-image-1.jpg.asset.json";
 import teamImage from "@/assets/about-image-2.jpg.asset.json";
-import { useAdminStore } from "@/lib/admin-store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -62,9 +71,9 @@ function HomePage() {
       <HeroSection />
       <AboutSection />
       <ServicesSection />
+      <BrandLogosSliderSection />
+      <IndustriesWeProtectSection />
       <ExpertTeamSection />
-      <CtaBannerSection />
-      <FaqSection />
     </div>
   );
 }
@@ -74,14 +83,30 @@ function HomePage() {
    ========================================================================= */
 function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const store = useAdminStore();
-  const slides = store.getHeroSlides();
+
+  const slides = [
+    {
+      image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=1600&auto=format&fit=crop",
+      alt: "IP CCTV & Security Systems",
+    },
+    {
+      image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1600&auto=format&fit=crop",
+      alt: "Network Infrastructure & Servers",
+    },
+    {
+      image: "/hero-slide-3.jpeg",
+      alt: "Jay Electronics Solutions",
+    },
+    {
+      image: "/hero-slide-4.jpeg",
+      alt: "Jay Electronics Inauguration Event",
+    },
+  ];
 
   // Auto slide transition every 6 seconds
   useEffect(() => {
-    if (slides.length === 0) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev: number) => (prev + 1) % slides.length);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(timer);
   }, [slides.length]);
@@ -112,9 +137,6 @@ function HeroSection() {
    2. ABOUT US SECTION
    ========================================================================= */
 function AboutSection() {
-  const store = useAdminStore();
-  const about = store.getAboutData();
-
   return (
     <section className="bg-slate-50/60 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
@@ -123,7 +145,7 @@ function AboutSection() {
           {/* Left Column: Building Image */}
           <div className="lg:col-span-6 overflow-hidden rounded-2xl shadow-md group">
             <img
-              src={about.buildingImage}
+              src="/about-building.png"
               alt="Jay Electronics Building Headquarters"
               className="w-full h-[320px] sm:h-[400px] object-cover object-center group-hover:scale-105 transition-transform duration-500"
             />
@@ -134,22 +156,24 @@ function AboutSection() {
             {/* Eyebrow Badge */}
             <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-100/90 px-3.5 py-1 text-xs font-bold text-sky-700 uppercase tracking-wider border border-sky-200">
               <Shield className="size-3.5" />
-              <span>{about.eyebrow}</span>
+              <span>ABOUT US</span>
             </div>
 
             {/* Main Heading */}
             <h2 className="text-3xl sm:text-4xl lg:text-4xl font-extrabold text-slate-900 leading-tight">
-              {about.heading}
+              Welcome to <br />
+              <span className="text-slate-900">JAY ELECTRONICS </span>
+              <span className="text-sky-500">PVT LTD</span>
             </h2>
 
             {/* Tagline */}
             <p className="text-xs sm:text-sm font-bold tracking-widest uppercase text-slate-500">
-              {about.tagline}
+              INNOVATIVE SOLUTIONS FOR A SAFER TOMORROW
             </p>
 
             {/* Description Paragraph */}
             <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              {about.description}
+              For more than three decades, JAY ELECTRONICS PRIVATE LIMITED has been delivering innovative technology solutions that help businesses, industries, educational institutions, hospitals, government organizations, and residential customers improve security, communication and operational efficiency.
             </p>
 
             {/* 4 Feature Badges Grid */}
@@ -189,16 +213,16 @@ function AboutSection() {
                 Meet Our Owner
               </h2>
               <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mt-1">
-                <span className="text-sky-500">{about.founderName}</span>
+                Mr. <span className="text-sky-500">Jayesh Patil</span>
               </h3>
               <p className="text-xs font-bold text-slate-500 tracking-wide uppercase mt-0.5">
-                {about.founderDesignation}
+                Founder &amp; Managing Director
               </p>
             </div>
 
             {/* Founder Description */}
             <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              {about.founderDescription}
+              With a vision to make advanced security and communication technology accessible to everyone, Mr. Jayesh Patil established JAY Electronics with a strong commitment to quality, innovation and customer satisfaction. His leadership and expertise continue to guide the company towards new milestones.
             </p>
 
             {/* Key Statistics */}
@@ -253,15 +277,15 @@ function AboutSection() {
           {/* Right Column: Founder Image with Card Badge Overlay */}
           <div className="lg:col-span-6 relative overflow-hidden rounded-2xl shadow-md group">
             <img
-              src={about.founderImage}
-              alt={about.founderName}
+              src="/about-owner.png"
+              alt="Mr. Jayesh Patil - Founder & Managing Director"
               className="w-full h-[360px] sm:h-[440px] object-cover object-top group-hover:scale-105 transition-transform duration-500"
             />
             {/* Overlay Badge */}
             <div className="absolute bottom-4 right-4 bg-slate-900/90 backdrop-blur-md px-5 py-3 rounded-2xl border border-slate-700/80 shadow-xl text-white">
-              <h4 className="text-sm font-bold text-white">{about.founderName}</h4>
-              <p className="text-[11px] text-sky-400 font-medium">{about.founderDesignation}</p>
-              <p className="text-[10px] text-slate-400 uppercase tracking-wider">{about.founderExperience}</p>
+              <h4 className="text-sm font-bold text-white">Mr. Jayesh Patil</h4>
+              <p className="text-[11px] text-sky-400 font-medium">Founder &amp; Managing Director</p>
+              <p className="text-[10px] text-slate-400 uppercase tracking-wider">JAY ELECTRONICS PVT LTD</p>
             </div>
           </div>
         </div>
@@ -271,39 +295,80 @@ function AboutSection() {
 }
 
 /* =========================================================================
-   3. WHAT WE DO (SERVICES) SECTION
+   3. WHAT WE CATER (SERVICES) SECTION - 6 CARD INTERACTIVE & COMPACT GRID
    ========================================================================= */
 function ServicesSection() {
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
+  const caterServices = [
+    {
+      id: 1,
+      title: "IP CCTV/Analog CCTV Solutions",
+      desc: "Choosing between IP CCTV and Analog CCTV solutions depends on your budget, clarity needs, and scale.",
+      icon: Shield,
+      badge: "✨ HD Surveillance",
+      gradient: "from-[#0F172A] via-[#1E40AF] to-[#06B6D4]",
+    },
+    {
+      id: 2,
+      title: "LAN/WAN Networking",
+      desc: "A Local Area Network (LAN) connects computers and devices seamlessly.",
+      icon: Network,
+      badge: "⚡ High Speed Gigabit",
+      gradient: "from-[#0F172A] via-[#1E40AF] to-[#06B6D4]",
+    },
+    {
+      id: 3,
+      title: "EPABX/IP-PBX System",
+      desc: "Communications is a Trader of the wide spectrum EPABX System.",
+      icon: Phone,
+      badge: "📞 Smart Voice & Data",
+      gradient: "from-[#0F172A] via-[#1E40AF] to-[#06B6D4]",
+    },
+    {
+      id: 4,
+      title: "Audio/Video Solutions",
+      desc: "We provide cost effective audio visual services for classroom, visual arts, communication.",
+      icon: Video,
+      badge: "🎥 Professional AV",
+      gradient: "from-[#0F172A] via-[#1E40AF] to-[#06B6D4]",
+    },
+    {
+      id: 5,
+      title: "Structured LAN/Telecom Cabling",
+      desc: "Structured LAN and telecom cabling is a planned system of wires, patch panels.",
+      icon: Settings,
+      badge: "🔌 Fiber & Copper Loop",
+      gradient: "from-[#0F172A] via-[#1E40AF] to-[#06B6D4]",
+    },
+    {
+      id: 6,
+      title: "ACTIVE LED BOARD System",
+      desc: "Technology is leading Outdoor LED Screen, Indoor LED Screen, Advertising LED display.",
+      icon: BarChart3,
+      badge: "📺 Digital LED Display",
+      gradient: "from-[#0F172A] via-[#1E40AF] to-[#06B6D4]",
+    },
+  ];
+
   return (
-    <section className="bg-gradient-to-b from-sky-50/50 via-slate-50 to-sky-50/30 py-20 sm:py-28 relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-        {/* Top Header Row with Corner Accents */}
-        <div className="relative mb-12 flex flex-col items-center justify-center text-center">
-          {/* Top Left Decorative Text */}
-          <div className="hidden lg:block absolute left-0 top-0 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 max-w-[150px] text-left leading-relaxed">
-            INNOVATIVE SOLUTIONS FOR A SAFER TOMORROW
-          </div>
-
-          {/* Top Right Decorative Cursive Accent */}
-          <div className="hidden lg:block absolute right-0 top-0 text-right">
-            <span className="font-serif italic text-lg sm:text-xl text-sky-600 font-semibold tracking-wide">
-              Technology for a Better Tomorrow
-            </span>
-          </div>
-
+    <section className="bg-gradient-to-b from-slate-50 via-sky-50/40 to-slate-50 py-14 sm:py-20 relative overflow-hidden select-none">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
+        <div className="relative mb-10 flex flex-col items-center justify-center text-center">
           {/* Eyebrow Badge */}
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-100/90 px-3.5 py-1 text-xs font-bold text-sky-700 uppercase tracking-widest border border-sky-200">
-            <FolderKanban className="size-3.5" />
-            <span>WHAT WE DO</span>
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-100/90 px-3.5 py-1 text-xs font-bold text-sky-700 uppercase tracking-widest border border-sky-200/80 shadow-xs mb-2.5">
+            <Shield className="size-3.5 text-sky-600" />
+            <span>WHAT WE CATER</span>
           </div>
 
-          {/* Main Section Title */}
-          <h2 className="mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl lg:text-5xl">
+          {/* Main Title */}
+          <h2 className="text-2xl font-extrabold text-slate-900 sm:text-3xl lg:text-4xl tracking-tight">
             JAY ELECTRONICS <span className="text-sky-500">PVT LTD</span>
           </h2>
 
-          {/* Subtitle Dots Row */}
-          <p className="mt-2 text-xs sm:text-sm font-bold tracking-widest uppercase text-slate-400 flex items-center justify-center gap-2">
+          <div className="mt-2 flex items-center justify-center gap-2 text-[11px] sm:text-xs font-extrabold tracking-widest uppercase text-slate-400">
             <span>SECURE</span>
             <span className="text-sky-400">•</span>
             <span>CONNECT</span>
@@ -311,228 +376,315 @@ function ServicesSection() {
             <span>COMMUNICATE</span>
             <span className="text-sky-400">•</span>
             <span>GROW</span>
+          </div>
+        </div>
+
+        {/* 6 Cards Compact Grid (3 columns x 2 rows) */}
+        <div className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 items-stretch">
+          {caterServices.map((service) => {
+            const isHovered = hoveredCard === service.id;
+            const isSelected = activeCard === service.id;
+            const isActive = isHovered || isSelected;
+            const IconComp = service.icon;
+
+            return (
+              <div
+                key={service.id}
+                onMouseEnter={() => setHoveredCard(service.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+                onClick={() => setActiveCard(service.id)}
+                className={`group relative rounded-2xl p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 cursor-pointer overflow-hidden min-h-[220px] ${
+                  isActive
+                    ? `bg-gradient-to-br ${service.gradient} text-white shadow-xl shadow-sky-500/25 scale-[1.02] border-2 border-cyan-300/80`
+                    : "bg-white text-slate-800 border border-slate-200/80 shadow-sm hover:shadow-lg"
+                }`}
+              >
+                {/* Glow Light Sweep Animation on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+
+                <div>
+                  {/* Top Vector Icon & Dynamic Badge */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div
+                      className={`size-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                        isActive
+                          ? "bg-white/20 text-white backdrop-blur-md border border-white/30 shadow-inner rotate-3 scale-105"
+                          : "bg-sky-50 text-sky-600 border border-sky-100 shadow-xs"
+                      }`}
+                    >
+                      <IconComp className="size-6" />
+                    </div>
+
+                    {/* Dynamic Floating Badge on Hover / Active */}
+                    <span
+                      className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full transition-all duration-300 ${
+                        isActive
+                          ? "bg-white/20 text-cyan-200 backdrop-blur-md border border-white/30 opacity-100 translate-y-0"
+                          : "bg-slate-100 text-slate-500 border border-slate-200 opacity-60"
+                      }`}
+                    >
+                      {service.badge}
+                    </span>
+                  </div>
+
+                  {/* Title & Description */}
+                  <div className="space-y-1.5">
+                    <h3
+                      className={`text-base font-extrabold leading-snug tracking-tight transition-colors ${
+                        isActive ? "text-white" : "text-slate-900 group-hover:text-sky-600"
+                      }`}
+                    >
+                      {service.title}
+                    </h3>
+                    <p
+                      className={`text-xs leading-relaxed ${
+                        isActive ? "text-sky-100/90 font-medium" : "text-slate-500 font-normal"
+                      }`}
+                    >
+                      {service.desc}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Bottom Action Row with Circular Arrow Button */}
+                <div className="mt-5 pt-3 flex items-center justify-between border-t border-transparent">
+                  <span
+                    className={`text-[11px] font-extrabold transition-colors ${
+                      isActive ? "text-cyan-200" : "text-slate-400 group-hover:text-sky-600"
+                    }`}
+                  >
+                    {isActive ? "Explore Service →" : "Learn More"}
+                  </span>
+
+                  <Link
+                    to="/services"
+                    onClick={(e) => e.stopPropagation()}
+                    aria-label={`Learn more about ${service.title}`}
+                    className={`flex size-8 items-center justify-center rounded-full transition-all duration-300 shadow-sm ${
+                      isActive
+                        ? "bg-white text-blue-700 hover:bg-cyan-300 hover:scale-110 shadow-cyan-400/50"
+                        : "bg-[#2563EB] text-white hover:bg-sky-500 hover:scale-110"
+                    }`}
+                  >
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================================
+   3.2 BRAND LOGOS AUTO SLIDER SECTION
+   ========================================================================= */
+function BrandLogosSliderSection() {
+  const brandLogos = [
+    { name: "CP PLUS", category: "CCTV & Security", color: "from-blue-600 to-indigo-700", logoText: "CP PLUS" },
+    { name: "Dahua Technology", category: "IP Surveillance", color: "from-red-600 to-rose-700", logoText: "DAHUA" },
+    { name: "Hikvision", category: "Smart Security", color: "from-[#C4161C] to-red-700", logoText: "HIKVISION" },
+    { name: "Matrix Comsec", category: "Telecom & EPABX", color: "from-cyan-600 to-blue-700", logoText: "MATRIX" },
+    { name: "Panasonic", category: "IP-PBX & Telephony", color: "from-blue-700 to-sky-800", logoText: "PANASONIC" },
+    { name: "Samsung", category: "Display & Security", color: "from-blue-800 to-indigo-900", logoText: "SAMSUNG" },
+    { name: "Sony", category: "AV & Camera Optics", color: "from-slate-900 to-slate-800", logoText: "SONY" },
+    { name: "Axis Communications", category: "Network Cameras", color: "from-amber-600 to-orange-700", logoText: "AXIS" },
+    { name: "Aditya Infotech", category: "Distribution Partner", color: "from-purple-700 to-indigo-800", logoText: "ADITYA" },
+    { name: "Bosch Security", category: "Fire & Access Control", color: "from-emerald-700 to-[#005691]", logoText: "BOSCH" },
+    { name: "Honeywell", category: "Automation & Safety", color: "from-red-700 to-rose-800", logoText: "HONEYWELL" },
+  ];
+
+  // Duplicate logos for seamless 360-degree marquee loop
+  const duplicatedLogos = [...brandLogos, ...brandLogos];
+
+  return (
+    <section className="bg-[#06143D] text-white py-12 sm:py-16 relative overflow-hidden select-none border-y border-slate-800">
+      <style>{`
+        @keyframes marqueeScroll {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-brand-marquee {
+          display: flex;
+          width: max-content;
+          animation: marqueeScroll 28s linear infinite;
+        }
+        .animate-brand-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
+      {/* Background Subtle Tech Pattern & Gradient Glow */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#030b24] via-[#081a4d] to-[#030b24] opacity-95 pointer-events-none" />
+      <div className="pointer-events-none absolute -top-24 left-1/4 size-96 bg-cyan-500/10 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 right-1/4 size-96 bg-sky-500/10 rounded-full blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 text-center">
+        {/* Eyebrow Badge */}
+        <div className="inline-flex items-center gap-2 rounded-full bg-cyan-950/90 border border-cyan-500/30 px-4 py-1.5 text-xs font-bold text-cyan-400 uppercase tracking-widest shadow-md">
+          <Award className="size-3.5 text-cyan-400" />
+          <span>AUTHORIZED DEALERS &amp; BRAND PARTNERS</span>
+        </div>
+
+        {/* Section Heading */}
+        <h2 className="mt-2.5 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+          Trusted Global Brands We Work With
+        </h2>
+        <p className="mt-1.5 text-xs sm:text-sm font-medium text-slate-300 max-w-2xl mx-auto">
+          We partner with leading global manufacturers to deliver genuine, high-performance security, networking and telecommunication hardware.
+        </p>
+      </div>
+
+      {/* Marquee Auto Slider Container */}
+      <div className="relative w-full overflow-hidden flex items-center py-2">
+        {/* Left & Right Gradient Blur Faders */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 sm:w-36 bg-gradient-to-r from-[#030b24] to-transparent z-20" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 sm:w-36 bg-gradient-to-l from-[#030b24] to-transparent z-20" />
+
+        {/* Continuous Track */}
+        <div className="animate-brand-marquee gap-5 sm:gap-7">
+          {duplicatedLogos.map((brand, idx) => (
+            <div
+              key={idx}
+              className="group relative flex-shrink-0 flex items-center gap-4 bg-slate-900/90 hover:bg-slate-800 border border-slate-700/70 hover:border-cyan-400/80 rounded-2xl px-5 py-3.5 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/20 cursor-pointer min-w-[210px] sm:min-w-[240px]"
+            >
+              {/* Brand Emblem Badge */}
+              <div className={`size-11 sm:size-12 rounded-xl bg-gradient-to-br ${brand.color} flex items-center justify-center text-white font-black text-xs sm:text-sm shadow-md tracking-wider border border-white/20 group-hover:scale-110 transition-transform duration-300 shrink-0`}>
+                {brand.logoText.slice(0, 3).toUpperCase()}
+              </div>
+
+              {/* Brand Name & Category */}
+              <div className="text-left">
+                <h3 className="text-sm sm:text-base font-extrabold text-white group-hover:text-cyan-400 transition-colors tracking-wide">
+                  {brand.name}
+                </h3>
+                <p className="text-[11px] font-semibold text-cyan-300/80 tracking-normal mt-0.5">
+                  {brand.category}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================================
+   3.5 INDUSTRIES WE PROTECT SECTION
+   ========================================================================= */
+function IndustriesWeProtectSection() {
+  const [hoveredCard, setHoveredCard] = useState<number | null>(1);
+
+  const industryCards = [
+    {
+      id: 1,
+      num: "01",
+      title: "Government & Municipal",
+      subtitle: "Public Safety & Infrastructure",
+      desc: "Smart city junctions, civic offices, safe city citywide command surveillance and multi-tier monitoring systems.",
+      icon: Landmark,
+      color: "from-rose-500 to-red-600",
+      activeStyle: "border-rose-500 shadow-xl shadow-rose-500/10 ring-2 ring-rose-400/40 -translate-y-2",
+    },
+    {
+      id: 2,
+      num: "02",
+      title: "Police & Law Enforcement",
+      subtitle: "High-Security Checkpoints",
+      desc: "HQ control rooms, jail security systems, ANPR highway checkpoints, and tactical surveillance feeds.",
+      icon: ShieldCheck,
+      color: "from-rose-500 to-red-600",
+      activeStyle: "border-rose-500 shadow-xl shadow-rose-500/10 ring-2 ring-rose-400/40 -translate-y-2",
+    },
+    {
+      id: 7,
+      num: "03",
+      title: "Commercial Real Estate",
+      subtitle: "Integrated Facility Security",
+      desc: "IT Parks, BMS integration, tenant billing intercoms, fire evacuation systems, and automated access controls.",
+      icon: Building2,
+      color: "from-rose-500 to-red-600",
+      activeStyle: "border-rose-500 shadow-xl shadow-rose-500/10 ring-2 ring-rose-400/40 -translate-y-2",
+    },
+  ];
+
+  return (
+    <section className="bg-gradient-to-b from-sky-50/40 via-rose-50/20 to-white py-16 sm:py-24 relative overflow-hidden font-sans border-t border-slate-100">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Top Header (Centered) */}
+        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12 sm:mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-rose-50 border border-rose-200">
+            <span className="text-xs font-bold text-rose-600 tracking-widest uppercase">
+              TAILORED SECURITY SOLUTIONS
+            </span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Industries We <span className="text-rose-600">Protect</span>
+          </h2>
+
+          <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
+            From smart cities to modern workplaces, we design security, surveillance, networking and communication solutions tailored for high-demand environments.
           </p>
         </div>
 
-        {/* 3 Service Cards Grid */}
-        <div className="grid gap-8 lg:grid-cols-3 items-stretch">
-          {/* CARD 01: IP CCTV / Analog CCTV Solutions (White Card) */}
-          <div className="group relative rounded-3xl bg-white p-7 sm:p-8 shadow-xl shadow-slate-200/70 border border-slate-100 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl">
-            {/* Top Row: Icon & Number 01 */}
-            <div>
-              <div className="flex items-start justify-between">
-                <div className="flex size-14 items-center justify-center rounded-2xl bg-sky-100/80 text-sky-600 shadow-xs">
-                  <Video className="size-7" />
-                </div>
-                <div className="text-right">
-                  <span className="text-sm font-bold text-sky-500 border-b-2 border-sky-400 pb-0.5">01</span>
-                </div>
-              </div>
+        {/* 3 Industry Cards Horizontal Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+          {industryCards.map((item) => {
+            const IconComponent = item.icon;
+            const isHovered = hoveredCard === item.id;
 
-              {/* Title & Description with Product Image Float */}
-              <div className="mt-6 grid grid-cols-12 gap-3 items-center">
-                <div className="col-span-7">
-                  <h3 className="text-lg font-bold text-slate-900 leading-snug">
-                    IP CCTV / Analog CCTV Solutions
+            return (
+              <div
+                key={item.id}
+                onMouseEnter={() => setHoveredCard(item.id)}
+                className={`group relative bg-white p-6 sm:p-8 rounded-3xl border transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                  isHovered
+                    ? item.activeStyle
+                    : "border-slate-200/80 shadow-sm hover:border-rose-300 hover:shadow-md"
+                }`}
+              >
+                <div>
+                  {/* Top Header: Icon Box & Card Number */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div
+                      className={`size-13 sm:size-14 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                        isHovered
+                          ? "bg-rose-600 text-white shadow-lg shadow-rose-500/30 scale-105"
+                          : "bg-rose-100/80 text-rose-700"
+                      }`}
+                    >
+                      <IconComponent className="size-6 sm:size-7" />
+                    </div>
+                    <span className="text-xs font-bold text-slate-400 font-mono tracking-widest">
+                      {item.num}
+                    </span>
+                  </div>
+
+                  {/* Card Title & Description */}
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 mb-3 leading-snug group-hover:text-rose-600 transition-colors">
+                    {item.title}
                   </h3>
-                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
-                    Choosing the right CCTV solution depends on your budget, clarity needs, and scale. We provide reliable and high-quality surveillance systems for homes, businesses and industries.
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    {item.desc}
                   </p>
                 </div>
-                {/* Product Cutout Image */}
-                <div className="col-span-5 relative">
-                  <img
-                    src="/service-cctv.png"
-                    alt="IP CCTV Bullet Camera"
-                    className="w-full h-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
-                  />
+
+                {/* Explore Link Action */}
+                <div className="mt-8 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-rose-600 group-hover:text-rose-600">
+                  <span className="group-hover:translate-x-0.5 transition-transform">
+                    Explore Solution
+                  </span>
+                  <div className="size-8 rounded-full bg-rose-50 group-hover:bg-rose-600 group-hover:text-white flex items-center justify-center transition-all duration-300">
+                    <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
                 </div>
               </div>
-
-              {/* Bottom 3 Feature Micro Badges */}
-              <div className="mt-6 flex flex-wrap gap-2">
-                <div className="flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-[11px] font-semibold text-slate-700 border border-sky-100">
-                  <Video className="size-3.5 text-sky-500" />
-                  <span>High Resolution</span>
-                </div>
-                <div className="flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-[11px] font-semibold text-slate-700 border border-sky-100">
-                  <Cloud className="size-3.5 text-sky-500" />
-                  <span>Remote Monitoring</span>
-                </div>
-                <div className="flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-[11px] font-semibold text-slate-700 border border-sky-100">
-                  <ShieldCheck className="size-3.5 text-sky-500" />
-                  <span>24/7 Security</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Row */}
-            <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
-              <Link
-                to="/services"
-                className="text-xs font-bold text-slate-800 hover:text-sky-600 transition"
-              >
-                Learn More
-              </Link>
-              <Link
-                to="/services"
-                aria-label="Learn More about CCTV"
-                className="flex size-9 items-center justify-center rounded-full bg-sky-50 text-sky-600 border border-sky-200 hover:bg-sky-500 hover:text-white hover:border-sky-500 transition shadow-xs"
-              >
-                <ArrowRight className="size-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* CARD 02: LAN / WAN Networking (Active Glowing Center Card) */}
-          <div className="group relative rounded-3xl bg-gradient-to-br from-[#061e3d] via-[#092d5c] to-[#0c4083] p-7 sm:p-8 text-white shadow-2xl shadow-sky-500/30 border-2 border-cyan-400 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5">
-            {/* Ambient Background Glow Effect */}
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-600 opacity-20 blur-lg group-hover:opacity-40 transition pointer-events-none" />
-
-            {/* Top Row: Icon & Number 02 */}
-            <div className="relative z-10">
-              <div className="flex items-start justify-between">
-                <div className="flex size-14 items-center justify-center rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-400/40 shadow-sm">
-                  <Network className="size-7" />
-                </div>
-                <div className="text-right">
-                  <span className="text-sm font-bold text-cyan-400 border-b-2 border-cyan-400 pb-0.5">02</span>
-                </div>
-              </div>
-
-              {/* Title & Description with Product Image Float */}
-              <div className="mt-6 grid grid-cols-12 gap-3 items-center">
-                <div className="col-span-7">
-                  <h3 className="text-lg font-bold text-white leading-snug">
-                    LAN / WAN Networking
-                  </h3>
-                  <p className="mt-2 text-xs text-sky-100/90 leading-relaxed">
-                    IP and LAN-WAN Network Cables connect systems and devices seamlessly with total high-speed performance. We design and implement secure and scalable network infrastructures.
-                  </p>
-                </div>
-                {/* Product Cutout Image */}
-                <div className="col-span-5 relative">
-                  <img
-                    src="/service-network.png"
-                    alt="LAN WAN Network Switch Router"
-                    className="w-full h-auto object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              </div>
-
-              {/* Bottom 3 Feature Micro Badges */}
-              <div className="mt-6 flex flex-wrap gap-2">
-                <div className="flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-cyan-300 border border-white/15">
-                  <Zap className="size-3.5 text-cyan-400" />
-                  <span>High Speed Connectivity</span>
-                </div>
-                <div className="flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-cyan-300 border border-white/15">
-                  <Settings className="size-3.5 text-cyan-400" />
-                  <span>Scalable Infrastructure</span>
-                </div>
-                <div className="flex items-center gap-1.5 rounded-full bg-white/10 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-cyan-300 border border-white/15">
-                  <BarChart3 className="size-3.5 text-cyan-400" />
-                  <span>Reliable Performance</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Row */}
-            <div className="relative z-10 mt-8 flex items-center justify-between border-t border-white/15 pt-5">
-              <Link
-                to="/services"
-                className="text-xs font-bold text-white hover:text-cyan-300 transition"
-              >
-                Learn More
-              </Link>
-              <Link
-                to="/services"
-                aria-label="Learn More about Networking"
-                className="flex size-9 items-center justify-center rounded-full bg-cyan-500 text-slate-950 hover:bg-cyan-400 transition shadow-lg shadow-cyan-500/50"
-              >
-                <ArrowRight className="size-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* CARD 03: EPABX / IP-PBX System (White Card) */}
-          <div className="group relative rounded-3xl bg-white p-7 sm:p-8 shadow-xl shadow-slate-200/70 border border-slate-100 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl">
-            {/* Top Row: Icon & Number 03 */}
-            <div>
-              <div className="flex items-start justify-between">
-                <div className="flex size-14 items-center justify-center rounded-2xl bg-sky-100/80 text-sky-600 shadow-xs">
-                  <Phone className="size-7" />
-                </div>
-                <div className="text-right">
-                  <span className="text-sm font-bold text-sky-500 border-b-2 border-sky-400 pb-0.5">03</span>
-                </div>
-              </div>
-
-              {/* Title & Description with Product Image Float */}
-              <div className="mt-6 grid grid-cols-12 gap-3 items-center">
-                <div className="col-span-7">
-                  <h3 className="text-lg font-bold text-slate-900 leading-snug">
-                    EPABX / IP-PBX System
-                  </h3>
-                  <p className="mt-2 text-xs text-slate-600 leading-relaxed">
-                    Communication solution provider of wide spectrum EPABX System providing wireless protocols for voice and data exchange. Stay connected with smart and efficient communication systems.
-                  </p>
-                </div>
-                {/* Product Cutout Image */}
-                <div className="col-span-5 relative">
-                  <img
-                    src="/service-epabx.png"
-                    alt="EPABX IP PBX Telephone System"
-                    className="w-full h-auto object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              </div>
-
-              {/* Bottom 3 Feature Micro Badges */}
-              <div className="mt-6 flex flex-wrap gap-2">
-                <div className="flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-[11px] font-semibold text-slate-700 border border-sky-100">
-                  <Users className="size-3.5 text-sky-500" />
-                  <span>Crystal Clear Communication</span>
-                </div>
-                <div className="flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-[11px] font-semibold text-slate-700 border border-sky-100">
-                  <Radio className="size-3.5 text-sky-500" />
-                  <span>Wireless Protocols</span>
-                </div>
-                <div className="flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1 text-[11px] font-semibold text-slate-700 border border-sky-100">
-                  <Sliders className="size-3.5 text-sky-500" />
-                  <span>Easy Management</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Row */}
-            <div className="mt-8 flex items-center justify-between border-t border-slate-100 pt-5">
-              <Link
-                to="/services"
-                className="text-xs font-bold text-slate-800 hover:text-sky-600 transition"
-              >
-                Learn More
-              </Link>
-              <Link
-                to="/services"
-                aria-label="Learn More about EPABX"
-                className="flex size-9 items-center justify-center rounded-full bg-sky-50 text-sky-600 border border-sky-200 hover:bg-sky-500 hover:text-white hover:border-sky-500 transition shadow-xs"
-              >
-                <ArrowRight className="size-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Floating CTA Button */}
-        <div className="mt-14 flex justify-center">
-          <Link
-            to="/services"
-            className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-sky-500 via-blue-600 to-cyan-500 px-8 py-3.5 text-sm font-bold text-white shadow-xl shadow-sky-500/30 hover:shadow-2xl hover:scale-105 transition duration-300"
-          >
-            <span>Explore All Services</span>
-            <ArrowRight className="size-4" />
-          </Link>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -545,16 +697,48 @@ function ServicesSection() {
 function ExpertTeamSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const store = useAdminStore();
-  const teamMembers = store.getTeamMembers();
+
+  const teamMembers = [
+    {
+      id: 1,
+      name: "Mr. Jayesh Patil",
+      role: "Managing Director",
+      image: "/team-1.png",
+    },
+    {
+      id: 2,
+      name: "Rajesh Shinde",
+      role: "Security Head",
+      image: "/team-2.png",
+    },
+    {
+      id: 3,
+      name: "Ananya Sharma",
+      role: "CCTV Analyst",
+      image: "/team-3.png",
+    },
+    {
+      id: 4,
+      name: "Vikram Malhotra",
+      role: "Network Architect",
+      image: "/team-4.png",
+    },
+    {
+      id: 5,
+      name: "Priya Deshmukh",
+      role: "Incident Responder",
+      image: "/team-5.png",
+    },
+  ];
+
   const total = teamMembers.length;
 
   const nextSlide = () => {
-    setActiveIndex((prev: number) => (prev + 1) % total);
+    setActiveIndex((prev) => (prev + 1) % total);
   };
 
   const prevSlide = () => {
-    setActiveIndex((prev: number) => (prev - 1 + total) % total);
+    setActiveIndex((prev) => (prev - 1 + total) % total);
   };
 
   // Auto slide every 4.5 seconds
@@ -737,181 +921,9 @@ function ExpertTeamSection() {
           ))}
         </div>
       </div>
-    </section>
-  );
-}
 
-/* =========================================================================
-   5. CTA BANNER SECTION (PROTECT BUSINESS)
-   ========================================================================= */
-function CtaBannerSection() {
-  return (
-    <section className="bg-white py-12 sm:py-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-3xl shadow-2xl grid lg:grid-cols-12">
-          {/* Left Dark Blue Half */}
-          <div className="lg:col-span-6 bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 p-8 sm:p-12 text-white flex flex-col justify-between">
-            <div>
-              <h2 className="text-2xl sm:text-4xl font-extrabold leading-tight">
-                Protect business, Intelligence security solution today!
-              </h2>
-            </div>
-
-            {/* Contact Pills */}
-            <div className="mt-8 flex flex-wrap gap-4">
-              {/* Phone Pill */}
-              <a
-                href="tel:+919422407175"
-                className="flex items-center gap-3 rounded-full bg-white/10 px-5 py-2.5 text-xs font-semibold backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
-              >
-                <div className="flex size-7 items-center justify-center rounded-full bg-sky-500 text-white">
-                  <Phone className="size-3.5" />
-                </div>
-                <div>
-                  <span className="block text-[10px] text-sky-300 uppercase font-medium">
-                    GET A CONSULTATION
-                  </span>
-                  <span className="font-bold text-white">+91 9422407175</span>
-                </div>
-              </a>
-
-              {/* Email Pill */}
-              <a
-                href="mailto:info@jayelectronics.co.in"
-                className="flex items-center gap-3 rounded-full bg-white/10 px-5 py-2.5 text-xs font-semibold backdrop-blur-md border border-white/20 hover:bg-white/20 transition"
-              >
-                <div className="flex size-7 items-center justify-center rounded-full bg-cyan-400 text-slate-950">
-                  <Mail className="size-3.5" />
-                </div>
-                <div>
-                  <span className="block text-[10px] text-cyan-300 uppercase font-medium">
-                    SEND US EMAIL
-                  </span>
-                  <span className="font-bold text-white">info@jayelectronics.co.in</span>
-                </div>
-              </a>
-            </div>
-          </div>
-
-          {/* Right Cyan Half with Image Mockup */}
-          <div className="lg:col-span-6 bg-gradient-to-r from-sky-400 via-cyan-400 to-sky-500 p-8 sm:p-12 flex items-center justify-center relative min-h-[260px]">
-            <div className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white p-3 shadow-2xl border border-white/40 transform hover:scale-102 transition duration-300">
-              <img
-                src={teamImage.url}
-                alt="Security Solution Monitoring Interface"
-                className="h-52 w-full object-cover rounded-xl"
-              />
-              <div className="mt-3 flex items-center justify-between px-2">
-                <span className="text-xs font-bold text-slate-900">
-                  Protect business, Intelligence security solution today!
-                </span>
-                <span className="flex size-3 rounded-full bg-sky-500 animate-ping" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =========================================================================
-   6. FAQ SECTION
-   ========================================================================= */
-function FaqSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const faqs = [
-    {
-      question: "What is Specialized Audio / Visual (AV) Integration?",
-      answer:
-        "Design, program and commission custom AV solutions for enhanced communication and events across meeting rooms, classrooms, and boardrooms.",
-    },
-    {
-      question: "Specialized Audio / Visual Solutions Important?",
-      answer:
-        "Specialized AV systems streamline corporate presentations, distance learning, and high-clarity teleconferencing with robust acoustic & video control.",
-    },
-    {
-      question: "Why Partner With Us?",
-      answer:
-        "Jay Electronics brings over 35 years of engineering experience, complete turnkey installation, and dedicated post-sales support for long-term reliability.",
-    },
-    {
-      question: "What is the Network & Infrastructure System Integration?",
-      answer:
-        "Structured LAN/WAN cabling, fibre backbones, active switching, and server infrastructure designed for scalable high-speed communications.",
-    },
-  ];
-
-  return (
-    <section className="bg-[#f8fafc] py-20 sm:py-28">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-start gap-12 lg:grid-cols-12">
-          {/* Left Side: Header & Graphic Mockup */}
-          <div className="lg:col-span-5">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-sky-100 px-3.5 py-1 text-xs font-bold text-sky-700 uppercase tracking-widest border border-sky-200">
-              <Shield className="size-3.5" />
-              <span>FAQ</span>
-            </div>
-            <h2 className="mt-4 text-3xl font-extrabold text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
-              Frequently Asked <br />
-              <span className="text-sky-600">Questions</span>
-            </h2>
-
-            {/* Graphic Card Mockup */}
-            <div className="mt-8 overflow-hidden rounded-3xl bg-white p-4 shadow-xl border border-slate-200/80">
-              <div className="relative overflow-hidden rounded-2xl bg-slate-950 h-56 sm:h-64">
-                <img
-                  src={eventImage.url}
-                  alt="Security engineer reviewing FAQ"
-                  className="h-full w-full object-cover opacity-80"
-                />
-                <div className="absolute top-4 left-4 bg-gradient-to-r from-sky-500 to-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                  Frequently Asked Questions
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side: Accordion Items */}
-          <div className="lg:col-span-7 space-y-4">
-            {faqs.map((faq, idx) => {
-              const isOpen = openIndex === idx;
-              return (
-                <div
-                  key={idx}
-                  className={`rounded-2xl transition-all duration-300 overflow-hidden ${
-                    isOpen
-                      ? "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-xl shadow-sky-500/20 p-6"
-                      : "bg-white text-slate-900 border border-slate-200/80 p-6 hover:border-slate-300 shadow-sm"
-                  }`}
-                >
-                  <button
-                    onClick={() => setOpenIndex(isOpen ? null : idx)}
-                    className="flex w-full items-center justify-between gap-4 text-left font-bold text-base sm:text-lg focus:outline-none"
-                  >
-                    <span>{faq.question}</span>
-                    <div
-                      className={`flex size-8 shrink-0 items-center justify-center rounded-full transition-transform ${
-                        isOpen ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
-                      }`}
-                    >
-                      {isOpen ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
-                    </div>
-                  </button>
-
-                  {isOpen && (
-                    <p className="mt-4 text-sm sm:text-base leading-relaxed text-sky-50 font-normal">
-                      {faq.answer}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      {/* Bottom Glowing Divider Bar to separate cleanly from Footer */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-lg shadow-cyan-400/60" />
     </section>
   );
 }

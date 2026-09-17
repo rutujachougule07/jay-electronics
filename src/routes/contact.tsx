@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CheckCircle2, Clock, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { adminStore } from "@/lib/admin-store";
+import { submitContactInquiryToFirestore } from "@/lib/firestore-service";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -72,9 +73,11 @@ const OFFICES: OfficeInfo[] = [
 
 function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const formData = new FormData(e.currentTarget);
     const name = (formData.get("name") as string) || "Anonymous Customer";
     const phone = (formData.get("phone") as string) || "Not provided";
@@ -82,14 +85,23 @@ function ContactPage() {
     const office = (formData.get("office") as string) || "Sangli HQ & Central Depot";
     const message = (formData.get("message") as string) || "No message provided";
 
-    adminStore.addInquiry({
+    const inquiryPayload = {
       name,
       email,
       phone,
       subject: `Technical Inquiry for ${office}`,
       message,
-    });
+    };
 
+    try {
+      await submitContactInquiryToFirestore(inquiryPayload);
+    } catch (err) {
+      console.warn("Firestore save fallback to local store:", err);
+    }
+
+    adminStore.addInquiry(inquiryPayload);
+
+    setIsSubmitting(false);
     setSubmitted(true);
   };
 

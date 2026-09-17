@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
+import { AuthProvider } from "../lib/auth-context";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteFooter, SiteHeader } from "../components/site-shell";
@@ -121,9 +122,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {!isAdminPage && <SiteHeader />}
-      <main><Outlet /></main>
-      {!isAdminPage && <SiteFooter />}
+      <AuthProvider>
+        {!isAdminPage && <SiteHeader />}
+        <main><Outlet /></main>
+        {!isAdminPage && <SiteFooter />}
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

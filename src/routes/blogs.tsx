@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Clock } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { subscribeBlogsFromFirestore, type BlogPostDoc } from "@/lib/firestore-service";
 
 export const Route = createFileRoute("/blogs")({
   head: () => ({
@@ -69,13 +70,38 @@ const BLOG_POSTS: BlogPost[] = [
 
 function BlogsPage() {
   const [selectedTag, setSelectedTag] = useState("All");
+  const [firestoreBlogs, setFirestoreBlogs] = useState<BlogPostDoc[]>([]);
 
-  const tags = ["All", "COMPLIANCE & BANKING", "NETWORKING & FIBER", "SMART CITY & AI"];
+  useEffect(() => {
+    const unsub = subscribeBlogsFromFirestore((items) => {
+      if (items && items.length > 0) {
+        setFirestoreBlogs(items);
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  const combinedPosts: BlogPost[] = firestoreBlogs.length > 0
+    ? firestoreBlogs.map((b) => ({
+        id: b.id,
+        tag: b.category || "GENERAL",
+        readTime: b.readTime || "5 min read",
+        title: b.title,
+        description: b.excerpt || b.content,
+        takeaway: b.excerpt || "Engineering insights by Jay Electronics.",
+        date: b.date || "Recent",
+      }))
+    : BLOG_POSTS;
+
+  const tags = [
+    "All",
+    ...Array.from(new Set(combinedPosts.map((p) => p.tag))),
+  ];
 
   const filteredPosts =
     selectedTag === "All"
-      ? BLOG_POSTS
-      : BLOG_POSTS.filter((p) => p.tag === selectedTag);
+      ? combinedPosts
+      : combinedPosts.filter((p) => p.tag === selectedTag);
 
   return (
     <div className="bg-[#F8FAFC] text-slate-800 font-sans antialiased min-h-screen py-8 sm:py-12">

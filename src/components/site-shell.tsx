@@ -13,8 +13,10 @@ import {
   Send,
   Shield,
   Twitter,
+  User,
 } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "../lib/auth-context";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -132,6 +134,15 @@ export function SiteHeader() {
               >
                 <Search className="size-4.5" />
               </button>
+
+              {/* Auth / Login Button */}
+              <Link
+                to="/auth"
+                className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-4 py-2 text-xs font-semibold text-slate-200 hover:text-white hover:border-slate-500 transition"
+              >
+                <User className="size-3.5 text-cyan-400" />
+                <span>Account</span>
+              </Link>
 
               {/* Contact Button */}
               <Link
