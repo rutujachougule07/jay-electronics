@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckCircle2, Clock, Mail, MapPin, Phone, Send } from "lucide-react";
+import { CheckCircle2, Clock, Mail, MapPin, Phone, PhoneCall, Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { adminStore } from "@/lib/admin-store";
 import { submitContactInquiryToFirestore } from "@/lib/firestore-service";
@@ -7,13 +7,13 @@ import { submitContactInquiryToFirestore } from "@/lib/firestore-service";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Regional Engineering Hubs | Jay Electronics" },
+      { title: "Contact Our Offices | Jay Electronics Private Limited" },
       {
         name: "description",
         content:
-          "Direct access to senior system engineers, emergency field technicians, and our central testing depots in Sangli, Kolhapur, and Pune.",
+          "Find the nearest Jay Electronics office to connect with our engineering team in Sangli, Kolhapur, and Pune.",
       },
-      { property: "og:title", content: "Contact Engineering Hubs | Jay Electronics" },
+      { property: "og:title", content: "Contact Our Offices | Jay Electronics" },
       {
         property: "og:description",
         content: "Connect with Jay Electronics regional offices in Sangli, Kolhapur, and Pune.",
@@ -33,6 +33,8 @@ interface OfficeInfo {
   hours: string;
   callLabel: string;
   phoneHref: string;
+  image: string;
+  delayMs: string;
 }
 
 const OFFICES: OfficeInfo[] = [
@@ -46,6 +48,9 @@ const OFFICES: OfficeInfo[] = [
     hours: "Mon-Sat 9:30 AM - 7:00 PM",
     callLabel: "Call Sangli Desk",
     phoneHref: "tel:+912332300000",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+    delayMs: "0ms",
   },
   {
     id: "kolhapur",
@@ -57,6 +62,9 @@ const OFFICES: OfficeInfo[] = [
     hours: "Mon-Sat 9:30 AM - 7:00 PM",
     callLabel: "Call Kolhapur Desk",
     phoneHref: "tel:+912312650000",
+    image:
+      "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=800&q=80",
+    delayMs: "120ms",
   },
   {
     id: "pune",
@@ -68,6 +76,9 @@ const OFFICES: OfficeInfo[] = [
     hours: "Mon-Sat 9:30 AM - 7:00 PM",
     callLabel: "Call Pune Desk",
     phoneHref: "tel:+912025600000",
+    image:
+      "https://images.unsplash.com/photo-1554469384-e58fac16e23a?auto=format&fit=crop&w=800&q=80",
+    delayMs: "240ms",
   },
 ];
 
@@ -106,102 +117,128 @@ function ContactPage() {
   };
 
   return (
-    <div className="bg-[#F8FAFC] text-slate-800 font-sans antialiased min-h-screen py-8 sm:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div className="bg-[#F7F9FC] text-[#101828] font-sans antialiased min-h-screen py-10 sm:py-16 relative overflow-hidden">
+      {/* Decorative Subtle Background Glow Elements */}
+      <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-sky-200/30 via-red-100/20 to-transparent blur-3xl pointer-events-none rounded-full" />
+      <div className="absolute top-96 right-10 w-[400px] h-[400px] bg-blue-100/30 blur-3xl pointer-events-none rounded-full" />
+
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
         {/* =========================================================================
-           SECTION 1: TOP BREADCRUMB & REGIONAL OFFICES GRID (IMAGE 1)
+           HERO / SECTION HEADER (CENTERED DESIGN MATCHING REFERENCE)
            ========================================================================= */}
-        <div className="space-y-8">
-          {/* Breadcrumb & Header */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
-              <Link to="/" className="text-slate-500 hover:text-slate-800">
-                Home
-              </Link>
-              <span className="text-slate-300">/</span>
-              <span className="text-[#DC2626]">CONTACT OFFICES</span>
-            </div>
-
-            <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-              Connect with Our Engineering Hubs
-            </h1>
-
-            <p className="text-slate-600 text-sm sm:text-base max-w-3xl font-normal leading-relaxed">
-              Direct access to senior system engineers, emergency field technicians, and our central testing depots in Sangli, Kolhapur, and Pune.
-            </p>
+        <div className="text-center space-y-3 max-w-2xl mx-auto animate-in fade-in slide-in-from-top-4 duration-700">
+          <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[#EF233C] bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
+            <span>OUR OFFICES</span>
           </div>
 
-          {/* 3 Regional Office Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {OFFICES.map((office) => (
-              <div
-                key={office.id}
-                className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-md transition duration-300 flex flex-col justify-between space-y-6"
-              >
+          <h1 className="text-3xl sm:text-5xl font-black text-[#101828] tracking-tight leading-tight">
+            Contact Our Offices
+          </h1>
+
+          <p className="text-[#667085] text-sm sm:text-base font-normal leading-relaxed">
+            Find the nearest Jay Electronics office to connect with our team.
+            <br className="hidden sm:inline" /> We’re always ready to support you.
+          </p>
+        </div>
+
+        {/* =========================================================================
+           THREE OFFICE CARDS (MATCHING REFERENCE LAYOUT & CARDS STYLING)
+           ========================================================================= */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+          {OFFICES.map((office) => (
+            <div
+              key={office.id}
+              style={{ animationDelay: office.delayMs }}
+              className="bg-white border border-[#E4E7EC] rounded-[22px] shadow-xs hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between overflow-hidden group cursor-pointer animate-in fade-in slide-in-from-bottom-6"
+            >
+              {/* Card Header Image (30-35% Height with smooth hover zoom) */}
+              <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100">
+                <img
+                  src={office.image}
+                  alt={office.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+              </div>
+
+              {/* Card Body Content */}
+              <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-6">
                 <div className="space-y-4">
-                  {/* Badge */}
-                  <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[#DC2626]">
-                    <MapPin className="size-3.5 shrink-0 text-[#DC2626]" />
+                  {/* Location Red Icon + Category Badge */}
+                  <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#EF233C]">
+                    <MapPin className="size-4 shrink-0 text-[#EF233C]" />
                     <span>{office.badge}</span>
                   </div>
 
-                  {/* Title & Address */}
-                  <div className="space-y-1">
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                      {office.title}
-                    </h2>
-                    <p className="text-xs text-slate-500 leading-relaxed">
-                      {office.address}
-                    </p>
-                  </div>
+                  {/* Office Name Title */}
+                  <h2 className="text-xl sm:text-2xl font-black text-[#101828] group-hover:text-[#EF233C] transition-colors leading-tight">
+                    {office.title}
+                  </h2>
 
-                  {/* Contact Details List */}
-                  <div className="space-y-2.5 pt-2 text-xs font-medium text-slate-700">
+                  {/* Details List */}
+                  <div className="space-y-3 pt-1 text-xs sm:text-sm font-medium text-[#101828]">
+                    {/* Address */}
+                    <div className="flex items-start gap-2.5 text-[#667085]">
+                      <MapPin className="size-4 text-slate-400 shrink-0 mt-0.5" />
+                      <span className="leading-relaxed">{office.address}</span>
+                    </div>
+
+                    {/* Phone */}
                     <div className="flex items-center gap-2.5">
-                      <Phone className="size-4 text-[#DC2626] shrink-0" />
-                      <a href={office.phoneHref} className="hover:text-slate-900 font-bold">
+                      <Phone className="size-4 text-[#EF233C] shrink-0" />
+                      <a
+                        href={office.phoneHref}
+                        className="hover:text-[#EF233C] font-bold text-[#101828] transition-colors"
+                      >
                         {office.phone}
                       </a>
                     </div>
 
+                    {/* Email */}
                     <div className="flex items-center gap-2.5">
-                      <Mail className="size-4 text-[#DC2626] shrink-0" />
-                      <a href={`mailto:${office.email}`} className="hover:text-slate-900">
+                      <Mail className="size-4 text-[#EF233C] shrink-0" />
+                      <a
+                        href={`mailto:${office.email}`}
+                        className="hover:text-[#EF233C] text-[#667085] transition-colors"
+                      >
                         {office.email}
                       </a>
                     </div>
 
-                    <div className="flex items-center gap-2.5">
+                    {/* Working Hours */}
+                    <div className="flex items-center gap-2.5 text-[#667085]">
                       <Clock className="size-4 text-slate-400 shrink-0" />
-                      <span className="text-slate-500">{office.hours}</span>
+                      <span>{office.hours}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Call Button */}
+                {/* Bottom CTA Button */}
                 <a
                   href={office.phoneHref}
-                  className="w-full py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-800 text-xs font-extrabold text-center transition duration-200 block shadow-xs"
+                  className="w-full py-3.5 px-4 rounded-xl bg-[#071B3A] hover:bg-[#0E2A56] active:bg-[#051227] text-white font-bold text-xs sm:text-sm tracking-wide shadow-md shadow-[#071B3A]/20 transition-all duration-200 flex items-center justify-center gap-2.5 group/btn"
                 >
-                  {office.callLabel}
+                  <PhoneCall className="size-4 text-white group-hover/btn:scale-110 transition-transform" />
+                  <span>{office.callLabel}</span>
                 </a>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         {/* =========================================================================
-           SECTION 2: TECHNICAL INQUIRY FORM CARD (IMAGE 2)
+           TECHNICAL INQUIRY FORM CARD (INSPECTED & PRESERVED)
            ========================================================================= */}
-        <div className="bg-white border border-slate-200/90 rounded-3xl p-8 sm:p-12 shadow-sm max-w-4xl mx-auto space-y-8">
+        <div className="bg-white border border-[#E4E7EC] rounded-[24px] p-8 sm:p-12 shadow-sm max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-1.5">
-            <div className="text-xs font-black uppercase tracking-widest text-[#DC2626]">
+            <div className="text-xs font-black uppercase tracking-widest text-[#EF233C]">
               DIRECT ENGINEERING CORRESPONDENCE
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#101828] tracking-tight">
               Send a Technical Inquiry
             </h2>
-            <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto font-normal">
+            <p className="text-xs sm:text-sm text-[#667085] max-w-xl mx-auto font-normal">
               Your request will be routed directly to the regional lead engineer for immediate follow-up.
             </p>
           </div>
@@ -209,7 +246,7 @@ function ContactPage() {
           {submitted ? (
             <div className="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-8 text-center space-y-4">
               <CheckCircle2 className="size-12 text-emerald-600 mx-auto" />
-              <h3 className="text-xl font-extrabold text-slate-900">
+              <h3 className="text-xl font-extrabold text-[#101828]">
                 Technical Inquiry Submitted Successfully!
               </h3>
               <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
@@ -228,28 +265,28 @@ function ContactPage() {
               {/* Row 1: Full Name & Phone Number */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800">
-                    Your Full Name <span className="text-red-500">*</span>
+                  <label className="text-xs font-bold text-[#101828]">
+                    Your Full Name <span className="text-[#EF233C]">*</span>
                   </label>
                   <input
                     type="text"
                     name="name"
                     required
                     placeholder="e.g. Sunil Patil"
-                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3 px-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium"
+                    className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] py-3 px-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800">
-                    Phone Number <span className="text-red-500">*</span>
+                  <label className="text-xs font-bold text-[#101828]">
+                    Phone Number <span className="text-[#EF233C]">*</span>
                   </label>
                   <input
                     type="tel"
                     name="phone"
                     required
                     placeholder="+91 98..."
-                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3 px-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium"
+                    className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] py-3 px-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
                   />
                 </div>
               </div>
@@ -257,26 +294,26 @@ function ContactPage() {
               {/* Row 2: Work Email & Target Regional Office */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800">
+                  <label className="text-xs font-bold text-[#101828]">
                     Work Email Address
                   </label>
                   <input
                     type="email"
                     name="email"
                     placeholder="name@company.com"
-                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3 px-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium"
+                    className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] py-3 px-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-800">
-                    Target Regional Office <span className="text-red-500">*</span>
+                  <label className="text-xs font-bold text-[#101828]">
+                    Target Regional Office <span className="text-[#EF233C]">*</span>
                   </label>
                   <select
                     name="office"
                     required
                     defaultValue="Sangli HQ & Central Depot"
-                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3 px-4 text-sm text-slate-800 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium cursor-pointer"
+                    className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] py-3 px-4 text-sm text-[#101828] focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium cursor-pointer"
                   >
                     <option value="Sangli HQ & Central Depot">
                       Sangli HQ & Central Depot
@@ -293,25 +330,26 @@ function ContactPage() {
 
               {/* Row 3: Technical Requirement / Question */}
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-bold text-slate-800">
-                  Technical Requirement / Question <span className="text-red-500">*</span>
+                <label className="text-xs font-bold text-[#101828]">
+                  Technical Requirement / Question <span className="text-[#EF233C]">*</span>
                 </label>
                 <textarea
                   name="message"
                   required
                   rows={4}
                   placeholder="Describe your security challenge, existing hardware brand, tender BOQ timeline, or AMC requirement..."
-                  className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 p-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-red-600 focus:bg-white focus:ring-4 focus:ring-red-600/10 transition font-medium resize-y"
+                  className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] p-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium resize-y"
                 />
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-4 rounded-2xl bg-[#DC2626] hover:bg-[#B91C1C] active:bg-[#991B1B] text-white font-extrabold text-sm tracking-wide shadow-lg shadow-red-900/20 transition duration-200 flex items-center justify-center gap-2 cursor-pointer group"
+                disabled={isSubmitting}
+                className="w-full py-4 rounded-xl bg-[#EF233C] hover:bg-[#D90429] active:bg-[#B8001F] text-white font-extrabold text-sm tracking-wide shadow-lg shadow-red-500/20 transition duration-200 flex items-center justify-center gap-2 cursor-pointer group"
               >
                 <Send className="size-4 group-hover:translate-x-0.5 transition-transform" />
-                <span>Send Technical Inquiry to JEPL Desk</span>
+                <span>{isSubmitting ? "Submitting Inquiry..." : "Send Technical Inquiry to JEPL Desk"}</span>
               </button>
             </form>
           )}
