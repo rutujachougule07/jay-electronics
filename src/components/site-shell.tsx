@@ -39,7 +39,7 @@ const navigation = [
 ];
 
 export function SiteHeader() {
-  const [searchOpen, setSearchOpen] = useState(false);
+  const { currentUser } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md py-2.5 px-2 sm:px-4 lg:px-6">
@@ -123,34 +123,14 @@ export function SiteHeader() {
               ))}
             </nav>
 
-            {/* Right Side Controls */}
-            <div className="flex items-center gap-4 shrink-0">
-              {/* Search Icon */}
-              <button
-                type="button"
-                onClick={() => setSearchOpen(!searchOpen)}
-                className="text-slate-300 hover:text-cyan-400 transition p-1.5 rounded-full hover:bg-white/5"
-                aria-label="Search"
-              >
-                <Search className="size-4.5" />
-              </button>
-
-              {/* Auth / Login Button */}
+            {/* Right Side Controls - Single Prominent User Login Button */}
+            <div className="flex items-center gap-3 shrink-0">
               <Link
                 to="/auth"
-                className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-900/80 px-4 py-2 text-xs font-semibold text-slate-200 hover:text-white hover:border-slate-500 transition"
+                className="inline-flex items-center gap-2 rounded-full border border-cyan-400/50 bg-gradient-to-r from-sky-600 via-cyan-500 to-sky-500 hover:from-sky-500 hover:to-cyan-400 px-5 py-2 text-xs sm:text-sm font-bold text-white shadow-lg shadow-cyan-500/25 hover:shadow-cyan-400/40 transition-all transform hover:scale-[1.02]"
               >
-                <User className="size-3.5 text-cyan-400" />
-                <span>Account</span>
-              </Link>
-
-              {/* Contact Button */}
-              <Link
-                to="/contact"
-                className="hidden sm:inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-gradient-to-r from-sky-600/90 to-cyan-500/90 px-5 py-2 text-sm font-medium text-white shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/40 hover:from-sky-500 hover:to-cyan-400 hover:border-cyan-300 transition-all transform hover:scale-[1.02]"
-              >
-                <span>Contact</span>
-                <ArrowRight className="size-3.5 text-white" />
+                <User className="size-4 text-white" />
+                <span>{currentUser ? currentUser.displayName || "User Account" : "User Login"}</span>
               </Link>
 
               {/* Mobile Navigation Trigger */}
@@ -197,25 +177,6 @@ export function SiteHeader() {
           </div>
         </div>
 
-        {/* Search Input Bar (Toggled by Search icon) */}
-        {searchOpen && (
-          <div className="mt-2.5 rounded-xl bg-slate-900 p-3 shadow-lg border border-slate-800 flex items-center gap-3 text-white animate-in fade-in slide-in-from-top-2 duration-200">
-            <Search className="size-4 text-cyan-400 shrink-0" />
-            <input
-              type="text"
-              placeholder="Search services, products, capabilities..."
-              className="w-full bg-transparent text-sm text-white placeholder:text-slate-400 focus:outline-none"
-              autoFocus
-            />
-            <button
-              type="button"
-              onClick={() => setSearchOpen(false)}
-              className="text-xs font-semibold text-slate-400 hover:text-white px-2 py-1 rounded bg-slate-800"
-            >
-              Close
-            </button>
-          </div>
-        )}
       </div>
     </header>
   );
