@@ -119,13 +119,14 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
+  const isAuthPage = location.pathname.startsWith("/auth");
 
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         {!isAdminPage && <SiteHeader />}
         <main><Outlet /></main>
-        {!isAdminPage && <SiteFooter />}
+        {!(isAdminPage || isAuthPage) && <SiteFooter />}
       </AuthProvider>
     </QueryClientProvider>
   );
