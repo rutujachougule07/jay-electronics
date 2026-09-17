@@ -347,11 +347,11 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
               />
             </div>
             <div className="mt-4">
-              <h1 className="text-sm font-black tracking-wide text-white uppercase leading-none">
+              <h1 className="text-base font-black tracking-wide text-white uppercase leading-none">
                 JAY ELECTRONICS
               </h1>
-              <div className="text-[10px] font-extrabold text-cyan-400 tracking-wider flex items-center gap-1.5 mt-2 uppercase">
-                <span className="size-2 rounded-full bg-emerald-400 shrink-0" />
+              <div className="text-xs font-extrabold text-cyan-400 tracking-wider flex items-center gap-1.5 mt-2 uppercase">
+                <span className="size-2.5 rounded-full bg-emerald-400 shrink-0" />
                 <span>ADMIN CONTROL CENTER</span>
               </div>
             </div>
@@ -359,11 +359,11 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
 
           {/* Navigation Category */}
           <div>
-            <div className="text-[11px] font-extrabold uppercase tracking-widest text-slate-400 mb-3 px-1">
+            <div className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 px-1">
               MAIN MENU
             </div>
 
-            <nav className="space-y-2" aria-label="Sidebar Navigation">
+            <nav className="space-y-2.5" aria-label="Sidebar Navigation">
               {[
                 {
                   id: "dashboard",
@@ -410,35 +410,35 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
                       setActiveTab(item.id as SidebarTab);
                       setSidebarOpen(false);
                     }}
-                    className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-xs font-semibold transition-all duration-200 group ${
+                    className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-200 group ${
                       isActive
-                        ? "bg-gradient-to-r from-[#00A3FF] via-[#0077FF] to-[#0055FF] text-white font-bold shadow-lg shadow-blue-500/25"
-                        : "text-slate-300 hover:text-white hover:bg-white/5"
+                        ? "bg-gradient-to-r from-[#00A3FF] via-[#0077FF] to-[#0055FF] text-white shadow-lg shadow-blue-500/30"
+                        : "text-slate-200 hover:text-white hover:bg-white/5"
                     }`}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3.5">
                       <div
-                        className={`p-2 rounded-xl flex items-center justify-center transition-colors ${
+                        className={`p-2.5 rounded-xl flex items-center justify-center transition-colors ${
                           isActive
                             ? "bg-white/20 text-white"
                             : "text-slate-400 group-hover:text-cyan-400"
                         }`}
                       >
-                        <Icon className="size-4.5" />
+                        <Icon className="size-5" />
                       </div>
-                      <span className="tracking-wide text-xs font-semibold">{item.label}</span>
+                      <span className="tracking-wide text-sm sm:text-base font-bold">{item.label}</span>
                     </div>
 
                     {item.badge && (
                       <span
-                        className={`text-[11px] font-bold flex items-center justify-center ${
+                        className={`font-black flex items-center justify-center ${
                           item.badgeType === "blue"
-                            ? "bg-[#0E46A3] text-white size-6 rounded-full shadow-xs"
+                            ? "bg-[#0E46A3] text-white text-xs size-6.5 rounded-full shadow-xs"
                             : item.badgeType === "purple"
-                            ? "bg-[#6B11B0] text-white size-6 rounded-full shadow-xs"
+                            ? "bg-[#6B11B0] text-white text-xs size-6.5 rounded-full shadow-xs"
                             : item.badgeType === "pink"
-                            ? "bg-[#FF0055] text-white px-3 py-1 rounded-full text-[10px] font-extrabold shadow-md shadow-rose-500/30"
-                            : "bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full"
+                            ? "bg-[#FF0055] text-white px-3 py-1 rounded-full text-xs font-black shadow-md shadow-rose-500/30"
+                            : "bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full text-xs"
                         }`}
                       >
                         {item.badge}
