@@ -1,5 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckCircle2, Clock, Mail, MapPin, Phone, PhoneCall, Send } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  ChevronDown,
+  Clock,
+  FileText,
+  Mail,
+  MapPin,
+  Phone,
+  PhoneCall,
+  Send,
+  Shield,
+  ShieldCheck,
+  User,
+} from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { adminStore } from "@/lib/admin-store";
 import { submitContactInquiryToFirestore } from "@/lib/firestore-service";
@@ -228,17 +242,32 @@ function ContactPage() {
         </div>
 
         {/* =========================================================================
-           TECHNICAL INQUIRY FORM CARD (INSPECTED & PRESERVED)
+           TECHNICAL INQUIRY FORM CARD (MATCHING DESIGN 1 - MODERN CLEAN SCREENSHOT)
            ========================================================================= */}
-        <div className="bg-white border border-[#E4E7EC] rounded-[24px] p-8 sm:p-12 shadow-sm max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-1.5">
+        <div className="bg-white border border-[#E4E7EC] rounded-[28px] p-6 sm:p-10 lg:p-12 shadow-sm max-w-4xl mx-auto space-y-8">
+          {/* Top Header Bar inside Card */}
+          <div className="flex items-center justify-between border-b border-slate-100 pb-5">
+            <Link to="/" className="flex items-center shrink-0">
+              <img
+                src="/jay-logo.jpeg"
+                alt="Jay Electronics Logo"
+                className="h-9 sm:h-10 w-auto object-contain bg-white rounded-xl px-2 py-0.5 shadow-xs border border-slate-200/60"
+              />
+            </Link>
+            <span className="text-xs text-slate-400 font-medium hidden sm:inline-block">
+              Engineering Support for a Smarter Tomorrow
+            </span>
+          </div>
+
+          {/* Form Header */}
+          <div className="text-center space-y-2">
             <div className="text-xs font-black uppercase tracking-widest text-[#EF233C]">
               DIRECT ENGINEERING CORRESPONDENCE
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-[#101828] tracking-tight">
               Send a Technical Inquiry
             </h2>
-            <p className="text-xs sm:text-sm text-[#667085] max-w-xl mx-auto font-normal">
+            <p className="text-xs sm:text-sm text-[#667085] max-w-xl mx-auto font-normal leading-relaxed">
               Your request will be routed directly to the regional lead engineer for immediate follow-up.
             </p>
           </div>
@@ -262,95 +291,145 @@ function ContactPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Row 1: Full Name & Phone Number */}
+              {/* Row 1: Full Name & Phone Number (With Icons Inside Inputs) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101828]">
+                  <label className="text-xs font-bold text-[#101828] block">
                     Your Full Name <span className="text-[#EF233C]">*</span>
                   </label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    placeholder="e.g. Sunil Patil"
-                    className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] py-3 px-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
-                  />
+                  <div className="relative">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      placeholder="e.g. Sunil Patil"
+                      className="w-full rounded-2xl bg-[#F8FAFC] border border-[#E4E7EC] py-3.5 pl-11 pr-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101828]">
+                  <label className="text-xs font-bold text-[#101828] block">
                     Phone Number <span className="text-[#EF233C]">*</span>
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    required
-                    placeholder="+91 98..."
-                    className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] py-3 px-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
-                  />
+                  <div className="relative">
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                    <input
+                      type="tel"
+                      name="phone"
+                      required
+                      placeholder="+91 98..."
+                      className="w-full rounded-2xl bg-[#F8FAFC] border border-[#E4E7EC] py-3.5 pl-11 pr-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Row 2: Work Email & Target Regional Office */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101828]">
+                  <label className="text-xs font-bold text-[#101828] block">
                     Work Email Address
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="name@company.com"
-                    className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] py-3 px-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
-                  />
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="name@company.com"
+                      className="w-full rounded-2xl bg-[#F8FAFC] border border-[#E4E7EC] py-3.5 pl-11 pr-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-[#101828]">
+                  <label className="text-xs font-bold text-[#101828] block">
                     Target Regional Office <span className="text-[#EF233C]">*</span>
                   </label>
-                  <select
-                    name="office"
-                    required
-                    defaultValue="Sangli HQ & Central Depot"
-                    className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] py-3 px-4 text-sm text-[#101828] focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium cursor-pointer"
-                  >
-                    <option value="Sangli HQ & Central Depot">
-                      Sangli HQ & Central Depot
-                    </option>
-                    <option value="Kolhapur Regional Office">
-                      Kolhapur Regional Office
-                    </option>
-                    <option value="Pune IT Hub & Corporate">
-                      Pune IT Hub & Corporate
-                    </option>
-                  </select>
+                  <div className="relative">
+                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400 pointer-events-none z-10" />
+                    <select
+                      name="office"
+                      required
+                      defaultValue="Sangli HQ & Central Depot"
+                      className="w-full rounded-2xl bg-[#F8FAFC] border border-[#E4E7EC] py-3.5 pl-11 pr-10 text-sm text-[#101828] focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium cursor-pointer appearance-none"
+                    >
+                      <option value="Sangli HQ & Central Depot">
+                        Sangli HQ & Central Depot
+                      </option>
+                      <option value="Kolhapur Regional Office">
+                        Kolhapur Regional Office
+                      </option>
+                      <option value="Pune IT Hub & Corporate">
+                        Pune IT Hub & Corporate
+                      </option>
+                    </select>
+                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 size-4 text-slate-400 pointer-events-none" />
+                  </div>
                 </div>
               </div>
 
               {/* Row 3: Technical Requirement / Question */}
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-bold text-[#101828]">
+                <label className="text-xs font-bold text-[#101828] block">
                   Technical Requirement / Question <span className="text-[#EF233C]">*</span>
                 </label>
-                <textarea
-                  name="message"
-                  required
-                  rows={4}
-                  placeholder="Describe your security challenge, existing hardware brand, tender BOQ timeline, or AMC requirement..."
-                  className="w-full rounded-xl bg-slate-50/80 border border-[#E4E7EC] p-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium resize-y"
-                />
+                <div className="relative">
+                  <FileText className="absolute left-4 top-4 size-4 text-slate-400" />
+                  <textarea
+                    name="message"
+                    required
+                    rows={4}
+                    placeholder="Describe your security challenge, existing hardware brand, tender BOQ timeline, or AMC requirement..."
+                    className="w-full rounded-2xl bg-[#F8FAFC] border border-[#E4E7EC] py-3.5 pl-11 pr-4 text-sm text-[#101828] placeholder:text-slate-400 focus:outline-none focus:border-[#EF233C] focus:bg-white focus:ring-4 focus:ring-red-500/10 transition font-medium resize-y"
+                  />
+                </div>
               </div>
 
-              {/* Submit Button */}
+              {/* Red Submit Button with Arrows & Icons */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 rounded-xl bg-[#EF233C] hover:bg-[#D90429] active:bg-[#B8001F] text-white font-extrabold text-sm tracking-wide shadow-lg shadow-red-500/20 transition duration-200 flex items-center justify-center gap-2 cursor-pointer group"
+                className="w-full py-4 rounded-2xl bg-[#EF233C] hover:bg-[#D90429] active:bg-[#B8001F] text-white font-extrabold text-sm tracking-wide shadow-lg shadow-red-500/25 transition-all duration-200 flex items-center justify-center gap-2.5 cursor-pointer group"
               >
-                <Send className="size-4 group-hover:translate-x-0.5 transition-transform" />
+                <Send className="size-4 text-white group-hover:-translate-y-0.5 transition-transform" />
                 <span>{isSubmitting ? "Submitting Inquiry..." : "Send Technical Inquiry to JEPL Desk"}</span>
+                <ArrowRight className="size-4 text-white group-hover:translate-x-1 transition-transform" />
               </button>
+
+              {/* 3 Bottom Feature Trust Badges */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
+                <div className="flex items-center gap-3 justify-center sm:justify-start">
+                  <div className="p-2 rounded-xl bg-red-50 text-[#EF233C] border border-red-100 shrink-0">
+                    <Shield className="size-4.5" />
+                  </div>
+                  <div className="text-[11px] font-bold text-slate-800 leading-tight text-left">
+                    Direct to Engineers<br />
+                    <span className="text-slate-400 font-normal">(No Middle Layer)</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 justify-center sm:justify-start">
+                  <div className="p-2 rounded-xl bg-red-50 text-[#EF233C] border border-red-100 shrink-0">
+                    <Clock className="size-4.5" />
+                  </div>
+                  <div className="text-[11px] font-bold text-slate-800 leading-tight text-left">
+                    Quick Response<br />
+                    <span className="text-slate-400 font-normal">Within 24 Hours</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 justify-center sm:justify-start">
+                  <div className="p-2 rounded-xl bg-red-50 text-[#EF233C] border border-red-100 shrink-0">
+                    <ShieldCheck className="size-4.5" />
+                  </div>
+                  <div className="text-[11px] font-bold text-slate-800 leading-tight text-left">
+                    Trusted by<br />
+                    <span className="text-slate-400 font-normal">500+ Businesses</span>
+                  </div>
+                </div>
+              </div>
             </form>
           )}
         </div>
