@@ -15,7 +15,9 @@ import {
   Headphones,
   Instagram,
   Landmark,
+  Lightbulb,
   Linkedin,
+  Lock,
   MapPin,
   Network,
   Phone,
@@ -24,6 +26,7 @@ import {
   Settings,
   Shield,
   ShieldCheck,
+  TrendingUp,
   Tv,
   Twitter,
   User,
@@ -31,7 +34,7 @@ import {
   Users,
   Video,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -171,14 +174,62 @@ function HeroSection() {
 
 
 /* =========================================================================
-   1.C OUR IMPACT SECTION (EXACT MATCH FOR SECOND USER IMAGE)
+   1.C OUR IMPACT SECTION (REDUCED HEIGHT & FULLY ANIMATED WITH COUNTER TICKERS)
    ========================================================================= */
+function AnimatedStatCounter({ targetValue, suffix = "+" }: { targetValue: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const domRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    if (domRef.current) observer.observe(domRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    let start = 0;
+    const duration = 1600; // ms
+    const steps = 40;
+    const stepTime = duration / steps;
+    const increment = targetValue / steps;
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= targetValue) {
+        setCount(targetValue);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, stepTime);
+
+    return () => clearInterval(timer);
+  }, [isVisible, targetValue]);
+
+  return (
+    <span ref={domRef} className="tabular-nums">
+      {count.toLocaleString()}
+      {suffix}
+    </span>
+  );
+}
+
 function ImpactSection() {
   const stats = [
     {
       icon: UserCheck,
       watermark: Award,
-      number: "35+",
+      targetValue: 35,
+      suffix: "+",
       numberColor: "text-[#0F172A]",
       label: "YEARS EXPERIENCE",
       desc: "A legacy of innovation and trust since 1989.",
@@ -186,15 +237,17 @@ function ImpactSection() {
     {
       icon: FileText,
       watermark: FileCheck,
-      number: "1,000+",
-      numberColor: "text-[#DC2626]", // Highlighted in red in reference design
+      targetValue: 1000,
+      suffix: "+",
+      numberColor: "text-[#DC2626]",
       label: "PROJECTS COMPLETED",
       desc: "Delivering reliable solutions across industries.",
     },
     {
       icon: Users,
       watermark: Users,
-      number: "500+",
+      targetValue: 500,
+      suffix: "+",
       numberColor: "text-[#0F172A]",
       label: "ACTIVE ENTERPRISE CLIENTS",
       desc: "Trusted by leading organizations nationwide.",
@@ -202,7 +255,8 @@ function ImpactSection() {
     {
       icon: Landmark,
       watermark: Landmark,
-      number: "50+",
+      targetValue: 50,
+      suffix: "+",
       numberColor: "text-[#0F172A]",
       label: "GOVERNMENT PROJECTS",
       desc: "Strengthening public infrastructure and security.",
@@ -210,7 +264,8 @@ function ImpactSection() {
     {
       icon: Handshake,
       watermark: Handshake,
-      number: "100+",
+      targetValue: 100,
+      suffix: "+",
       numberColor: "text-[#0F172A]",
       label: "CORPORATE CUSTOMERS",
       desc: "Partnering for a smarter, safer future.",
@@ -218,76 +273,69 @@ function ImpactSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-gradient-to-b from-rose-50/40 via-white to-rose-50/30 relative overflow-hidden border-b border-rose-100/60">
-      {/* Subtle Background Pattern Dots/Lines */}
-      <div
-        className="absolute inset-0 opacity-40 pointer-events-none"
-        style={{
-          backgroundImage: `radial-[#DC2626] 1px, transparent 1px)`,
-          backgroundSize: "28px 28px",
-          maskImage: "linear-gradient(to bottom, white, transparent)",
-        }}
-      />
-
-      {/* Decorative side accent graphics */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-rose-200/20 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-100/30 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
+    <section className="py-8 sm:py-12 bg-gradient-to-b from-rose-50/40 via-white to-rose-50/30 relative overflow-hidden border-b border-rose-100/60">
+      {/* Decorative Background Pulsing Glow Blobs */}
+      <div className="absolute top-0 right-1/4 w-80 h-80 bg-rose-200/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+      <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-rose-100/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         {/* Eyebrow Pill Badge */}
-        <div className="inline-flex items-center justify-center gap-3 mb-4">
-          <div className="w-8 h-[2px] bg-rose-300" />
-          <span className="px-4 py-1 rounded-full bg-rose-100/80 border border-rose-200 text-[#DC2626] text-xs font-bold tracking-wider uppercase">
+        <div className="inline-flex items-center justify-center gap-2.5 mb-2.5">
+          <div className="w-6 h-[2px] bg-rose-300" />
+          <span className="px-3.5 py-0.5 rounded-full bg-rose-100/90 border border-rose-200 text-[#DC2626] text-[11px] font-extrabold tracking-wider uppercase shadow-2xs hover:scale-105 transition-transform">
             OUR IMPACT
           </span>
-          <div className="w-8 h-[2px] bg-rose-300" />
+          <div className="w-6 h-[2px] bg-rose-300" />
         </div>
 
         {/* Heading */}
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0F172A] tracking-tight">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#0F172A] tracking-tight">
           Engineering <span className="text-[#DC2626]">Trust</span> Through Numbers
         </h2>
 
         {/* Subtitle */}
-        <p className="mt-3 text-sm sm:text-base text-slate-500 font-medium max-w-2xl mx-auto">
+        <p className="mt-1.5 text-xs sm:text-sm text-slate-500 font-medium max-w-xl mx-auto">
           Decades of expertise. Thousands of successful deployments. A stronger, safer tomorrow.
         </p>
 
-        {/* 5 Cards Grid */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        {/* 5 Animated Cards Grid */}
+        <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {stats.map((stat, idx) => {
             const IconComp = stat.icon;
             const WatermarkIcon = stat.watermark;
             return (
               <div
                 key={idx}
-                className="group relative bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 text-left shadow-sm hover:shadow-xl hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between"
+                className="group relative bg-white/95 backdrop-blur-sm border border-slate-200/90 hover:border-rose-400 rounded-2xl p-4.5 text-left shadow-xs hover:shadow-2xl hover:shadow-rose-500/10 hover:-translate-y-2 transition-all duration-300 overflow-hidden flex flex-col justify-between"
               >
-                {/* Background Watermark Icon */}
-                <WatermarkIcon className="absolute -top-3 -right-3 size-24 text-rose-500/5 group-hover:text-rose-500/10 group-hover:scale-110 transition-all duration-500 pointer-events-none" />
+                {/* Animated Background Watermark Icon */}
+                <WatermarkIcon className="absolute -top-3 -right-3 size-24 text-rose-500/5 group-hover:text-rose-500/15 group-hover:scale-125 group-hover:rotate-6 transition-all duration-500 pointer-events-none" />
+
+                {/* Animated Top Glow Accent Bar */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-transparent group-hover:bg-gradient-to-r group-hover:from-rose-400 group-hover:via-rose-600 group-hover:to-rose-400 transition-all duration-300" />
 
                 <div>
                   {/* Top Badge Icon */}
-                  <div className="size-11 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-[#DC2626] mb-5 shadow-2xs group-hover:bg-[#DC2626] group-hover:text-white transition-colors duration-300">
-                    <IconComp className="size-5.5" />
+                  <div className="size-10 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-[#DC2626] mb-3.5 shadow-2xs group-hover:bg-[#DC2626] group-hover:text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                    <IconComp className="size-5" />
                   </div>
 
-                  {/* Stat Number */}
-                  <div className={`text-3xl sm:text-4xl font-black ${stat.numberColor} tracking-tight`}>
-                    {stat.number}
+                  {/* Animated Stat Number Ticker */}
+                  <div className={`text-2xl sm:text-3xl font-black ${stat.numberColor} tracking-tight group-hover:scale-105 transition-transform duration-300 origin-left`}>
+                    <AnimatedStatCounter targetValue={stat.targetValue} suffix={stat.suffix} />
                   </div>
 
                   {/* Label */}
-                  <div className="text-[11px] font-extrabold text-slate-700 tracking-wider uppercase mt-1">
+                  <div className="text-[10px] font-extrabold text-slate-700 tracking-wider uppercase mt-1">
                     {stat.label}
                   </div>
 
                   {/* Red Accent Underline */}
-                  <div className="w-8 h-1 bg-[#DC2626] rounded-full my-3 group-hover:w-14 transition-all duration-300" />
+                  <div className="w-7 h-1 bg-[#DC2626] rounded-full my-2.5 group-hover:w-14 transition-all duration-300" />
                 </div>
 
                 {/* Description */}
-                <p className="text-xs text-slate-500 leading-relaxed font-normal mt-1">
+                <p className="text-[11px] text-slate-500 leading-snug font-normal mt-0.5">
                   {stat.desc}
                 </p>
               </div>
@@ -300,50 +348,80 @@ function ImpactSection() {
 }
 
 /* =========================================================================
-   2. WELCOME / ABOUT SECTION (MATCHING REFERENCE LAYOUT & HIGHLIGHT STACK)
+   2. WELCOME / ABOUT SECTION (EXACT PIXEL-PERFECT MATCH FOR USER REFERENCE IMAGE 1)
+   ========================================================================= */
+/* =========================================================================
+   2. WELCOME / ABOUT SECTION (EXACT PIXEL-PERFECT MATCH FOR USER REFERENCE MOCKUP)
    ========================================================================= */
 function WelcomeSection() {
-  const companyFeatures = [
+  const pillarCards = [
     {
       icon: Award,
-      title: "35+ Years Legacy",
-      desc: "Founded in 1989 with unmatched institutional reliability.",
-    },
-    {
-      icon: Settings,
-      title: "Turnkey Execution",
-      desc: "End-to-end scope from BOQ survey to long-term lifecycle AMC.",
+      title: "35+",
+      subtitle: "Years Legacy",
+      desc: "Founded in 1989 with unmatched reliability.",
     },
     {
       icon: Users,
-      title: "In-House Engineers",
-      desc: "Certified technicians for optical fiber, biometrics, and switches.",
+      title: "5000+",
+      subtitle: "Happy Clients",
+      desc: "Trusted across government & industries.",
+    },
+    {
+      icon: Settings,
+      title: "Turnkey",
+      subtitle: "Execution",
+      desc: "End-to-end from BOQ to AMC.",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Trusted",
+      subtitle: "Technology Partner",
+      desc: "Building safer & smarter environments.",
     },
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-white relative overflow-hidden">
-      {/* Background Subtle Accent Gradients */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 bg-rose-50/50 rounded-full blur-3xl pointer-events-none" />
+    <section className="py-12 sm:py-16 bg-[#F8FAFC] relative overflow-hidden">
+      {/* Decorative Red Sweep Wave Curve in Background */}
+      <div className="absolute inset-y-0 right-0 w-1/2 pointer-events-none opacity-20 hidden lg:block">
+        <svg className="w-full h-full text-[#DC2626]" viewBox="0 0 500 800" fill="none" preserveAspectRatio="none">
+          <path
+            d="M 150 0 C 350 200, 50 500, 300 800 L 500 800 L 500 0 Z"
+            fill="url(#red-grad)"
+          />
+          <defs>
+            <linearGradient id="red-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#DC2626" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#991B1B" stopOpacity="0.05" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* LEFT SIDE: EXACT CONTENT FROM 1ST IMAGE */}
-          <div className="lg:col-span-7 space-y-6 text-left">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* LEFT COLUMN: TEXT, 4 CARDS, CTA BUTTON */}
+          <div className="lg:col-span-6 space-y-4 text-left">
             {/* Red Accent Line + Eyebrow */}
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-1 bg-[#DC2626] rounded-full" />
-              <span className="text-xs font-extrabold text-[#DC2626] tracking-wider uppercase">
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-[3px] bg-[#DC2626] rounded-full" />
+              <span className="text-xs font-black text-[#DC2626] tracking-wider uppercase">
                 ABOUT JAY ELECTRONICS
               </span>
             </div>
 
             {/* Title */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0F172A] tracking-tight">
-              Who We Are
+            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-[#0F172A] tracking-tight leading-tight">
+              Who We <span className="text-[#DC2626]">Are</span>
             </h2>
 
-            {/* Paragraph 1 */}
+            {/* Subtitle Tagline */}
+            <div className="text-[11px] font-extrabold text-slate-400 tracking-widest uppercase">
+              INNOVATION &nbsp;|&nbsp; SECURITY &nbsp;|&nbsp; A SMARTER TOMORROW
+            </div>
+
+            {/* Description Paragraph */}
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
               For more than three decades, JAY ELECTRONICS PRIVATE LIMITED has been delivering
               innovative technology solutions that help businesses, industries, educational
@@ -351,78 +429,103 @@ function WelcomeSection() {
               security, communication and operational efficiency.
             </p>
 
-            {/* Paragraph 2 */}
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-              With thousands of successful installations and an experienced engineering team, we
-              provide complete turnkey solutions—from consultation and design to installation,
-              commissioning, training and annual maintenance contracts (AMC). We bridge complex
-              hardware ecosystems into singular, intuitive control workflows.
-            </p>
-
-            {/* 3 Pillar Cards (Exact from 1st Image) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-              {companyFeatures.map((feat, idx) => {
+            {/* 4 Cards Grid (Single Row on SM+) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+              {pillarCards.map((feat, idx) => {
                 const IconComp = feat.icon;
                 return (
                   <div
                     key={idx}
-                    className="bg-white border border-slate-200/90 rounded-2xl p-4.5 space-y-2.5 shadow-xs hover:border-[#DC2626] hover:shadow-md transition-all duration-300 group"
+                    className="bg-white border border-slate-100 rounded-2xl p-3 space-y-1.5 shadow-sm hover:border-[#DC2626]/40 hover:shadow-md transition-all duration-300 group flex flex-col justify-between"
                   >
-                    <div className="size-10 rounded-xl bg-rose-50 text-[#DC2626] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                      <IconComp className="size-5" />
+                    <div className="size-9 rounded-full bg-[#FFECEC] text-[#DC2626] flex items-center justify-center shrink-0 group-hover:bg-[#DC2626] group-hover:text-white transition-colors duration-300">
+                      <IconComp className="size-4.5" />
                     </div>
                     <div>
-                      <h3 className="text-xs sm:text-sm font-extrabold text-[#0F172A] leading-tight">
+                      <div className="text-xs font-black text-[#0F172A] leading-tight">
                         {feat.title}
-                      </h3>
-                      <p className="text-[11px] text-slate-500 mt-1 leading-snug">{feat.desc}</p>
+                      </div>
+                      <div className="text-[11px] font-bold text-[#0F172A] leading-tight">
+                        {feat.subtitle}
+                      </div>
+                      <p className="text-[10px] text-slate-500 mt-1 leading-tight">{feat.desc}</p>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            {/* Action CTA Link */}
+            {/* Red Pill CTA Button */}
             <div className="pt-2">
               <Link
                 to="/about"
-                className="inline-flex items-center gap-2 text-sm font-extrabold text-[#DC2626] hover:text-[#B91C1C] transition-colors group cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-full bg-[#DC2626] hover:bg-[#b91c1c] px-6 py-2.5 text-xs font-black text-white transition shadow-md shadow-rose-500/20 hover:scale-[1.02] active:scale-95"
               >
                 <span>Discover Our Story</span>
-                <ArrowRight className="size-4 group-hover:translate-x-1.5 transition-transform" />
+                <ArrowRight className="size-3.5" />
               </Link>
             </div>
           </div>
 
-          {/* RIGHT SIDE: ELEGANT HQ BUILDING IMAGE FRAME */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group w-full max-w-lg">
+          {/* RIGHT COLUMN: HQ BUILDING WITH SWEEPING RED CURVE ACCENT */}
+          <div className="lg:col-span-6 relative flex justify-center lg:justify-end items-center">
+            {/* Cursive Handwriting Annotation Label floating top left of building */}
+            <div className="absolute -top-4 left-0 sm:-left-6 z-30 hidden sm:block pointer-events-none">
+              <div className="text-[#0F172A] text-2xl font-bold font-cursive -rotate-6 tracking-wide drop-shadow-xs max-w-[170px] leading-tight text-center">
+                Technology for a Safer Tomorrow
+              </div>
+              <svg className="w-28 h-8 text-[#DC2626] mt-0.5 ml-8" viewBox="0 0 100 30" fill="none">
+                <path d="M10 5 Q 50 25 90 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                <path d="M82 7 L 90 12 L 84 20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              </svg>
+            </div>
+
+            {/* Main Building Frame */}
+            <div className="relative rounded-[32px] overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group w-full max-w-xl">
+              {/* Left Sweeping Red Wave Ribbon Effect */}
+              <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#DC2626]/80 via-[#DC2626]/30 to-transparent z-10 pointer-events-none" />
+
               <img
                 src="/about-building.png"
                 alt="Jay Electronics Corporate Headquarters"
-                className="w-full h-[360px] sm:h-[440px] object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-[380px] sm:h-[440px] object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/90 via-transparent to-transparent" />
 
-              {/* Floating Top Badge */}
-              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-lg border border-white/60 flex items-center gap-2">
-                <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-black uppercase tracking-wider text-[#0F172A]">
-                  CORPORATE HEADQUARTERS
-                </span>
+              {/* Floating Top Right Glass Badge */}
+              <div className="absolute top-4 right-4 bg-[#0F172A]/85 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-xl border border-white/20 flex items-center gap-2.5 max-w-[220px] z-20">
+                <div className="size-7 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">
+                  <MapPin className="size-3.5 text-rose-400" />
+                </div>
+                <div className="text-white">
+                  <div className="text-[10px] font-black uppercase leading-tight">
+                    Corporate Headquarters
+                  </div>
+                  <div className="text-[9px] text-slate-300 font-medium leading-tight">
+                    College Corner, Sangli, Maharashtra
+                  </div>
+                </div>
               </div>
 
-              {/* Floating Bottom Card */}
-              <div className="absolute bottom-4 left-4 right-4 bg-[#0F172A]/90 backdrop-blur-md p-4 rounded-2xl text-white shadow-xl border border-slate-700/80 space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-black text-white">Jay Electronics Pvt Ltd</span>
-                  <span className="text-[10px] font-bold text-[#08A9DF] bg-sky-950/80 px-2.5 py-0.5 rounded-full border border-sky-800">
-                    EST. 1989
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-slate-300 font-medium">
-                  <MapPin className="size-3.5 text-[#DC2626]" />
-                  <span>College Corner, Sangli, Maharashtra</span>
+              {/* Floating Bottom Pill Bar with 4 Service Items */}
+              <div className="absolute bottom-4 left-4 right-4 bg-[#0B132B]/95 backdrop-blur-md p-3 rounded-2xl text-white shadow-2xl border border-white/10 z-20">
+                <div className="grid grid-cols-4 gap-2 text-center text-slate-200">
+                  <div className="flex flex-col items-center gap-1">
+                    <Shield className="size-4 text-rose-400" />
+                    <span className="text-[9px] font-bold">Security Systems</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <Network className="size-4 text-sky-400" />
+                    <span className="text-[9px] font-bold">Networking</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <Video className="size-4 text-amber-400" />
+                    <span className="text-[9px] font-bold">Surveillance</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <Lock className="size-4 text-emerald-400" />
+                    <span className="text-[9px] font-bold">Access Control</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -434,63 +537,164 @@ function WelcomeSection() {
 }
 
 /* =========================================================================
-   3. MEET OUR OWNER SECTION
+   3. MEET OUR OWNER SECTION (EXACT PIXEL-PERFECT MATCH FOR USER REFERENCE MOCKUP)
    ========================================================================= */
 function FounderSection() {
+  const founderPillars = [
+    {
+      icon: Lightbulb,
+      title: "Visionary",
+      subtitle: "Leadership",
+    },
+    {
+      icon: Users,
+      title: "Customer",
+      subtitle: "Centric Approach",
+    },
+    {
+      icon: TrendingUp,
+      title: "Sustainable",
+      subtitle: "Growth",
+    },
+    {
+      icon: ShieldCheck,
+      title: "Committed",
+      subtitle: "to a Safer Society",
+    },
+  ];
+
   return (
-    <section className="py-16 sm:py-24 bg-white border-t border-slate-200/90 relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="bg-[#F0F7FE] border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-7 space-y-5 text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#DCE7EE] shadow-xs">
-                <User className="size-3.5 text-[#0A76A8]" />
-                <span className="text-[11px] font-black text-[#0A76A8] tracking-widest uppercase">
-                  FOUNDER &amp; MANAGING DIRECTOR
-                </span>
+    <section className="py-12 sm:py-16 bg-[#EAF3FE] relative overflow-hidden border-t border-slate-200/80">
+      {/* Decorative Blue Sweep Wave Curve in Background */}
+      <div className="absolute inset-y-0 left-0 w-1/2 pointer-events-none opacity-20 hidden lg:block">
+        <svg className="w-full h-full text-[#0284C7]" viewBox="0 0 500 800" fill="none" preserveAspectRatio="none">
+          <path
+            d="M 350 0 C 150 200, 450 500, 200 800 L 0 800 L 0 0 Z"
+            fill="url(#blue-grad)"
+          />
+          <defs>
+            <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#0284C7" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#0369A1" stopOpacity="0.05" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          {/* LEFT COLUMN: OWNER PHOTO WITH GLASS BADGES & OVERLAY TEXT */}
+          <div className="lg:col-span-6 relative flex justify-center lg:justify-start items-center">
+            <div className="relative rounded-[32px] overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group w-full max-w-lg">
+              {/* Sweeping Blue Curve Frame Accent */}
+              <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#0284C7]/80 via-[#0284C7]/30 to-transparent z-10 pointer-events-none" />
+
+              <img
+                src="/about-owner.png"
+                alt="Mr. Jayesh Patil - Founder & Managing Director"
+                className="w-full h-[380px] sm:h-[440px] object-cover object-top group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/90 via-transparent to-transparent" />
+
+              {/* Text Overlay on Glass/Wall behind photo */}
+              <div className="absolute top-6 left-6 right-6 pointer-events-none z-20">
+                <div className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/70 text-center shadow-xs">
+                  <div className="font-extrabold text-xs sm:text-sm text-slate-800 tracking-wider uppercase leading-snug">
+                    LEADERSHIP BUILDS BRIGHTER TOMORROW
+                  </div>
+                </div>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight leading-tight">
-                Meet Our Owner - <span className="text-[#0A76A8]">Mr. Jayesh Patil</span>
-              </h2>
-
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                With a vision to make advanced security and communication technology accessible to
-                everyone, Mr. Jayesh Patil established JAY Electronics with a strong commitment to
-                quality, innovation and customer satisfaction. Over three decades of visionary
-                leadership has positioned Jay Electronics as a trusted partner for government
-                institutions, industrial MIDCs, and enterprise networks.
-              </p>
-
-              {/* Dark Quote Container */}
-              <div className="bg-[#0F172A] text-white p-5 sm:p-6 rounded-2xl shadow-xl space-y-3 border border-slate-800 relative">
-                <Quote className="size-6 text-[#08A9DF] shrink-0 opacity-80" />
-                <p className="text-sm italic font-medium leading-relaxed text-slate-200">
-                  "Our goal is to create safer, smarter and more connected spaces through reliable
-                  technology solutions."
-                </p>
-                <div className="text-right text-xs font-bold text-[#08A9DF]">
-                  — Mr. Jayesh Patil (Managing Director)
+              {/* Floating Bottom Left Owner Info Card */}
+              <div className="absolute bottom-4 left-4 right-4 bg-[#0B1528]/95 backdrop-blur-md p-3.5 rounded-2xl text-white shadow-2xl border border-slate-700/80 flex items-center gap-3 z-20">
+                <div className="size-9 rounded-full bg-slate-800 border border-slate-700 text-white flex items-center justify-center shrink-0">
+                  <User className="size-4 text-[#38BDF8]" />
+                </div>
+                <div>
+                  <div className="text-xs font-black text-white">Mr. Jayesh Patil</div>
+                  <div className="text-[10px] font-bold text-[#38BDF8]">
+                    Founder &amp; Managing Director
+                  </div>
+                  <div className="text-[9px] text-slate-300 font-semibold flex items-center gap-1.5 mt-0.5">
+                    <span>JAY Electronics Pvt Ltd</span>
+                    <span className="w-5 h-[2px] bg-[#DC2626] rounded-full inline-block" />
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Right Photo */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group w-full max-w-md">
-                <img
-                  src="/about-owner.png"
-                  alt="Mr. Jayesh Patil - Founder & Managing Director"
-                  className="w-full h-[320px] sm:h-[380px] object-cover object-top group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/70 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 bg-[#0F172A]/90 backdrop-blur-md p-3.5 rounded-2xl text-white shadow-lg border border-slate-700/80">
-                  <span className="text-xs font-black text-white block">Mr. Jayesh Patil</span>
-                  <span className="text-[10px] font-bold text-[#08A9DF]">
-                    Founder &amp; Managing Director
-                  </span>
+          {/* RIGHT COLUMN: OWNER DETAILS, 4 CARDS, CTA BUTTON & CURSIVE SCRIPT */}
+          <div className="lg:col-span-6 space-y-4 text-left relative">
+            {/* Blue Accent Line + Eyebrow */}
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-[3px] bg-[#0284C7] rounded-full" />
+              <span className="text-xs font-black text-[#0284C7] tracking-wider uppercase">
+                FOUNDER &amp; MANAGING DIRECTOR
+              </span>
+            </div>
+
+            {/* Title */}
+            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-[#0F172A] tracking-tight leading-tight">
+              Meet Our Owner – <span className="text-[#0284C7]">Mr. Jayesh Patil</span>
+            </h2>
+
+            {/* Subtitle Tagline */}
+            <div className="text-[11px] font-extrabold text-slate-400 tracking-widest uppercase">
+              VISION &nbsp;|&nbsp; LEADERSHIP &nbsp;|&nbsp; INNOVATION &nbsp;|&nbsp; PEOPLE
+            </div>
+
+            {/* Description Paragraph */}
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              With a vision to make advanced security and communication technology accessible to
+              everyone, Mr. Jayesh Patil established JAY Electronics with a strong commitment to
+              quality, innovation and customer satisfaction.
+            </p>
+
+            {/* 4 Founder Cards Grid in 1 Row */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+              {founderPillars.map((pillar, idx) => {
+                const IconComp = pillar.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="bg-white border border-slate-100 rounded-2xl p-3 text-center space-y-1.5 shadow-sm hover:border-[#0284C7]/40 hover:shadow-md transition-all duration-300 group flex flex-col items-center justify-center min-h-[105px]"
+                  >
+                    <div className="size-9 rounded-full bg-[#FFECEC] text-[#DC2626] flex items-center justify-center shrink-0 group-hover:bg-[#0284C7] group-hover:text-white transition-colors duration-300">
+                      <IconComp className="size-4.5" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-extrabold text-[#0F172A] leading-tight">
+                        {pillar.title}
+                      </div>
+                      <div className="text-[10px] font-bold text-slate-500 leading-tight">
+                        {pillar.subtitle}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* CTA Button & Cursive Script Overlay */}
+            <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 rounded-full bg-[#0284C7] hover:bg-[#0369A1] px-6 py-2.5 text-xs font-black text-white transition shadow-md shadow-sky-500/20 hover:scale-[1.02] active:scale-95 shrink-0"
+              >
+                <span>Know More About Our Owner</span>
+                <ArrowRight className="size-3.5" />
+              </Link>
+
+              {/* Cursive Handwriting Script on Bottom Right */}
+              <div className="hidden sm:block text-right pointer-events-none">
+                <div className="text-sky-900 text-2xl font-bold font-cursive -rotate-6 tracking-wide drop-shadow-xs">
+                  People Technology Progress
                 </div>
+                <svg className="w-36 h-3 text-[#0284C7] -mt-1 ml-auto" viewBox="0 0 140 12" fill="none">
+                  <path d="M4 9 C 30 3, 100 11, 136 3" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                  <path d="M125 4 L 136 3 L 130 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                </svg>
               </div>
             </div>
           </div>

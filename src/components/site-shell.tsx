@@ -27,7 +27,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import logo from "@/assets/logo.png.asset.json";
 
 const navigation = [
   { label: "Home", to: "/" as const },
@@ -42,7 +41,7 @@ export function SiteHeader() {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#0F172A] border-b border-slate-800/90 shadow-md">
+    <header className="sticky top-0 z-50 w-full bg-[#F0F4F8] border-b border-slate-300/80 shadow-xs shadow-slate-900/5 transition-all">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
         <div className="flex items-center justify-between gap-4">
           {/* Logo / Branding */}
@@ -50,7 +49,7 @@ export function SiteHeader() {
             <img
               src="/jay-logo.jpeg"
               alt="Jay Electronics Logo"
-              className="h-10 sm:h-12 w-auto object-contain bg-white rounded-lg px-2.5 py-1 shadow-sm hover:opacity-95 transition"
+              className="h-10 sm:h-12 w-auto object-contain rounded-lg px-1 py-0.5 hover:opacity-95 transition"
             />
           </Link>
 
@@ -61,7 +60,7 @@ export function SiteHeader() {
                 key={item.label}
                 to={item.to}
                 activeOptions={{ exact: item.to === "/" }}
-                className="text-sm font-semibold text-slate-300 hover:text-[#DC2626] transition-colors py-1"
+                className="text-sm font-semibold text-slate-800 hover:text-[#DC2626] transition-colors py-1"
                 activeProps={{ className: "text-[#DC2626] font-extrabold" }}
               >
                 {item.label}
@@ -71,32 +70,34 @@ export function SiteHeader() {
 
           {/* Right Controls */}
           <div className="flex items-center gap-3 shrink-0">
+            {/* Phone Call Info */}
             <a
               href="tel:+919422407175"
-              className="hidden md:flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-[#DC2626] transition"
+              className="hidden md:flex items-center gap-2.5 text-xs font-bold text-slate-800 hover:text-[#DC2626] transition bg-[#FEE2E2]/70 border border-rose-200/80 px-3 py-1.5 rounded-full"
             >
-              <div className="size-8 rounded-full bg-slate-800 flex items-center justify-center text-[#DC2626] border border-slate-700/60">
-                <Phone className="size-4" />
+              <div className="size-6 rounded-full bg-[#DC2626] flex items-center justify-center text-white shadow-xs">
+                <Phone className="size-3" />
               </div>
-              <span>+91 94224 07175</span>
+              <span className="tracking-tight">+91 94224 07175</span>
             </a>
 
+            {/* Red Accent Pill Button */}
             <Link
               to="/contact"
-              className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-[#DC2626] hover:bg-[#b91c1c] px-4.5 py-2 text-xs font-extrabold text-white transition shadow-md shadow-rose-950/40 hover:scale-[1.02] active:scale-95"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#DC2626] hover:bg-[#b91c1c] px-5 py-2 text-xs font-extrabold text-white transition shadow-md shadow-rose-500/20 hover:scale-[1.02] active:scale-95"
             >
-              <span>Get in Touch</span>
+              <span>Get In Touch</span>
               <ArrowRight className="size-3.5" />
             </Link>
 
-            {/* Search Toggle */}
+            {/* Search Toggle Icon */}
             <button
               type="button"
               onClick={() => setSearchOpen(!searchOpen)}
-              className="text-slate-300 hover:text-[#DC2626] p-2 rounded-lg hover:bg-slate-800 transition"
+              className="size-9 rounded-full border border-slate-300/80 bg-slate-200/60 text-slate-700 hover:text-[#DC2626] hover:bg-slate-200 flex items-center justify-center transition cursor-pointer"
               aria-label="Search"
             >
-              <Search className="size-5" />
+              <Search className="size-4" />
             </button>
 
             {/* Mobile Sheet Trigger */}
@@ -105,23 +106,23 @@ export function SiteHeader() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden text-white hover:bg-slate-800"
+                  className="lg:hidden text-slate-800 hover:bg-slate-200 rounded-full"
                   aria-label="Open menu"
                 >
                   <Menu className="size-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="w-[85%] max-w-sm p-0 bg-[#0F172A] text-white border-slate-800 flex flex-col justify-between">
+              <SheetContent className="w-[85%] max-w-sm p-0 bg-[#F0F4F8] text-slate-900 border-slate-300 flex flex-col justify-between">
                 <div>
-                  <SheetHeader className="border-b border-slate-800 px-6 py-5 text-left bg-[#0B1120]">
-                    <SheetTitle className="text-white text-lg font-black">
+                  <SheetHeader className="border-b border-slate-300/80 px-6 py-5 text-left bg-[#E4E9F0]">
+                    <SheetTitle className="text-slate-900 text-lg font-black">
                       <img
                         src="/jay-logo.jpeg"
                         alt="Jay Electronics Logo"
-                        className="h-10 w-auto object-contain bg-white rounded-lg px-2.5 py-1 shadow-sm"
+                        className="h-10 w-auto object-contain rounded-lg"
                       />
                     </SheetTitle>
-                    <SheetDescription className="text-slate-400 text-xs mt-1">
+                    <SheetDescription className="text-slate-600 text-xs mt-1">
                       Securing Businesses. Empowering Connectivity.
                     </SheetDescription>
                   </SheetHeader>
@@ -130,7 +131,7 @@ export function SiteHeader() {
                       <SheetClose key={item.label} asChild>
                         <Link
                           to={item.to}
-                          className="border-b border-slate-800/80 px-3 py-3.5 text-base font-semibold text-slate-200 hover:text-[#DC2626] transition-colors"
+                          className="border-b border-slate-200/80 px-3 py-3.5 text-base font-semibold text-slate-800 hover:text-[#DC2626] transition-colors"
                         >
                           {item.label}
                         </Link>
@@ -139,9 +140,16 @@ export function SiteHeader() {
                   </nav>
                 </div>
                 <div className="px-6 pb-6 space-y-3">
+                  <a
+                    href="tel:+919422407175"
+                    className="flex items-center justify-center gap-2 w-full rounded-xl bg-slate-200/80 border border-slate-300/80 py-3 text-xs font-bold text-slate-800 hover:bg-slate-300/80 transition"
+                  >
+                    <Phone className="size-4 text-[#DC2626]" />
+                    <span>Call +91 94224 07175</span>
+                  </a>
                   <SheetClose asChild>
-                    <Button asChild className="w-full rounded-xl bg-[#DC2626] hover:bg-[#b91c1c] text-white font-extrabold py-3 shadow-lg shadow-rose-950/50">
-                      <Link to="/contact">Contact Us Now</Link>
+                    <Button asChild className="w-full rounded-full bg-[#DC2626] hover:bg-[#b91c1c] text-white font-extrabold py-3 shadow-lg shadow-rose-500/20">
+                      <Link to="/contact">Get In Touch</Link>
                     </Button>
                   </SheetClose>
                 </div>
@@ -152,18 +160,18 @@ export function SiteHeader() {
 
         {/* Search Drawer */}
         {searchOpen && (
-          <div className="mt-3 rounded-xl bg-slate-800 p-3 border border-slate-700 flex items-center gap-3 text-white animate-in fade-in duration-200">
-            <Search className="size-4 text-[#DC2626] shrink-0" />
+          <div className="mt-3 rounded-2xl bg-[#E4E9F0] p-3 border border-slate-300 shadow-xl flex items-center gap-3 text-slate-800 animate-in fade-in duration-200">
+            <Search className="size-4 text-[#DC2626] shrink-0 ml-1" />
             <input
               type="text"
               placeholder="Search services, products, solution specs..."
-              className="w-full bg-transparent text-sm text-white placeholder:text-slate-400 focus:outline-none"
+              className="w-full bg-transparent text-sm text-slate-800 placeholder:text-slate-500 focus:outline-none"
               autoFocus
             />
             <button
               type="button"
               onClick={() => setSearchOpen(false)}
-              className="text-xs font-semibold text-slate-300 hover:text-white px-2.5 py-1 rounded bg-[#0F172A]"
+              className="text-xs font-semibold text-slate-700 hover:text-slate-900 px-3 py-1.5 rounded-full bg-slate-200 border border-slate-300 cursor-pointer"
             >
               Close
             </button>
@@ -174,69 +182,42 @@ export function SiteHeader() {
   );
 }
 
-
 export function SiteFooter() {
   return (
-    <footer className="bg-[#0F172A] text-white border-t border-slate-800 relative pb-16 md:pb-0">
-      {/* Top Header Row of Footer */}
-      <div className="border-b border-slate-800 bg-[#0B1120]">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-4 py-6 text-center sm:flex-row sm:text-left sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-3 shrink-0">
-            <img
-              src="/jay-logo.jpeg"
-              alt="Jay Electronics Logo"
-              className="h-10 sm:h-12 w-auto object-contain bg-white rounded-lg px-2.5 py-1 shadow-md"
-            />
-          </Link>
-
-          <div className="flex items-center gap-2.5">
-            {[Globe, Twitter, Facebook, Instagram].map((Icon, idx) => (
-              <a
-                key={idx}
-                href="#"
-                className="flex size-9 items-center justify-center rounded-full bg-slate-800 hover:bg-[#DC2626] transition-all duration-300 text-slate-300 hover:text-white border border-slate-700/60 hover:scale-105"
-                aria-label="Social link"
-              >
-                <Icon className="size-4" />
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Main Footer Links - Symmetric 2x2 Grid on Mobile */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-3 lg:grid-cols-5">
-          {/* Row 0 (Top): Newsletter (Spans 2 cols on mobile) */}
-          <div className="col-span-2 md:col-span-1 lg:col-span-1 bg-[#0B1120]/80 p-4 rounded-xl border border-slate-800 md:bg-transparent md:p-0 md:border-0">
-            <h3 className="text-xs font-black tracking-wider uppercase text-[#DC2626] mb-2.5">
+    <footer className="bg-[#EEF2F6] text-slate-800 border-t border-slate-300/80 relative pb-16 md:pb-0">
+      {/* Main Footer Links Grid - Grey Elegant Theme */}
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          {/* Column 1: SUBSCRIBE TO NEWSLETTER */}
+          <div className="sm:col-span-2 md:col-span-1 lg:col-span-1">
+            <h3 className="text-xs font-extrabold tracking-wider uppercase text-[#DC2626] mb-3">
               SUBSCRIBE TO NEWSLETTER
             </h3>
-            <p className="text-xs leading-5 text-slate-300 mb-3">
+            <p className="text-xs leading-relaxed text-slate-600 mb-4">
               Stay updated with smart security solutions by Jay Electronics Pvt Ltd.
             </p>
             <form onSubmit={(e) => e.preventDefault()} className="relative">
               <input
                 type="email"
                 placeholder="Enter Your Email"
-                className="w-full rounded-lg bg-slate-800 py-2.5 pl-3.5 pr-11 text-xs text-white placeholder:text-slate-400 border border-slate-700 focus:outline-none focus:border-[#DC2626]"
+                className="w-full rounded-lg bg-white py-2.5 pl-3.5 pr-11 text-xs text-slate-800 placeholder:text-slate-400 border border-slate-300 shadow-xs focus:outline-none focus:border-[#DC2626] focus:ring-1 focus:ring-[#DC2626]"
               />
               <button
                 type="submit"
                 aria-label="Subscribe"
-                className="absolute right-1 top-1 flex size-8 items-center justify-center rounded-md bg-[#DC2626] text-white hover:bg-[#b91c1c] transition shadow-sm"
+                className="absolute right-1 top-1 flex size-8 items-center justify-center rounded-md bg-[#DC2626] text-white hover:bg-[#b91c1c] transition shadow-xs cursor-pointer"
               >
                 <Send className="size-3.5" />
               </button>
             </form>
           </div>
 
-          {/* Row 1, Col 1: Quick Link */}
+          {/* Column 2: QUICK LINK */}
           <div>
-            <h3 className="text-xs font-black tracking-wider uppercase text-[#DC2626] mb-3">
+            <h3 className="text-xs font-extrabold tracking-wider uppercase text-[#DC2626] mb-3.5">
               QUICK LINK
             </h3>
-            <ul className="space-y-2 text-xs text-slate-300">
+            <ul className="space-y-2.5 text-xs font-medium text-slate-700">
               <li><Link to="/" className="hover:text-[#DC2626] transition">Home</Link></li>
               <li><Link to="/about" className="hover:text-[#DC2626] transition">About Us</Link></li>
               <li><Link to="/services" className="hover:text-[#DC2626] transition">Services</Link></li>
@@ -244,12 +225,12 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Row 1, Col 2: Important Links */}
+          {/* Column 3: IMPORTANT LINKS */}
           <div>
-            <h3 className="text-xs font-black tracking-wider uppercase text-[#DC2626] mb-3">
+            <h3 className="text-xs font-extrabold tracking-wider uppercase text-[#DC2626] mb-3.5">
               IMPORTANT LINKS
             </h3>
-            <ul className="space-y-2 text-xs text-slate-300">
+            <ul className="space-y-2.5 text-xs font-medium text-slate-700">
               <li><Link to="/about" className="hover:text-[#DC2626] transition">Our Story</Link></li>
               <li><Link to="/about" className="hover:text-[#DC2626] transition">Vision &amp; Mission</Link></li>
               <li><Link to="/projects" className="hover:text-[#DC2626] transition">Attendee</Link></li>
@@ -257,12 +238,12 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Row 2, Col 1: Support */}
+          {/* Column 4: SUPPORT */}
           <div>
-            <h3 className="text-xs font-black tracking-wider uppercase text-[#DC2626] mb-3">
+            <h3 className="text-xs font-extrabold tracking-wider uppercase text-[#DC2626] mb-3.5">
               SUPPORT
             </h3>
-            <ul className="space-y-2 text-xs text-slate-300">
+            <ul className="space-y-2.5 text-xs font-medium text-slate-700">
               <li><Link to="/contact" className="hover:text-[#DC2626] transition">Careers</Link></li>
               <li><Link to="/contact" className="hover:text-[#DC2626] transition">Terms &amp; Condition</Link></li>
               <li><Link to="/contact" className="hover:text-[#DC2626] transition">Privacy Policy</Link></li>
@@ -270,21 +251,21 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          {/* Row 2, Col 2: Contact Info */}
+          {/* Column 5: CONTACT INFO */}
           <div>
-            <h3 className="text-xs font-black tracking-wider uppercase text-[#DC2626] mb-3">
+            <h3 className="text-xs font-extrabold tracking-wider uppercase text-[#DC2626] mb-3.5">
               CONTACT INFO
             </h3>
-            <address className="not-italic space-y-2 text-xs text-slate-300">
-              <a href="tel:+919422407175" className="flex items-center gap-1.5 hover:text-[#DC2626] transition">
+            <address className="not-italic space-y-2.5 text-xs font-medium text-slate-700">
+              <a href="tel:+919422407175" className="flex items-center gap-2 hover:text-[#DC2626] transition">
                 <Phone className="size-3.5 text-[#DC2626] shrink-0" />
                 <span>+91 94224 07175</span>
               </a>
-              <a href="tel:02332600175" className="flex items-center gap-1.5 hover:text-[#DC2626] transition">
+              <a href="tel:02332600175" className="flex items-center gap-2 hover:text-[#DC2626] transition">
                 <Phone className="size-3.5 text-[#DC2626] shrink-0" />
                 <span>0233-2600175</span>
               </a>
-              <a href="mailto:info@jayelectronics.co.in" className="flex items-center gap-1.5 hover:text-[#DC2626] transition break-all">
+              <a href="mailto:info@jayelectronics.co.in" className="flex items-center gap-2 hover:text-[#DC2626] transition break-all">
                 <Mail className="size-3.5 text-[#DC2626] shrink-0" />
                 <span>info@jayelectronics.co.in</span>
               </a>
@@ -292,7 +273,7 @@ export function SiteFooter() {
                 href="https://maps.google.com/?q=College+Corner+North+Shivajinagar+Sangli+416416"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-start gap-1.5 hover:text-[#DC2626] transition leading-4 mt-1"
+                className="flex items-start gap-2 hover:text-[#DC2626] transition leading-relaxed"
               >
                 <MapPin className="size-3.5 text-[#DC2626] shrink-0 mt-0.5" />
                 <span>College Corner, Sangli 416416</span>
@@ -302,18 +283,18 @@ export function SiteFooter() {
         </div>
       </div>
 
-      {/* Copyright Bar */}
-      <div className="border-t border-slate-800 bg-[#0B1120] py-4 text-center text-xs text-slate-400 mb-12 md:mb-0">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 font-medium">
+      {/* Copyright Bar - Deeper Soft Grey */}
+      <div className="border-t border-slate-300/90 bg-[#DCE2E9] py-3.5 text-center text-xs text-slate-700 font-semibold mb-12 md:mb-0">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           A 35+ Year Experienced Solution Provider | All Rights Reserved
         </div>
       </div>
 
       {/* Sticky Bottom Quick Action Buttons Bar (Mobile Only) */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 grid grid-cols-2 shadow-2xl md:hidden border-t border-slate-800">
+      <div className="fixed bottom-0 left-0 right-0 z-50 grid grid-cols-2 shadow-2xl md:hidden border-t border-slate-300">
         <a
           href="tel:+919422407175"
-          className="flex items-center justify-center gap-2 bg-[#0F172A] text-white py-3.5 text-xs font-bold border-r border-slate-800 active:bg-slate-900"
+          className="flex items-center justify-center gap-2 bg-[#F0F4F8] text-slate-800 py-3.5 text-xs font-bold border-r border-slate-300 active:bg-slate-200"
         >
           <Phone className="size-4 text-[#DC2626]" />
           <span>Call Us</span>
