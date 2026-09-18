@@ -4,21 +4,30 @@ import {
   Award,
   BarChart3,
   Building2,
+  Cable,
+  Camera,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
+  FileCheck,
+  FileText,
+  Handshake,
   Headphones,
   Instagram,
   Landmark,
   Linkedin,
+  MapPin,
   Network,
   Phone,
+  Play,
   Quote,
   Settings,
   Shield,
   ShieldCheck,
+  Tv,
   Twitter,
   User,
+  UserCheck,
   Users,
   Video,
 } from "lucide-react";
@@ -46,23 +55,29 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="bg-[#F7F9FC] font-sans text-[#17202A] min-h-screen">
+    <div className="bg-white font-sans text-[#0F172A] min-h-screen">
       <HeroSection />
+      <ImpactSection />
       <WelcomeSection />
       <FounderSection />
-      <TrackRecordSection />
       <WhatWeCaterSection />
       <BrandPartnersSection />
-      <ProtectionSpectrumSection />
       <ExpertTeamSection />
     </div>
   );
 }
 
+/* =========================================================================
+   1. HERO SECTION (MATCHING EXACT COLOR & LAYOUT FROM REFERENCE IMAGE)
+   ========================================================================= */
 function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroSlides = [
+    {
+      image: "/inauguration-slide.png",
+      title: "Police Command & Control Center Inauguration",
+    },
     {
       image: "/hero-slide-1.png",
       title: "IP CCTV & Security Command Center",
@@ -72,7 +87,7 @@ function HeroSection() {
       title: "Enterprise High-Speed Data Servers",
     },
     {
-      image: "/hero-slide-3.png",
+      image: "/hero-slide-3.jpeg",
       title: "Smart City Municipal NOC Matrix",
     },
     {
@@ -86,17 +101,16 @@ function HeroSection() {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % totalSlides);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
 
-  // Auto transition every 3 seconds (3000ms)
   useEffect(() => {
     const timer = setInterval(() => {
-      nextSlide();
-    }, 3000);
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }, 4000);
     return () => clearInterval(timer);
   }, [totalSlides]);
 
   return (
-    <section className="relative overflow-hidden bg-[#041321] text-white w-full h-[400px] sm:h-[500px] lg:h-[600px] flex items-center justify-center">
-      {/* Background HD AI Images Slider - Pure Full Opacity Display */}
+    <section className="relative w-full h-[400px] sm:h-[520px] lg:h-[620px] bg-[#041321] overflow-hidden">
+      {/* PURE FULL SCREEN SLIDE IMAGES */}
       {heroSlides.map((slide, idx) => (
         <div
           key={idx}
@@ -108,31 +122,34 @@ function HeroSection() {
             src={slide.image}
             alt={slide.title}
             className="w-full h-full object-cover object-center"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "/hero-slide-1.png";
+            }}
           />
         </div>
       ))}
 
-      {/* Left Navigation Arrow */}
+      {/* LEFT NAVIGATION ARROW */}
       <button
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-3 sm:left-6 z-20 size-11 sm:size-13 rounded-full bg-[#041321]/80 hover:bg-[#0A76A8] text-white flex items-center justify-center border border-slate-600 shadow-2xl transition backdrop-blur-md cursor-pointer"
+        className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 size-11 sm:size-13 rounded-full bg-[#041321]/75 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-2xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
       >
         <ChevronLeft className="size-6 text-white" />
       </button>
 
-      {/* Right Navigation Arrow */}
+      {/* RIGHT NAVIGATION ARROW */}
       <button
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-3 sm:right-6 z-20 size-11 sm:size-13 rounded-full bg-[#041321]/80 hover:bg-[#0A76A8] text-white flex items-center justify-center border border-slate-600 shadow-2xl transition backdrop-blur-md cursor-pointer"
+        className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 size-11 sm:size-13 rounded-full bg-[#041321]/75 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-2xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
       >
         <ChevronRight className="size-6 text-white" />
       </button>
 
-      {/* Slide Indicator Dots at Bottom */}
+      {/* SLIDER DOTS & INDICATORS AT BOTTOM */}
       <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-2.5 z-20">
         {heroSlides.map((_, idx) => (
           <button
@@ -141,8 +158,8 @@ function HeroSection() {
             aria-label={`Go to slide ${idx + 1}`}
             className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
               currentSlide === idx
-                ? "w-8 bg-[#08A9DF] shadow-md shadow-[#08A9DF]/50"
-                : "w-2.5 bg-white/50 hover:bg-white/90"
+                ? "w-9 bg-[#DC2626] shadow-md shadow-rose-600/50"
+                : "w-2.5 bg-white/60 hover:bg-white"
             }`}
           />
         ))}
@@ -151,81 +168,266 @@ function HeroSection() {
   );
 }
 
+
+
 /* =========================================================================
-   2. WELCOME / OVERVIEW SECTION (ANIMATED & ENHANCED)
+   1.C OUR IMPACT SECTION (EXACT MATCH FOR SECOND USER IMAGE)
    ========================================================================= */
-function WelcomeSection() {
-  const pillars = [
-    { icon: Shield, title: "Trusted Technology", subtitle: "ISO 9001:2015 Assured" },
-    { icon: Users, title: "Expert Team", subtitle: "35+ Yrs Field Engineers" },
-    { icon: Settings, title: "Customized Solutions", subtitle: "Turnkey System Design" },
-    { icon: Headphones, title: "24/7 Support", subtitle: "Guaranteed SLA Uptime" },
+function ImpactSection() {
+  const stats = [
+    {
+      icon: UserCheck,
+      watermark: Award,
+      number: "35+",
+      numberColor: "text-[#0F172A]",
+      label: "YEARS EXPERIENCE",
+      desc: "A legacy of innovation and trust since 1989.",
+    },
+    {
+      icon: FileText,
+      watermark: FileCheck,
+      number: "1,000+",
+      numberColor: "text-[#DC2626]", // Highlighted in red in reference design
+      label: "PROJECTS COMPLETED",
+      desc: "Delivering reliable solutions across industries.",
+    },
+    {
+      icon: Users,
+      watermark: Users,
+      number: "500+",
+      numberColor: "text-[#0F172A]",
+      label: "ACTIVE ENTERPRISE CLIENTS",
+      desc: "Trusted by leading organizations nationwide.",
+    },
+    {
+      icon: Landmark,
+      watermark: Landmark,
+      number: "50+",
+      numberColor: "text-[#0F172A]",
+      label: "GOVERNMENT PROJECTS",
+      desc: "Strengthening public infrastructure and security.",
+    },
+    {
+      icon: Handshake,
+      watermark: Handshake,
+      number: "100+",
+      numberColor: "text-[#0F172A]",
+      label: "CORPORATE CUSTOMERS",
+      desc: "Partnering for a smarter, safer future.",
+    },
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-[#F7F9FC] relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF6FC] border border-[#DCE7EE] shadow-sm">
-            <Shield className="size-4 text-[#0A76A8] animate-pulse" />
-            <span className="text-xs font-extrabold text-[#0A76A8] tracking-widest uppercase">
-              ABOUT JAY ELECTRONICS PVT LTD
-            </span>
-          </div>
+    <section className="py-16 sm:py-20 bg-gradient-to-b from-rose-50/40 via-white to-rose-50/30 relative overflow-hidden border-b border-rose-100/60">
+      {/* Subtle Background Pattern Dots/Lines */}
+      <div
+        className="absolute inset-0 opacity-40 pointer-events-none"
+        style={{
+          backgroundImage: `radial-[#DC2626] 1px, transparent 1px)`,
+          backgroundSize: "28px 28px",
+          maskImage: "linear-gradient(to bottom, white, transparent)",
+        }}
+      />
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#17202A] tracking-tight leading-tight">
-            Welcome to <span className="text-[#0A76A8]">JAY ELECTRONICS</span> PVT LTD
-          </h2>
+      {/* Decorative side accent graphics */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-rose-200/20 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-rose-100/30 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
 
-          <p className="text-xs sm:text-sm text-[#647786] leading-relaxed max-w-2xl mx-auto font-normal">
-            For more than three decades, JAY ELECTRONICS PRIVATE LIMITED has been delivering innovative technology solutions that help businesses, industries, educational institutions, hospitals, government organizations, and residential customers improve security, communication and operational efficiency.
-          </p>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        {/* Eyebrow Pill Badge */}
+        <div className="inline-flex items-center justify-center gap-3 mb-4">
+          <div className="w-8 h-[2px] bg-rose-300" />
+          <span className="px-4 py-1 rounded-full bg-rose-100/80 border border-rose-200 text-[#DC2626] text-xs font-bold tracking-wider uppercase">
+            OUR IMPACT
+          </span>
+          <div className="w-8 h-[2px] bg-rose-300" />
         </div>
 
-        {/* 4 Animated Pillar Cards Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 max-w-5xl mx-auto">
-          {pillars.map((item, idx) => (
-            <div
-              key={idx}
-              className="group relative bg-white p-6 sm:p-7 rounded-2xl border border-[#DCE7EE] shadow-sm hover:shadow-xl hover:shadow-[#0A76A8]/15 hover:border-[#08A9DF] hover:-translate-y-2 transition-all duration-500 cursor-pointer overflow-hidden flex flex-col items-center text-center space-y-3"
-            >
-              {/* Top Accent Gradient Bar on Hover */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0A76A8] to-[#08A9DF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        {/* Heading */}
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0F172A] tracking-tight">
+          Engineering <span className="text-[#DC2626]">Trust</span> Through Numbers
+        </h2>
 
-              {/* Light Sweep Animation Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-sky-100/50 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+        {/* Subtitle */}
+        <p className="mt-3 text-sm sm:text-base text-slate-500 font-medium max-w-2xl mx-auto">
+          Decades of expertise. Thousands of successful deployments. A stronger, safer tomorrow.
+        </p>
 
-              {/* Icon Container with Rotation & Pulse Effect */}
-              <div className="size-14 rounded-2xl bg-[#EAF6FC] text-[#0A76A8] flex items-center justify-center group-hover:bg-[#0A76A8] group-hover:text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-sm">
-                <item.icon className="size-7 transition-transform duration-300" />
-              </div>
+        {/* 5 Cards Grid */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          {stats.map((stat, idx) => {
+            const IconComp = stat.icon;
+            const WatermarkIcon = stat.watermark;
+            return (
+              <div
+                key={idx}
+                className="group relative bg-white/90 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 text-left shadow-sm hover:shadow-xl hover:border-rose-300 hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between"
+              >
+                {/* Background Watermark Icon */}
+                <WatermarkIcon className="absolute -top-3 -right-3 size-24 text-rose-500/5 group-hover:text-rose-500/10 group-hover:scale-110 transition-all duration-500 pointer-events-none" />
 
-              {/* Card Title & Sub-tag */}
-              <div className="space-y-1">
-                <h3 className="text-sm sm:text-base font-extrabold text-[#17202A] group-hover:text-[#0A76A8] transition-colors leading-snug">
-                  {item.title}
-                </h3>
-                <p className="text-[10.5px] font-bold text-[#647786] group-hover:text-[#08A9DF] transition-colors">
-                  {item.subtitle}
+                <div>
+                  {/* Top Badge Icon */}
+                  <div className="size-11 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-[#DC2626] mb-5 shadow-2xs group-hover:bg-[#DC2626] group-hover:text-white transition-colors duration-300">
+                    <IconComp className="size-5.5" />
+                  </div>
+
+                  {/* Stat Number */}
+                  <div className={`text-3xl sm:text-4xl font-black ${stat.numberColor} tracking-tight`}>
+                    {stat.number}
+                  </div>
+
+                  {/* Label */}
+                  <div className="text-[11px] font-extrabold text-slate-700 tracking-wider uppercase mt-1">
+                    {stat.label}
+                  </div>
+
+                  {/* Red Accent Underline */}
+                  <div className="w-8 h-1 bg-[#DC2626] rounded-full my-3 group-hover:w-14 transition-all duration-300" />
+                </div>
+
+                {/* Description */}
+                <p className="text-xs text-slate-500 leading-relaxed font-normal mt-1">
+                  {stat.desc}
                 </p>
               </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================================
+   2. WELCOME / ABOUT SECTION (MATCHING REFERENCE LAYOUT & HIGHLIGHT STACK)
+   ========================================================================= */
+function WelcomeSection() {
+  const companyFeatures = [
+    {
+      icon: Award,
+      title: "35+ Years Legacy",
+      desc: "Founded in 1989 with unmatched institutional reliability.",
+    },
+    {
+      icon: Settings,
+      title: "Turnkey Execution",
+      desc: "End-to-end scope from BOQ survey to long-term lifecycle AMC.",
+    },
+    {
+      icon: Users,
+      title: "In-House Engineers",
+      desc: "Certified technicians for optical fiber, biometrics, and switches.",
+    },
+  ];
+
+  return (
+    <section className="py-16 sm:py-24 bg-white relative overflow-hidden">
+      {/* Background Subtle Accent Gradients */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-72 h-72 bg-rose-50/50 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* LEFT SIDE: EXACT CONTENT FROM 1ST IMAGE */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            {/* Red Accent Line + Eyebrow */}
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-1 bg-[#DC2626] rounded-full" />
+              <span className="text-xs font-extrabold text-[#DC2626] tracking-wider uppercase">
+                ABOUT JAY ELECTRONICS
+              </span>
             </div>
-          ))}
-        </div>
 
-        {/* Animated Action Link Button */}
-        <div className="text-center pt-2">
-          <Link
-            to="/about"
-            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-white border border-[#DCE7EE] hover:border-[#0A76A8] text-xs sm:text-sm font-extrabold text-[#0A76A8] hover:bg-[#EAF6FC] shadow-sm hover:shadow-md transition-all duration-300 uppercase tracking-wider group cursor-pointer"
-          >
-            <span>Explore Full Company Story, Credentials &amp; Timeline</span>
-            <ArrowRight className="size-4 text-[#0A76A8] group-hover:translate-x-2 transition-transform duration-300" />
-          </Link>
-        </div>
+            {/* Title */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0F172A] tracking-tight">
+              Who We Are
+            </h2>
 
+            {/* Paragraph 1 */}
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              For more than three decades, JAY ELECTRONICS PRIVATE LIMITED has been delivering
+              innovative technology solutions that help businesses, industries, educational
+              institutions, hospitals, government organizations and residential customers improve
+              security, communication and operational efficiency.
+            </p>
+
+            {/* Paragraph 2 */}
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              With thousands of successful installations and an experienced engineering team, we
+              provide complete turnkey solutions—from consultation and design to installation,
+              commissioning, training and annual maintenance contracts (AMC). We bridge complex
+              hardware ecosystems into singular, intuitive control workflows.
+            </p>
+
+            {/* 3 Pillar Cards (Exact from 1st Image) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+              {companyFeatures.map((feat, idx) => {
+                const IconComp = feat.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="bg-white border border-slate-200/90 rounded-2xl p-4.5 space-y-2.5 shadow-xs hover:border-[#DC2626] hover:shadow-md transition-all duration-300 group"
+                  >
+                    <div className="size-10 rounded-xl bg-rose-50 text-[#DC2626] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                      <IconComp className="size-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs sm:text-sm font-extrabold text-[#0F172A] leading-tight">
+                        {feat.title}
+                      </h3>
+                      <p className="text-[11px] text-slate-500 mt-1 leading-snug">{feat.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Action CTA Link */}
+            <div className="pt-2">
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-2 text-sm font-extrabold text-[#DC2626] hover:text-[#B91C1C] transition-colors group cursor-pointer"
+              >
+                <span>Discover Our Story</span>
+                <ArrowRight className="size-4 group-hover:translate-x-1.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE: ELEGANT HQ BUILDING IMAGE FRAME */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group w-full max-w-lg">
+              <img
+                src="/about-building.png"
+                alt="Jay Electronics Corporate Headquarters"
+                className="w-full h-[360px] sm:h-[440px] object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/80 via-transparent to-transparent" />
+
+              {/* Floating Top Badge */}
+              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-lg border border-white/60 flex items-center gap-2">
+                <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-wider text-[#0F172A]">
+                  CORPORATE HEADQUARTERS
+                </span>
+              </div>
+
+              {/* Floating Bottom Card */}
+              <div className="absolute bottom-4 left-4 right-4 bg-[#0F172A]/90 backdrop-blur-md p-4 rounded-2xl text-white shadow-xl border border-slate-700/80 space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-white">Jay Electronics Pvt Ltd</span>
+                  <span className="text-[10px] font-bold text-[#08A9DF] bg-sky-950/80 px-2.5 py-0.5 rounded-full border border-sky-800">
+                    EST. 1989
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-slate-300 font-medium">
+                  <MapPin className="size-3.5 text-[#DC2626]" />
+                  <span>College Corner, Sangli, Maharashtra</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -236,50 +438,58 @@ function WelcomeSection() {
    ========================================================================= */
 function FounderSection() {
   return (
-    <section className="py-14 sm:py-20 bg-white border-y border-[#DCE7EE]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-          {/* Owner Image */}
-          <div className="md:col-span-5 relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#DCE7EE]">
-              <img
-                src="/about-owner.png"
-                alt="Mr. Jayesh Patil - Founder & Managing Director"
-                className="w-full h-[300px] sm:h-[340px] object-cover object-top"
-              />
-              <div className="absolute bottom-3 left-3 right-3 bg-[#041321]/90 backdrop-blur-md p-3 rounded-xl text-white">
-                <span className="text-xs font-bold block text-white">Mr. Jayesh Patil</span>
-                <span className="text-[10px] text-[#08A9DF] font-semibold">Founder &amp; MD</span>
+    <section className="py-16 sm:py-24 bg-white border-t border-slate-200/90 relative overflow-hidden">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#F0F7FE] border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7 space-y-5 text-left">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#DCE7EE] shadow-xs">
+                <User className="size-3.5 text-[#0A76A8]" />
+                <span className="text-[11px] font-black text-[#0A76A8] tracking-widest uppercase">
+                  FOUNDER &amp; MANAGING DIRECTOR
+                </span>
+              </div>
+
+              <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A] tracking-tight leading-tight">
+                Meet Our Owner - <span className="text-[#0A76A8]">Mr. Jayesh Patil</span>
+              </h2>
+
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                With a vision to make advanced security and communication technology accessible to
+                everyone, Mr. Jayesh Patil established JAY Electronics with a strong commitment to
+                quality, innovation and customer satisfaction. Over three decades of visionary
+                leadership has positioned Jay Electronics as a trusted partner for government
+                institutions, industrial MIDCs, and enterprise networks.
+              </p>
+
+              {/* Dark Quote Container */}
+              <div className="bg-[#0F172A] text-white p-5 sm:p-6 rounded-2xl shadow-xl space-y-3 border border-slate-800 relative">
+                <Quote className="size-6 text-[#08A9DF] shrink-0 opacity-80" />
+                <p className="text-sm italic font-medium leading-relaxed text-slate-200">
+                  "Our goal is to create safer, smarter and more connected spaces through reliable
+                  technology solutions."
+                </p>
+                <div className="text-right text-xs font-bold text-[#08A9DF]">
+                  — Mr. Jayesh Patil (Managing Director)
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Founder Content */}
-          <div className="md:col-span-7 space-y-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF6FC] text-xs font-bold text-[#0A76A8] uppercase tracking-wider border border-[#DCE7EE]">
-              <User className="size-3.5" />
-              <span>FOUNDER &amp; MANAGING DIRECTOR</span>
-            </div>
-
-            <h2 className="text-2xl sm:text-3xl font-black text-[#17202A]">
-              Meet Our Owner - <span className="text-[#0A76A8]">Mr. Jayesh Patil</span>
-            </h2>
-
-            <p className="text-xs sm:text-sm text-[#647786] leading-relaxed">
-              With a vision to make advanced security and communication technology accessible to everyone, Mr. Jayesh Patil established JAY Electronics with a strong commitment to quality, innovation and customer satisfaction.
-            </p>
-
-            {/* Quote Card */}
-            <div className="rounded-xl bg-[#041321] text-white p-5 shadow-md border border-[#082136]">
-              <div className="flex items-start gap-3">
-                <Quote className="size-5 text-[#08A9DF] shrink-0 rotate-180 mt-0.5" />
-                <div className="space-y-2">
-                  <p className="text-xs sm:text-sm italic font-medium leading-relaxed text-slate-200">
-                    "Our goal is to create safer, smarter and more connected spaces through reliable technology solutions."
-                  </p>
-                  <p className="text-xs font-bold text-[#08A9DF] text-right">
-                    — Mr. Jayesh Patil (Managing Director)
-                  </p>
+            {/* Right Photo */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group w-full max-w-md">
+                <img
+                  src="/about-owner.png"
+                  alt="Mr. Jayesh Patil - Founder & Managing Director"
+                  className="w-full h-[320px] sm:h-[380px] object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/70 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 bg-[#0F172A]/90 backdrop-blur-md p-3.5 rounded-2xl text-white shadow-lg border border-slate-700/80">
+                  <span className="text-xs font-black text-white block">Mr. Jayesh Patil</span>
+                  <span className="text-[10px] font-bold text-[#08A9DF]">
+                    Founder &amp; Managing Director
+                  </span>
                 </div>
               </div>
             </div>
@@ -291,159 +501,104 @@ function FounderSection() {
 }
 
 /* =========================================================================
-   4. TRACK RECORD & CREDENTIALS (DARK NAVY SECTION)
-   ========================================================================= */
-function TrackRecordSection() {
-  return (
-    <section className="py-14 sm:py-20 bg-[#041321] text-white">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#082136] border border-slate-700 px-4 py-1 text-xs font-bold text-[#08A9DF] uppercase tracking-widest">
-            <Award className="size-3.5 text-[#08A9DF]" />
-            <span>TRACK RECORD &amp; CREDENTIALS</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
-            Trusted by 1000+ Enterprises &amp; Govt Institutions
-          </h2>
-        </div>
-
-        {/* 3 Stat Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-          <div className="bg-[#082136] p-6 rounded-2xl border border-slate-700 flex flex-col justify-center items-center text-center space-y-2">
-            <span className="text-3xl sm:text-4xl font-black text-[#08A9DF]">35+</span>
-            <h4 className="text-xs sm:text-sm font-extrabold text-white">Years of Engineering Experience</h4>
-            <p className="text-[11px] text-slate-300">Continuous innovation since 1989</p>
-          </div>
-
-          <div className="bg-[#082136] p-6 rounded-2xl border border-slate-700 flex flex-col justify-center items-center text-center space-y-2">
-            <span className="text-3xl sm:text-4xl font-black text-[#08A9DF]">1000+</span>
-            <h4 className="text-xs sm:text-sm font-extrabold text-white">Satisfied Clients Across India</h4>
-            <p className="text-[11px] text-slate-300">Govt, Hospitals, Banks &amp; Industry</p>
-          </div>
-
-          <div className="bg-[#082136] p-6 rounded-2xl border border-slate-700 flex flex-col justify-center items-center text-center space-y-2">
-            <span className="text-3xl sm:text-4xl font-black text-[#08A9DF]">100%</span>
-            <h4 className="text-xs sm:text-sm font-extrabold text-white">GeM &amp; Class-1 Govt Certified</h4>
-            <p className="text-[11px] text-slate-300">ISO 9001:2015 Quality Assured</p>
-          </div>
-        </div>
-
-        <p className="text-[11px] text-slate-400 text-center font-semibold tracking-wider">
-          JAY ELECTRONICS PRIVATE LIMITED • SANGLI, MAHARASHTRA
-        </p>
-      </div>
-    </section>
-  );
-}
-
-/* =========================================================================
-   5. WHAT WE CATER (SERVICES) SECTION
+   4. WHAT WE CATER SECTION (OUR INTEGRATED ELECTRONIC SOLUTIONS FULL GRID)
    ========================================================================= */
 function WhatWeCaterSection() {
-  const caterServices = [
+  const solutionsList = [
     {
-      id: 1,
-      title: "IP CCTV/Analog CCTV Solutions",
-      desc: "Choosing between IP CCTV and Analog CCTV solutions depends on your budget, clarity needs, and scale.",
-      icon: Shield,
-      badge: "HD SURVEILLANCE",
+      title: "IP CCTV / Analog CCTV",
+      desc: "AI-enabled IP surveillance, thermal detection, and central command NVR matrices.",
+      icon: Camera,
+      tag: "HD SURVEILLANCE",
     },
     {
-      id: 2,
       title: "LAN/WAN Networking",
-      desc: "A Local Area Network (LAN) connects computers and devices seamlessly across office spaces.",
+      desc: "Enterprise Layer-3 PoE+ switching, core routing, and Wi-Fi 6 wireless meshing.",
       icon: Network,
-      badge: "HIGH SPEED GIGABIT",
+      tag: "HIGH SPEED GIGABIT",
     },
     {
-      id: 3,
-      title: "EPABX/IP-PBX System",
-      desc: "Communications is a Trader of the wide spectrum EPABX System providing seamless voice & data.",
+      title: "EPABX / IP-PBX System",
+      desc: "Scalable IP-PBX communication, SIP trunking, IVR, and intercom extension grids.",
       icon: Phone,
-      badge: "SMART VOICE & DATA",
+      tag: "SMART VOICE & DATA",
     },
     {
-      id: 4,
-      title: "Audio/Video Solutions",
-      desc: "We provide cost effective audio visual services for classroom, visual arts, communication.",
+      title: "Audio / Video Solutions",
+      desc: "4K interactive touch panels, Dante IP audio, ceiling beamforming mics & AV setups.",
       icon: Video,
-      badge: "PROFESSIONAL AV",
+      tag: "PROFESSIONAL AV",
     },
     {
-      id: 5,
-      title: "Structured LAN/Telecom Cabling",
-      desc: "Structured LAN and telecom cabling is a planned system of wires, patch panels.",
-      icon: Settings,
-      badge: "FIBER & COPPER LOOP",
+      title: "Structured Cabling",
+      desc: "Single-mode OS2 & OM3/OM4 fiber optic backbones, HDPE ducting, and LIU patch bays.",
+      icon: Cable,
+      tag: "FIBER & COPPER LOOP",
     },
     {
-      id: 6,
-      title: "ACTIVE LED BOARD System",
-      desc: "Technology is leading Outdoor LED Screen, Indoor LED Screen, Advertising LED display.",
-      icon: BarChart3,
-      badge: "DIGITAL LED DISPLAY",
+      title: "LED Display Systems",
+      desc: "Fine-pitch P1.25/P1.8 indoor video walls, 24/7 NOC matrices, and outdoor billboards.",
+      icon: Tv,
+      tag: "DIGITAL LED DISPLAY",
     },
   ];
 
   return (
-    <section className="py-14 sm:py-20 bg-[#F7F9FC]">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#EAF6FC] px-3.5 py-1 text-xs font-bold text-[#0A76A8] uppercase tracking-widest border border-[#DCE7EE]">
-            <Shield className="size-3.5 text-[#0A76A8]" />
-            <span>WHAT WE CATER</span>
+    <section className="py-16 sm:py-24 bg-[#F8FAFC] border-y border-slate-200/90">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF6FC] border border-[#DCE7EE] shadow-xs">
+            <Shield className="size-4 text-[#0A76A8]" />
+            <span className="text-xs font-black text-[#0A76A8] tracking-widest uppercase">
+              WHAT WE CATER
+            </span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#17202A] tracking-tight">
-            JAY ELECTRONICS <span className="text-[#0A76A8]">PVT LTD</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0F172A] tracking-tight">
+            Our Integrated <span className="text-[#0A76A8]">Electronic Solutions</span>
           </h2>
 
-          <div className="flex items-center justify-center gap-2 text-[11px] font-extrabold tracking-widest uppercase text-[#647786]">
-            <span>SECURE</span>
-            <span className="text-[#0A76A8]">•</span>
-            <span>CONNECT</span>
-            <span className="text-[#0A76A8]">•</span>
-            <span>COMMUNICATE</span>
-            <span className="text-[#0A76A8]">•</span>
-            <span>GROW</span>
-          </div>
+          <p className="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto font-medium">
+            Turnkey enterprise architectures engineered for commercial, industrial, municipal, and
+            healthcare facilities.
+          </p>
         </div>
 
-        {/* Services Cards Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {caterServices.map((service) => {
-            const IconComp = service.icon;
+        {/* Full Width 6 Solutions Grid (3-Column Layout) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {solutionsList.map((sol, idx) => {
+            const IconComp = sol.icon;
             return (
               <div
-                key={service.id}
-                className="bg-white rounded-xl p-6 border border-[#DCE7EE] shadow-sm flex flex-col justify-between space-y-4 hover:border-[#0A76A8] hover:shadow-md transition cursor-pointer"
+                key={idx}
+                className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-xs flex flex-col justify-between space-y-6 hover:border-[#0A76A8] hover:shadow-xl transition-all duration-300 group cursor-pointer"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="size-12 rounded-xl bg-[#EAF6FC] flex items-center justify-center text-[#0A76A8]">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="size-12 rounded-2xl bg-[#EAF6FC] text-[#0A76A8] flex items-center justify-center group-hover:bg-[#0A76A8] group-hover:text-white transition-colors duration-300 shadow-xs">
                       <IconComp className="size-6" />
                     </div>
-                    <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-[#FFF8E7] text-[#D97706] border border-[#FDE68A]">
-                      {service.badge}
+                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
+                      {sol.tag}
                     </span>
                   </div>
 
-                  <h3 className="text-base font-extrabold text-[#17202A] leading-snug mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-xs text-[#647786] leading-relaxed">
-                    {service.desc}
-                  </p>
+                  <div>
+                    <h3 className="text-lg font-black text-[#0F172A] leading-snug group-hover:text-[#0A76A8] transition-colors">
+                      {sol.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed font-normal">
+                      {sol.desc}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="pt-4 border-t border-[#DCE7EE] flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#0A76A8]">
-                    Learn More
-                  </span>
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-black text-[#0A76A8]">
+                  <span>Learn More</span>
                   <Link
                     to="/services"
-                    className="flex size-8 items-center justify-center rounded-full bg-[#0A76A8] text-white hover:bg-[#0896d7] transition"
+                    className="size-8 rounded-full bg-[#EAF6FC] text-[#0A76A8] group-hover:bg-[#0A76A8] group-hover:text-white flex items-center justify-center transition-colors shadow-xs"
                   >
                     <ArrowRight className="size-4" />
                   </Link>
@@ -458,317 +613,179 @@ function WhatWeCaterSection() {
 }
 
 /* =========================================================================
-   6. BRAND PARTNERS SECTION ("Framed Brands We Work With")
+   4. BRAND PARTNERS SECTION (Framed Brands We Work With)
    ========================================================================= */
 function BrandPartnersSection() {
-  const brands = [
-    { name: "CP PLUS", category: "CCTV & Security", tag: "CP" },
-    { name: "DAHUA TECHNOLOGY", category: "IP Surveillance", tag: "DAH" },
-    { name: "HIKVISION", category: "Smart Security", tag: "HIK" },
-    { name: "MATRIX TELECOM", category: "Telecom & EPABX", tag: "MAT" },
-    { name: "CISCO SYSTEMS", category: "Enterprise Networking", tag: "CSC" },
-    { name: "HONEYWELL", category: "Building Automation", tag: "HON" },
-    { name: "BOSCH SECURITY", category: "Critical Infrastructure", tag: "BOS" },
-    { name: "COMMSCOPE", category: "Structured Cabling", tag: "COM" },
-    { name: "SCHNEIDER ELECTRIC", category: "Smart Power & BMS", tag: "SCH" },
-    { name: "ZKTECO", category: "Biometrics & Access", tag: "ZKT" },
+  const brandList = [
+    { name: "HIKVISION", color: "text-rose-600" },
+    { name: "CP PLUS", color: "text-[#DC2626]" },
+    { name: "DAHUA", color: "text-blue-700" },
+    { name: "BOSCH", color: "text-slate-900" },
+    { name: "Honeywell", color: "text-rose-700" },
+    { name: "MATRIX", color: "text-cyan-700" },
+    { name: "CISCO", color: "text-blue-600" },
+    { name: "LG", color: "text-rose-600" },
   ];
 
-  // Double list for smooth infinite scroll marquee
-  const scrollerItems = [...brands, ...brands];
-
   return (
-    <section className="py-14 sm:py-20 bg-[#041321] text-white border-y border-[#082136] overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#082136] border border-slate-700 px-4 py-1 text-xs font-bold text-[#08A9DF] uppercase tracking-widest shadow-inner">
-            <Award className="size-3.5 text-[#08A9DF]" />
-            <span>AUTHORIZED DEALERS &amp; BRAND PARTNERS</span>
+    <section className="py-14 sm:py-20 bg-white text-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EAF6FC] border border-[#DCE7EE]">
+            <Award className="size-3.5 text-[#0A76A8]" />
+            <span className="text-[11px] font-black text-[#0A76A8] tracking-widest uppercase">
+              AUTHORIZED DEALERS &amp; BRAND PARTNERS
+            </span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-[#0F172A] tracking-tight">
             Framed Brands We Work With
           </h2>
-
-          <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto">
-            We partner with leading global manufacturers to deliver genuine, high-performance security, networking and telecommunication hardware.
-          </p>
         </div>
 
-        {/* Continuous Auto-Scrolling Logo Marquee */}
-        <div className="relative w-full overflow-hidden py-4">
-          {/* Gradient fade overlay edges for smooth visual transition */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[#041321] via-[#041321]/80 to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[#041321] via-[#041321]/80 to-transparent z-10" />
+        {/* Grid of Clean Framed Brand Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
+          {brandList.map((brand, idx) => (
+            <div
+              key={idx}
+              className="bg-white border border-slate-200/90 rounded-2xl p-4 flex items-center justify-center shadow-xs hover:border-[#DC2626] hover:shadow-md transition cursor-pointer h-20"
+            >
+              <span className={`font-black text-sm tracking-tight ${brand.color}`}>
+                {brand.name}
+              </span>
+            </div>
+          ))}
+        </div>
 
-          {/* Marquee Track */}
-          <div className="animate-marquee-left flex gap-4 sm:gap-6 items-center">
-            {scrollerItems.map((brand, idx) => (
+        {/* Active Red Pagination Dots */}
+        <div className="flex items-center justify-center gap-2 pt-2">
+          <span className="size-2.5 rounded-full bg-[#DC2626]" />
+          <span className="size-2.5 rounded-full bg-slate-300" />
+          <span className="size-2.5 rounded-full bg-slate-300" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================================
+   5. OUR EXPERT TEAM MEMBER SECTION (BLUE CITYSCAPE GRADIENT BACKGROUND)
+   ========================================================================= */
+function ExpertTeamSection() {
+  const teamMembers = [
+    {
+      id: 1,
+      name: "Er. Amit Patil",
+      role: "Senior Security Director",
+      image: "/team-2.png",
+    },
+    {
+      id: 2,
+      name: "Er. Sneha Kulkarni",
+      role: "Client Relationship Lead",
+      image: "/team-5.png",
+    },
+    {
+      id: 3,
+      name: "Er. Jayant Wankar",
+      role: "Founder & Managing Director",
+      image: "/about-owner.png",
+    },
+    {
+      id: 4,
+      name: "Er. Payal Wankar",
+      role: "Director & System Architect",
+      image: "/team-3.png",
+    },
+    {
+      id: 5,
+      name: "Er. Rohan Wankar",
+      role: "Technical Operations Lead",
+      image: "/team-4.png",
+    },
+  ];
+
+  return (
+    <section className="bg-white border-t border-slate-200/90">
+      {/* 1. TITLE BLOCK OUTSIDE THE BLUE CONTAINER (ON CLEAN WHITE BACKGROUND) */}
+      <div className="py-10 sm:py-12 text-center space-y-3 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-[#DC2626] shadow-xs">
+          <Users className="size-3.5 text-[#DC2626]" />
+          <span className="text-[11px] font-black tracking-widest uppercase">OUR TEAM</span>
+        </div>
+
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0F172A] tracking-tight">
+          Our Expert Team Member
+        </h2>
+
+        <p className="text-xs sm:text-sm text-slate-500 font-medium max-w-xl mx-auto">
+          Professionals Behind a Safer World
+        </p>
+      </div>
+
+      {/* 2. BLUE CITYSCAPE BANNER CONTAINER WITH TEAM CARDS */}
+      <div className="py-10 sm:py-14 bg-gradient-to-r from-[#05162A] via-[#093259] to-[#124B94] text-white relative overflow-hidden shadow-inner">
+        {/* Background High-Tech City Overlay */}
+        <img
+          src="/project-smartcity.png"
+          alt="Background Cityscape"
+          className="absolute inset-0 w-full h-full object-cover opacity-35 mix-blend-overlay pointer-events-none"
+        />
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-5 w-full max-w-6xl mx-auto">
+            {teamMembers.map((member) => (
               <div
-                key={idx}
-                className="w-56 sm:w-64 flex-shrink-0 bg-[#082136] p-5 rounded-xl border border-slate-700/80 flex flex-col items-center text-center space-y-3 hover:border-[#08A9DF] hover:shadow-lg hover:shadow-[#08A9DF]/20 hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+                key={member.id}
+                className="bg-[#0A1628]/85 border border-slate-700/80 hover:border-[#DC2626] rounded-2xl p-4 text-center space-y-3 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 backdrop-blur-md group"
               >
-                <div className="size-12 sm:size-14 rounded-xl bg-[#0A76A8] group-hover:bg-[#08A9DF] text-white font-black text-sm sm:text-base flex items-center justify-center shadow-md transition-colors duration-300 group-hover:scale-105">
-                  {brand.tag}
+                <div className="w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/80 shadow-sm">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/about-owner.png";
+                    }}
+                  />
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-sm font-extrabold text-white group-hover:text-[#08A9DF] transition-colors">
-                    {brand.name}
+
+                <div className="space-y-0.5">
+                  <h3 className="text-sm sm:text-base font-black text-white truncate">
+                    {member.name}
                   </h3>
-                  <p className="text-[11px] text-[#08A9DF] font-semibold">
-                    {brand.category}
+                  <p className="text-[11px] font-extrabold text-[#DC2626] truncate">
+                    {member.role}
                   </p>
+                </div>
+
+                {/* Social Media Icons */}
+                <div className="flex items-center justify-center gap-2.5 pt-0.5">
+                  <a
+                    href="#"
+                    className="size-7 rounded-full bg-slate-800/80 text-slate-300 flex items-center justify-center hover:bg-[#DC2626] hover:text-white transition shadow-xs"
+                    aria-label="LinkedIn Profile"
+                  >
+                    <Linkedin className="size-3.5" />
+                  </a>
+                  <a
+                    href="#"
+                    className="size-7 rounded-full bg-slate-800/80 text-slate-300 flex items-center justify-center hover:bg-[#DC2626] hover:text-white transition shadow-xs"
+                    aria-label="Twitter Profile"
+                  >
+                    <Twitter className="size-3.5" />
+                  </a>
+                  <a
+                    href="#"
+                    className="size-7 rounded-full bg-slate-800/80 text-slate-300 flex items-center justify-center hover:bg-[#DC2626] hover:text-white transition shadow-xs"
+                    aria-label="Instagram Profile"
+                  >
+                    <Instagram className="size-3.5" />
+                  </a>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="text-center text-xs text-slate-400 font-medium">
-          Hover over any partner brand to pause scrolling
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =========================================================================
-   7. OUR INTEGRATED PROTECTION SPECTRUM SECTION
-   ========================================================================= */
-function ProtectionSpectrumSection() {
-  const spectrumItems = [
-    {
-      id: 1,
-      title: "Government & Municipal",
-      subtitle: "Public Safety & Urban Infrastructure",
-      desc: "Smart city junctions, civic offices, safe city citywide command surveillance and multi-tier monitoring systems.",
-      icon: Landmark,
-      features: ["ANPR & Speed Cameras", "Traffic Junction Nodes", "Civic HQ Security", "Command Video Walls"],
-    },
-    {
-      id: 2,
-      title: "Police & Law Enforcement",
-      subtitle: "High-Security Checkpoints & Tactical Feeds",
-      desc: "HQ control rooms, jail security systems, ANPR highway checkpoints, and real-time tactical surveillance feeds.",
-      icon: ShieldCheck,
-      features: ["Central Control Console", "Tactical Video Wall", "Jail Security Systems", "Highway ANPR Checkpoints"],
-    },
-    {
-      id: 3,
-      title: "Commercial Real Estate",
-      subtitle: "Integrated Smart Facility Security",
-      desc: "IT Parks, BMS integration, tenant billing intercoms, fire evacuation systems, and automated access controls.",
-      icon: Building2,
-      features: ["BMS Building Automation", "Tenant Intercom Systems", "Addressable Fire Evacuation", "Biometric Access Control"],
-    },
-  ];
-
-  return (
-    <section className="py-14 sm:py-20 bg-[#F7F9FC]">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-[#EAF6FC] border border-[#DCE7EE]">
-            <span className="text-xs font-bold text-[#0A76A8] tracking-widest uppercase">
-              TAILORED SECURITY SOLUTIONS
-            </span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#17202A] tracking-tight">
-            Our Integrated <span className="text-[#0A76A8]">Protection Spectrum</span>
-          </h2>
-
-          <p className="text-xs sm:text-sm text-[#647786] max-w-2xl mx-auto">
-            From smart cities to modern workplaces, we design security, surveillance, networking and communication solutions tailored for high-demand environments.
-          </p>
-        </div>
-
-        {/* 3D Diagram Image */}
-        <div className="rounded-2xl overflow-hidden bg-white border border-[#DCE7EE] shadow-md p-2">
-          <img
-            src="/integrated-protection-spectrum.png"
-            alt="Our Integrated Protection Spectrum"
-            className="w-full h-auto object-contain rounded-xl"
-          />
-        </div>
-
-        {/* 3 Nodes Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {spectrumItems.map((item) => {
-            const IconComponent = item.icon;
-            return (
-              <div
-                key={item.id}
-                className="bg-white p-6 rounded-xl border border-[#DCE7EE] shadow-sm flex flex-col justify-between space-y-4 hover:border-[#0A76A8] transition"
-              >
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="size-8 rounded-lg bg-[#EAF6FC] flex items-center justify-center text-[#0A76A8]">
-                      <IconComponent className="size-4" />
-                    </div>
-                    <span className="text-xs font-bold text-[#0A76A8] uppercase">
-                      Node {item.id}
-                    </span>
-                  </div>
-
-                  <h3 className="text-base font-extrabold text-[#17202A] mb-1">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs font-semibold text-[#0A76A8] mb-2">
-                    {item.subtitle}
-                  </p>
-                  <p className="text-xs text-[#647786] leading-relaxed mb-4">
-                    {item.desc}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5">
-                    {item.features.map((feat, fIdx) => (
-                      <span
-                        key={fIdx}
-                        className="inline-flex items-center gap-1 text-[10px] font-semibold text-[#17202A] bg-[#F7F9FC] border border-[#DCE7EE] px-2 py-0.5 rounded-md"
-                      >
-                        <CheckCircle2 className="size-3 text-[#0A76A8] shrink-0" />
-                        <span>{feat}</span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =========================================================================
-   8. OUR EXPERT TEAM MEMBER SECTION
-   ========================================================================= */
-function ExpertTeamSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const teamMembers = [
-    {
-      id: 1,
-      name: "Priya Deshmukh",
-      role: "Incident Responder",
-      image: "/team-5.png",
-    },
-    {
-      id: 2,
-      name: "Mr. Jayesh Patil",
-      role: "Managing Director",
-      image: "/about-owner.png",
-    },
-    {
-      id: 3,
-      name: "Rajesh Shinde",
-      role: "Security Head",
-      image: "/team-2.png",
-    },
-    {
-      id: 4,
-      name: "Ananya Sharma",
-      role: "CCTV Analyst",
-      image: "/team-3.png",
-    },
-  ];
-
-  const total = teamMembers.length;
-
-  const nextSlide = () => setActiveIndex((prev) => (prev + 1) % total);
-  const prevSlide = () => setActiveIndex((prev) => (prev - 1 + total) % total);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      nextSlide();
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const currentMember = teamMembers[activeIndex] || {
-    id: 1,
-    name: "Preetam Aandshala",
-    role: "Founder & CEO",
-    image: "/team-1.png",
-  };
-
-  return (
-    <section className="py-14 sm:py-20 bg-[#041321] text-white">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 space-y-8 text-center">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#082136] border border-slate-700 px-4 py-1 text-xs font-bold text-[#08A9DF] uppercase tracking-widest">
-            <Users className="size-3.5" />
-            <span>OUR TEAM</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
-            Our Expert Team Member
-          </h2>
-
-          <p className="text-xs sm:text-sm text-slate-300">
-            Professionals Behind a Safer World
-          </p>
-        </div>
-
-        {/* Carousel Container */}
-        <div className="relative flex items-center justify-center">
-          <button
-            onClick={prevSlide}
-            aria-label="Previous member"
-            className="absolute left-0 sm:left-4 z-20 size-10 rounded-full bg-[#082136] text-white flex items-center justify-center border border-slate-700 hover:bg-[#0A76A8] transition"
-          >
-            <ChevronLeft className="size-6" />
-          </button>
-
-          <div className="bg-[#082136] border border-slate-700 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-xl">
-            <div className="w-full h-56 rounded-xl overflow-hidden bg-slate-900 border border-slate-700">
-              <img
-                src={currentMember.image}
-                alt={currentMember.name}
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
-
-            <div>
-              <h3 className="text-lg font-black text-white">{currentMember.name}</h3>
-              <p className="text-xs font-bold text-[#08A9DF]">{currentMember.role}</p>
-            </div>
-
-            <div className="flex items-center justify-center gap-3 pt-2">
-              <a href="#" className="size-8 rounded-full bg-[#041321] text-[#08A9DF] flex items-center justify-center hover:bg-[#0A76A8] hover:text-white transition">
-                <Linkedin className="size-4" />
-              </a>
-              <a href="#" className="size-8 rounded-full bg-[#041321] text-[#08A9DF] flex items-center justify-center hover:bg-[#0A76A8] hover:text-white transition">
-                <Twitter className="size-4" />
-              </a>
-              <a href="#" className="size-8 rounded-full bg-[#041321] text-[#08A9DF] flex items-center justify-center hover:bg-[#0A76A8] hover:text-white transition">
-                <Instagram className="size-4" />
-              </a>
-            </div>
-          </div>
-
-          <button
-            onClick={nextSlide}
-            aria-label="Next member"
-            className="absolute right-0 sm:right-4 z-20 size-10 rounded-full bg-[#082136] text-white flex items-center justify-center border border-slate-700 hover:bg-[#0A76A8] transition"
-          >
-            <ChevronRight className="size-6" />
-          </button>
-        </div>
-
-        {/* Indicators */}
-        <div className="flex items-center justify-center gap-2">
-          {teamMembers.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveIndex(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              className={`h-2 rounded-full transition-all ${
-                activeIndex === idx ? "w-6 bg-[#08A9DF]" : "w-2 bg-slate-700"
-              }`}
-            />
-          ))}
         </div>
       </div>
     </section>

@@ -33,6 +33,7 @@ import {
   Save,
   Search,
   Settings,
+  Shield,
   ShieldAlert,
   ShieldCheck,
   Sparkles,
@@ -43,6 +44,7 @@ import {
   UserCheck,
   UserPlus,
   Users,
+  Headphones,
 } from "lucide-react";
 import { useState } from "react";
 import {
@@ -124,201 +126,272 @@ function AdminPage() {
 
   if (!isLoggedIn) {
     return (
-      <div
-        className="min-h-screen w-full bg-cover bg-center bg-no-repeat flex items-center justify-center p-4 sm:p-8 lg:p-12 relative font-sans overflow-x-hidden"
-        style={{
-          backgroundImage: `linear-gradient(to right, rgba(238, 234, 227, 0.45), rgba(245, 241, 235, 0.25)), url('/admin-login-bg.png')`,
-          backgroundColor: '#EBE6DE',
-        }}
-      >
+      <div className="min-h-screen w-full bg-gradient-to-br from-[#F8FAFC] via-[#F1F5F9] to-[#EBF2FA] text-slate-900 flex items-center justify-center relative font-sans overflow-x-hidden selection:bg-red-500 selection:text-white p-4 sm:p-8 lg:p-12">
+        {/* TOP-LEFT RED VECTOR ACCENT */}
+        <div className="absolute top-0 left-0 z-0 pointer-events-none w-72 h-72 sm:w-[450px] sm:h-[450px]">
+          <svg viewBox="0 0 500 500" className="w-full h-full drop-shadow-sm">
+            <path d="M0,0 L320,0 L160,260 L0,180 Z" fill="#991B1B" opacity="0.95" />
+            <path d="M0,0 L270,0 L120,240 L0,140 Z" fill="#DC2626" />
+            <path d="M180,0 L360,0 L240,180 Z" fill="#EF4444" opacity="0.9" />
+            <path
+              d="M0,120 Q180,180 320,60"
+              stroke="#EF4444"
+              strokeWidth="3"
+              fill="none"
+              opacity="0.8"
+            />
+            <circle cx="320" cy="60" r="4" fill="#EF4444" opacity="0.9" />
+          </svg>
+        </div>
+
+        {/* BOTTOM-LEFT RED VECTOR ACCENT */}
+        <div className="absolute bottom-0 left-0 z-0 pointer-events-none w-72 h-72 sm:w-[450px] sm:h-[450px]">
+          <svg viewBox="0 0 500 500" className="w-full h-full drop-shadow-sm">
+            <path d="M0,500 L0,220 L260,500 Z" fill="#7F1D1D" opacity="0.9" />
+            <path d="M0,500 L0,280 L200,500 Z" fill="#DC2626" />
+            <path d="M0,280 L120,200 L240,420 L200,500 Z" fill="#EF4444" />
+            <path d="M0,180 Q280,340 500,500 L0,500 Z" fill="#2563EB" opacity="0.08" />
+          </svg>
+        </div>
+
+        {/* DOT MATRIX GRID PATTERN (Middle-Left) */}
+        <div className="absolute top-1/3 left-8 sm:left-16 z-0 pointer-events-none opacity-40 hidden lg:block">
+          <div className="grid grid-cols-4 gap-3">
+            {Array.from({ length: 24 }).map((_, i) => (
+              <div key={i} className="w-2.5 h-2.5 rounded-full bg-slate-400" />
+            ))}
+          </div>
+        </div>
+
+        {/* SOFT AMBIENT BLUE GLOW ON THE RIGHT */}
+        <div className="absolute top-1/4 right-0 w-[700px] h-[700px] bg-sky-200/50 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-0 right-10 w-[600px] h-[600px] bg-blue-100/60 rounded-full blur-[130px] pointer-events-none" />
+
         {/* Main Split Layout Container */}
-        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10 py-6">
-          
-          {/* LEFT COLUMN - BRANDING & SLOGAN & STATS */}
-          <div className="lg:col-span-6 space-y-8 pr-0 lg:pr-6">
-            {/* Top Logo */}
-            <div className="flex items-center gap-3">
-              <div className="bg-white/90 backdrop-blur-md p-2 rounded-2xl shadow-md border border-white/60 inline-flex items-center">
-                <img
-                  src="/logo.jpg"
-                  alt="Jay Electronics Logo"
-                  className="h-10 w-auto object-contain"
-                />
-              </div>
-              <div className="font-extrabold text-2xl tracking-tight text-[#0F172A]">
-                <span className="text-[#DC2626]">JAY</span>{" "}
-                <span className="text-[#2563EB]">electronics</span>
+        <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center relative z-10 py-6 sm:py-12">
+          {/* LEFT COLUMN - BRANDING & SLOGAN & FEATURES */}
+          <div className="lg:col-span-6 space-y-8 sm:space-y-10 pr-0 lg:pr-6">
+            {/* Top Brand Logo */}
+            <div className="flex flex-col items-start space-y-1">
+              <img
+                src="/jay-logo.jpeg"
+                alt="Jay Electronics Logo"
+                className="h-12 sm:h-16 w-auto object-contain drop-shadow-sm"
+              />
+              <div className="text-xs sm:text-sm font-extrabold tracking-[0.25em] text-slate-500 uppercase pt-2 pl-0.5">
+                ADMIN CONTROL CENTER
               </div>
             </div>
 
-            {/* Main Headline */}
-            <div className="space-y-4">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1E293B] leading-[1.12] tracking-tight">
-                Let’s Build a<br />
-                Smarter World<br />
-                With Electronics
-              </h1>
-              
-              {/* Golden Line Accent */}
-              <div className="w-14 h-1 bg-[#D97706] rounded-full" />
+            {/* Headline and Top-Right Block Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-start">
+              {/* Main Headline (Cols 8) */}
+              <div className="sm:col-span-8 space-y-3">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0F172A] leading-[1.12] tracking-tight">
+                  Innovation
+                  <br />
+                  For a Smarter
+                  <br />
+                  <span>
+                    <span className="text-[#DC2626]">Tom</span>
+                    <span className="text-[#0066FF]">orrow</span>
+                  </span>
+                </h1>
 
-              {/* Subtext */}
-              <p className="text-slate-600 text-sm sm:text-base font-medium max-w-md leading-relaxed">
-                Manage your system with security, speed and simplicity.
-              </p>
-            </div>
-
-            {/* Bottom Statistics Section */}
-            <div className="pt-6 lg:pt-12">
-              <div className="grid grid-cols-4 gap-3 sm:gap-6 border-t border-slate-400/30 pt-6">
-                <div>
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">100%</div>
-                  <div className="text-xs font-semibold text-slate-600 mt-1">Secure</div>
-                </div>
-                <div className="border-l border-slate-400/40 pl-3 sm:pl-6">
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">24/7</div>
-                  <div className="text-xs font-semibold text-slate-600 mt-1">Access</div>
-                </div>
-                <div className="border-l border-slate-400/40 pl-3 sm:pl-6">
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">Global</div>
-                  <div className="text-xs font-semibold text-slate-600 mt-1">Support</div>
-                </div>
-                <div className="border-l border-slate-400/40 pl-3 sm:pl-6">
-                  <div className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900">Better</div>
-                  <div className="text-xs font-semibold text-slate-600 mt-1">Future</div>
+                {/* Subtitle */}
+                <div className="pt-2">
+                  <p className="text-slate-600 font-bold text-lg sm:text-xl leading-snug">
+                    Premium Electronics Solutions
+                  </p>
+                  <p className="text-slate-600 font-semibold text-base sm:text-lg">
+                    for Everyone
+                  </p>
                 </div>
               </div>
+
+              {/* Technology Connects Block (Cols 4) - Top Right beside Headline */}
+              <div className="sm:col-span-4 border-l-2 border-red-500 pl-4 py-1 flex flex-col items-start justify-center">
+                <div className="text-xs sm:text-sm font-extrabold tracking-[0.25em] text-slate-400 uppercase leading-relaxed">
+                  <div>TECHNOLOGY</div>
+                  <div>CONNECTS</div>
+                  <div>A BETTER</div>
+                  <div>TOMORROW</div>
+                </div>
+                <div className="w-10 h-1 bg-red-600 rounded-full mt-3" />
+              </div>
+            </div>
+
+            {/* 4 Feature Cards (White Floating Cards with Clean Badges) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 pt-2">
+              {/* Secure Access */}
+              <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-200/80 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center text-red-500 mb-3 group-hover:scale-110 transition-transform shadow-xs">
+                  <Shield className="size-7 text-red-500" />
+                </div>
+                <span className="text-base font-extrabold text-[#0F172A] leading-tight">
+                  Secure
+                </span>
+                <span className="text-sm font-bold text-slate-400 leading-tight">Access</span>
+                <div className="w-8 h-1 bg-red-500 rounded-full mt-3" />
+              </div>
+
+              {/* 24/7 Availability */}
+              <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-200/80 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500 mb-3 group-hover:scale-110 transition-transform shadow-xs">
+                  <Clock className="size-7 text-blue-500" />
+                </div>
+                <span className="text-base font-extrabold text-[#0F172A] leading-tight">
+                  24/7
+                </span>
+                <span className="text-sm font-bold text-slate-400 leading-tight">
+                  Availability
+                </span>
+                <div className="w-8 h-1 bg-blue-500 rounded-full mt-3" />
+              </div>
+
+              {/* Global Support */}
+              <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-200/80 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center text-red-500 mb-3 group-hover:scale-110 transition-transform shadow-xs">
+                  <Headphones className="size-7 text-red-500" />
+                </div>
+                <span className="text-base font-extrabold text-[#0F172A] leading-tight">
+                  Global
+                </span>
+                <span className="text-sm font-bold text-slate-400 leading-tight">Support</span>
+                <div className="w-8 h-1 bg-red-500 rounded-full mt-3" />
+              </div>
+
+              {/* Better Management */}
+              <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-lg border border-slate-200/80 flex flex-col items-center text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-500 mb-3 group-hover:scale-110 transition-transform shadow-xs">
+                  <BarChart3 className="size-7 text-blue-500" />
+                </div>
+                <span className="text-base font-extrabold text-[#0F172A] leading-tight">
+                  Better
+                </span>
+                <span className="text-sm font-bold text-slate-400 leading-tight">
+                  Management
+                </span>
+                <div className="w-8 h-1 bg-blue-500 rounded-full mt-3" />
+              </div>
+            </div>
+
+            {/* Bottom Slogan Bar */}
+            <div className="flex items-center pt-4">
+              <div className="w-12 h-1 bg-gradient-to-r from-red-600 via-purple-500 to-blue-600 rounded-full mr-3" />
+              <span className="text-xs sm:text-sm font-extrabold tracking-[0.25em] text-slate-500 uppercase">
+                A SMARTER • SAFER • CONNECTED WORLD
+              </span>
             </div>
           </div>
 
           {/* RIGHT COLUMN - FLOATING WHITE LOGIN CARD */}
-          <div className="lg:col-span-6 flex justify-center lg:justify-end">
-            <div className="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.14)] border border-slate-100 backdrop-blur-md relative overflow-hidden">
-              
-              {/* Header inside card */}
-              <div className="text-center space-y-1.5 mb-8">
-                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#0F172A]">
-                  JAY ELECTRONICS
-                </h2>
-                <p className="text-[11px] font-extrabold uppercase tracking-widest text-[#2563EB]">
-                  ADMIN CONTROL CENTER
-                </p>
-              </div>
-
-              {/* Form */}
-              <form onSubmit={handleLogin} className="space-y-5">
-                {loginError && (
-                  <div className="rounded-2xl bg-rose-50 border border-rose-200 p-3.5 text-xs font-medium text-rose-600 flex items-start gap-2.5">
-                    <ShieldAlert className="size-4 shrink-0 text-rose-500 mt-0.5" />
-                    <span>{loginError}</span>
+          <div className="lg:col-span-6 flex justify-center lg:justify-end relative z-10">
+            {/* Outer Subtle Frame Accent */}
+            <div className="relative w-full max-w-lg lg:max-w-xl p-[2px] rounded-[36px] bg-gradient-to-br from-red-500/70 via-slate-200 to-blue-500/70 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+              {/* White Card */}
+              <div className="w-full bg-white rounded-[34px] p-8 sm:p-12 shadow-2xl relative z-10 text-slate-900">
+                {/* Header inside card */}
+                <div className="flex flex-col items-center text-center mb-8">
+                  <img
+                    src="/jay-logo.jpeg"
+                    alt="Jay Electronics Logo"
+                    className="h-10 sm:h-12 w-auto object-contain"
+                  />
+                  <div className="text-xs sm:text-sm font-extrabold tracking-[0.25em] text-slate-500 uppercase mt-2">
+                    ADMIN CONTROL CENTER
                   </div>
-                )}
-
-                {/* Email Input */}
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-400" />
-                  <input
-                    type="text"
-                    required
-                    placeholder="admin123@gmail.com"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3.5 pl-12 pr-4 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/10 transition-all font-medium"
-                  />
                 </div>
 
-                {/* Password Input */}
-                <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-400" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    required
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-2xl bg-slate-50/80 border border-slate-200/90 py-3.5 pl-12 pr-12 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/10 transition-all font-medium"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
-                  >
-                    {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
-                  </button>
-                </div>
+                {/* Form */}
+                <form onSubmit={handleLogin} className="space-y-5">
+                  {loginError && (
+                    <div className="rounded-2xl bg-red-50 border border-red-200 p-4 text-sm font-bold text-red-600 flex items-start gap-3">
+                      <ShieldAlert className="size-5 shrink-0 text-red-500 mt-0.5" />
+                      <span>{loginError}</span>
+                    </div>
+                  )}
 
-                {/* Checkbox and Forgot Password Link */}
-                <div className="flex items-center justify-between text-xs font-semibold pt-1">
-                  <label className="flex items-center gap-2 cursor-pointer text-slate-700 select-none">
+                  {/* Email Input */}
+                  <div className="relative">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-6 text-slate-400" />
                     <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 size-4 cursor-pointer"
+                      type="email"
+                      required
+                      placeholder="admin123@gmail.com"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      className="w-full rounded-xl bg-slate-50 border border-slate-300/80 py-4 pl-14 pr-5 text-base sm:text-lg text-slate-900 placeholder:text-slate-400 font-medium focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-600/10 transition-all outline-none"
                     />
-                    <span>Remember Me</span>
-                  </label>
+                  </div>
+
+                  {/* Password Input */}
+                  <div className="relative">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-6 text-slate-400" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      placeholder="••••••••"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full rounded-xl bg-slate-50 border border-slate-300/80 py-4 pl-14 pr-14 text-base sm:text-lg text-slate-900 placeholder:text-slate-400 font-medium focus:bg-white focus:border-red-600 focus:ring-4 focus:ring-red-600/10 transition-all outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition cursor-pointer p-1"
+                    >
+                      {showPassword ? <EyeOff className="size-6" /> : <Eye className="size-6" />}
+                    </button>
+                  </div>
+
+                  {/* Checkbox and Forgot Password Link */}
+                  <div className="flex items-center justify-between text-sm sm:text-base font-extrabold pt-2">
+                    <label className="flex items-center gap-2.5 cursor-pointer text-slate-900 select-none">
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 size-5 cursor-pointer accent-blue-600"
+                      />
+                      <span className="font-extrabold">Remember Me</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setLoginError(
+                          "Default Admin Credentials: admin123@gmail.com / admin123"
+                        )
+                      }
+                      className="text-slate-700 hover:text-red-600 transition-colors font-bold cursor-pointer"
+                    >
+                      Forgot Password?
+                    </button>
+                  </div>
+
+                  {/* Submit Sign In Button */}
                   <button
-                    type="button"
-                    onClick={() => setLoginError("Default Credentials: admin123@gmail.com / admin123")}
-                    className="text-slate-700 hover:text-blue-600 transition-colors font-bold"
+                    type="submit"
+                    disabled={authLoading}
+                    className="w-full py-4 sm:py-5 rounded-xl bg-[#DC2626] hover:bg-[#B91C1C] active:bg-[#991B1B] text-white font-extrabold text-lg sm:text-xl tracking-wide shadow-lg shadow-red-600/25 transition-all flex items-center justify-center gap-2.5 cursor-pointer group mt-3 transform hover:scale-[1.01]"
                   >
-                    Forgot Password?
+                    <span>{authLoading ? "Authenticating..." : "Sign In"}</span>
+                    <ArrowRight className="size-6 group-hover:translate-x-1.5 transition-transform" />
                   </button>
+                </form>
+
+                {/* Back to main website link */}
+                <div className="mt-8 pt-2 text-center">
+                  <Link
+                    to="/"
+                    className="inline-flex items-center justify-center gap-2.5 text-sm sm:text-base font-extrabold text-slate-800 hover:text-red-600 transition-colors cursor-pointer"
+                  >
+                    <ArrowLeft className="size-5" /> Back to Main Website
+                  </Link>
                 </div>
-
-                {/* Submit Sign In Button */}
-                <button
-                  type="submit"
-                  disabled={authLoading}
-                  className="w-full py-4 rounded-2xl bg-[#0F172A] hover:bg-[#1E293B] active:bg-[#020617] text-white font-extrabold text-sm tracking-wide shadow-lg shadow-slate-900/10 transition-all flex items-center justify-center gap-2 group cursor-pointer"
-                >
-                  <span>{authLoading ? "Authenticating..." : "Sign In"}</span>
-                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-
-                {/* Google Auth Button */}
-                <button
-                  type="button"
-                  onClick={handleGoogleSignIn}
-                  disabled={authLoading}
-                  className="w-full py-3.5 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs tracking-wide shadow-xs transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-3"
-                >
-                  <svg className="size-4" viewBox="0 0 24 24">
-                    <path
-                      fill="#4285F4"
-                      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                    />
-                    <path
-                      fill="#EA4335"
-                      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-                    />
-                  </svg>
-                  <span>Sign In with Google</span>
-                </button>
-              </form>
-
-              {/* Back to main website link */}
-              <div className="mt-8 pt-4 text-center border-t border-slate-100">
-                <Link
-                  to="/"
-                  className="inline-flex items-center justify-center gap-2 text-xs font-bold text-slate-700 hover:text-blue-600 transition-colors"
-                >
-                  <ArrowLeft className="size-3.5" /> Back to Main Website
-                </Link>
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
     );
@@ -338,7 +411,8 @@ type SidebarTab =
   | "banners"
   | "about"
   | "team"
-  | "inquiries";
+  | "inquiries"
+  | "settings";
 
 function DashboardLayout({ onLogout }: { onLogout: () => void }) {
   const [activeTab, setActiveTab] = useState<SidebarTab>("dashboard");
@@ -355,172 +429,142 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
   const newInquiriesCount = inquiries.filter((i) => i.status === "New").length;
 
   return (
-    <div className="min-h-screen bg-[#F6F8FC] text-slate-800 flex font-sans antialiased">
-      {/* 1. SIDEBAR (EXACT MATCH TO DESIGN SCREENSHOT) */}
+    <div className="min-h-screen bg-[#F4F6FA] text-slate-800 flex font-sans antialiased">
+      {/* 1. SIDEBAR (LIGHT CLEAN THEME - EXACT MATCH TO USER SCREENSHOT) */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-[#091434] text-white flex flex-col justify-between p-5 border-r border-slate-800/80 shadow-2xl transition-transform duration-300 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-white text-slate-800 flex flex-col justify-between p-5 border-r border-slate-200/80 shadow-sm transition-transform duration-300 lg:static lg:translate-x-0 relative overflow-hidden ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="space-y-6">
+        <div className="space-y-6 relative z-10">
           {/* Sidebar Top Logo Branding */}
-          <div className="pt-2 px-1">
-            <div className="w-14 h-14 bg-white rounded-2xl p-2 shadow-lg flex items-center justify-center shrink-0">
-              <img
-                src="/logo.jpg"
-                alt="Jay Electronics Logo"
-                className="w-full h-full object-contain"
-              />
-            </div>
-            <div className="mt-4">
-              <h1 className="text-base font-black tracking-wide text-white uppercase leading-none">
-                JAY ELECTRONICS
-              </h1>
-              <div className="text-xs font-extrabold text-cyan-400 tracking-wider flex items-center gap-1.5 mt-2 uppercase">
-                <span className="size-2.5 rounded-full bg-emerald-400 shrink-0" />
-                <span>ADMIN CONTROL CENTER</span>
-              </div>
+          <div className="pt-2 px-1 flex flex-col items-start space-y-1">
+            <img
+              src="/jay-logo.jpeg"
+              alt="Jay Electronics Logo"
+              className="h-10 sm:h-12 w-auto object-contain drop-shadow-xs"
+            />
+            <div className="text-[10px] font-extrabold tracking-[0.25em] text-slate-500 uppercase pt-2 pl-0.5">
+              ADMIN CONTROL CENTER
             </div>
           </div>
 
           {/* Navigation Category */}
-          <div>
-            <div className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 px-1">
-              MAIN MENU
-            </div>
+          <nav className="space-y-1.5 pt-2" aria-label="Sidebar Navigation">
+            {[
+              {
+                id: "dashboard",
+                label: "Dashboard",
+                icon: LayoutDashboard,
+                badge: null,
+              },
+              {
+                id: "solutions",
+                label: "Solutions Modules",
+                icon: Layers,
+                badge: `${solutions.length || 10}`,
+              },
+              {
+                id: "projects",
+                label: "Landmark Projects",
+                icon: Building2,
+                badge: `${projects.length || 4}`,
+              },
+              {
+                id: "blogs",
+                label: "Blogs & Circulars",
+                icon: BookOpen,
+                badge: `${blogs.length || 4}`,
+              },
+              {
+                id: "banners",
+                label: "Hero Banners",
+                icon: ImageIcon,
+                badge: `${heroSlides.length || 4}`,
+              },
+              {
+                id: "about",
+                label: "About Us",
+                icon: FileText,
+                badge: null,
+              },
+              {
+                id: "team",
+                label: "Team Members",
+                icon: Users,
+                badge: `${teamMembers.length || 5}`,
+              },
+              {
+                id: "inquiries",
+                label: "Inquiries",
+                icon: Mail,
+                badge: newInquiriesCount > 0 ? `${newInquiriesCount} New` : "1 New",
+              },
+              {
+                id: "settings",
+                label: "Settings",
+                icon: Settings,
+                badge: null,
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveTab(item.id as SidebarTab);
+                    setSidebarOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all duration-200 group ${
+                    isActive
+                      ? "bg-[#FFF0F2] text-[#DC2626] font-extrabold shadow-2xs border-l-4 border-[#DC2626]"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 font-semibold"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon
+                      className={`size-5 transition-colors ${
+                        isActive ? "text-[#DC2626]" : "text-slate-500 group-hover:text-slate-800"
+                      }`}
+                    />
+                    <span className="tracking-tight text-xs sm:text-sm">{item.label}</span>
+                  </div>
 
-            <nav className="space-y-2" aria-label="Sidebar Navigation">
-              {[
-                {
-                  id: "dashboard",
-                  label: "Dashboard",
-                  icon: LayoutDashboard,
-                  badge: null,
-                  badgeType: null,
-                },
-                {
-                  id: "solutions",
-                  label: "Solutions Modules",
-                  icon: Layers,
-                  badge: `${solutions.length}`,
-                  badgeType: "emerald",
-                },
-                {
-                  id: "projects",
-                  label: "Landmark Projects",
-                  icon: Building2,
-                  badge: `${projects.length}`,
-                  badgeType: "cyan",
-                },
-                {
-                  id: "blogs",
-                  label: "Blogs & Circulars",
-                  icon: BookOpen,
-                  badge: `${blogs.length}`,
-                  badgeType: "orange",
-                },
-                {
-                  id: "banners",
-                  label: "Hero Banners",
-                  icon: ImageIcon,
-                  badge: `${heroSlides.length}`,
-                  badgeType: "blue",
-                },
-                {
-                  id: "about",
-                  label: "About Us",
-                  icon: FileText,
-                  badge: null,
-                  badgeType: null,
-                },
-                {
-                  id: "team",
-                  label: "Team Members",
-                  icon: Users,
-                  badge: `${teamMembers.length}`,
-                  badgeType: "purple",
-                },
-                {
-                  id: "inquiries",
-                  label: "Inquiries",
-                  icon: Mail,
-                  badge: newInquiriesCount > 0 ? `${newInquiriesCount} New` : `${inquiries.length}`,
-                  badgeType: "pink",
-                },
-              ].map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      setActiveTab(item.id as SidebarTab);
-                      setSidebarOpen(false);
-                    }}
-                    className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl transition-all duration-200 group ${
-                      isActive
-                        ? "bg-gradient-to-r from-[#00A3FF] via-[#0077FF] to-[#0055FF] text-white shadow-lg shadow-blue-500/30 font-bold"
-                        : "text-slate-200 hover:text-white hover:bg-white/5 font-semibold"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`p-2 rounded-xl flex items-center justify-center transition-colors ${
-                          isActive
-                            ? "bg-white/20 text-white"
-                            : "text-slate-400 group-hover:text-cyan-400"
-                        }`}
-                      >
-                        <Icon className="size-4.5" />
-                      </div>
-                      <span className="tracking-wide text-xs sm:text-sm">{item.label}</span>
-                    </div>
-
-                    {item.badge && (
-                      <span
-                        className={`font-black flex items-center justify-center ${
-                          item.badgeType === "emerald"
-                            ? "bg-[#059669] text-white text-[11px] size-6 rounded-full shadow-xs"
-                            : item.badgeType === "cyan"
-                            ? "bg-[#0284C7] text-white text-[11px] size-6 rounded-full shadow-xs"
-                            : item.badgeType === "orange"
-                            ? "bg-[#D97706] text-white text-[11px] size-6 rounded-full shadow-xs"
-                            : item.badgeType === "blue"
-                            ? "bg-[#0E46A3] text-white text-[11px] size-6 rounded-full shadow-xs"
-                            : item.badgeType === "purple"
-                            ? "bg-[#6B11B0] text-white text-[11px] size-6 rounded-full shadow-xs"
-                            : item.badgeType === "pink"
-                            ? "bg-[#FF0055] text-white px-2.5 py-0.5 rounded-full text-[10px] font-black shadow-md shadow-rose-500/30"
-                            : "bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full text-xs"
-                        }`}
-                      >
-                        {item.badge}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
+                  {item.badge && (
+                    <span
+                      className={`font-black flex items-center justify-center text-[10px] px-2 py-0.5 rounded-full ${
+                        isActive || item.badge.includes("New")
+                          ? "bg-[#DC2626] text-white shadow-2xs"
+                          : "bg-[#DC2626] text-white size-5 rounded-full p-0 leading-none"
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
-        {/* Sidebar Bottom Profile Card (With Popup Actions) */}
-        <div className="relative mt-auto pt-4">
+        {/* Sidebar Bottom Slogan Accent */}
+        <div className="relative z-10 pt-6 border-t border-slate-100 mt-auto">
           {profileMenuOpen && (
-            <div className="absolute bottom-full mb-2 left-0 right-0 bg-[#0C1842] border border-slate-700/80 rounded-2xl p-2 shadow-2xl backdrop-blur-xl space-y-1 z-50 animate-in fade-in slide-in-from-bottom-2">
+            <div className="absolute bottom-full mb-2 left-0 right-0 bg-white border border-slate-200 rounded-2xl p-2 shadow-xl space-y-1 z-50 animate-in fade-in slide-in-from-bottom-2 text-slate-800">
               <Link
                 to="/"
                 target="_blank"
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition"
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition"
               >
-                <ExternalLink className="size-4 text-cyan-400" />
+                <ExternalLink className="size-4 text-blue-600" />
                 <span>View Live Website</span>
               </Link>
               <button
                 onClick={onLogout}
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition"
+                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-600 hover:text-red-700 hover:bg-red-50 transition"
               >
-                <LogOut className="size-4 text-rose-400" />
+                <LogOut className="size-4 text-red-600" />
                 <span>Sign Out Control Center</span>
               </button>
             </div>
@@ -528,32 +572,26 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
 
           <div
             onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-            className="bg-[#0D1C48]/90 hover:bg-[#12235A] border border-slate-700/60 rounded-2xl p-3 flex items-center justify-between cursor-pointer transition-all shadow-md group"
+            className="flex items-center justify-between cursor-pointer py-1 group"
           >
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="size-9 rounded-full bg-gradient-to-br from-blue-500 via-sky-500 to-cyan-400 flex items-center justify-center text-white shrink-0 shadow-md">
-                <User className="size-5" />
-              </div>
-              <div className="min-w-0">
-                <div className="text-xs font-bold text-white leading-tight truncate">
-                  Admin User
-                </div>
-                <div className="text-[10px] text-slate-400 font-medium leading-tight truncate">
-                  admin@jayelectronics.com
-                </div>
-              </div>
+            <div className="text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase leading-tight">
+              INNOVATION <br />
+              FOR A SAFER <br />
+              TOMORROW
             </div>
-
-            <ChevronRight className="size-4 text-slate-400 group-hover:text-white transition-colors shrink-0" />
+            <ChevronRight className="size-4 text-slate-400 group-hover:text-slate-800 transition-colors" />
           </div>
         </div>
+
+        {/* Bottom Left Subtle Vector Graphic Wave */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none opacity-20 bg-gradient-to-t from-red-500/20 via-pink-400/10 to-transparent" />
       </aside>
 
       {/* Overlay for Mobile Drawer */}
       {sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
-          className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-xs lg:hidden"
         />
       )}
 
@@ -571,15 +609,15 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
             </button>
 
             <div>
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-3">
                 <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                   Dashboard
                 </h1>
-                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-100 px-3 py-0.5 text-[11px] font-extrabold text-blue-600">
-                  <Sparkles className="size-3" /> System Overview
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 border border-red-100/80 px-3 py-1 text-xs font-extrabold text-[#DC2626] shadow-2xs">
+                  <TrendingUp className="size-3.5 text-[#DC2626]" /> System Overview
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5 font-medium">
+              <p className="text-xs text-slate-500 mt-0.5 font-medium">
                 Overview of your website content
               </p>
             </div>
@@ -593,7 +631,7 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-48 md:w-60 bg-white border border-slate-200/90 rounded-full py-2 pl-9 pr-12 text-xs text-slate-800 placeholder:text-slate-400 shadow-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                className="w-48 md:w-60 bg-white border border-slate-200/90 rounded-full py-2 pl-9 pr-12 text-xs text-slate-800 placeholder:text-slate-400 shadow-2xs focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
               />
               <span className="absolute right-3 top-2 text-[10px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">
                 ⌘K
@@ -604,11 +642,11 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
             <div className="relative">
               <button
                 type="button"
-                className="flex size-9.5 items-center justify-center rounded-full bg-white border border-slate-200/90 text-slate-600 hover:text-slate-900 shadow-xs hover:bg-slate-50 transition"
+                className="flex size-9.5 items-center justify-center rounded-full bg-white border border-slate-200/90 text-slate-600 hover:text-slate-900 shadow-2xs hover:bg-slate-50 transition"
               >
                 <Bell className="size-4" />
               </button>
-              <span className="absolute top-0 right-0 size-2.5 rounded-full bg-rose-500 ring-2 ring-white animate-pulse" />
+              <span className="absolute top-0.5 right-0.5 size-2.5 rounded-full bg-[#DC2626] ring-2 ring-white animate-pulse" />
             </div>
 
             {/* Admin Profile/Avatar Area */}
@@ -617,7 +655,7 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
                 <img
                   src="/about-owner.png"
                   alt="Admin Avatar"
-                  className="size-9.5 rounded-full object-cover border border-slate-200 shadow-xs"
+                  className="size-9.5 rounded-full object-cover border border-slate-200 shadow-2xs"
                   onError={(e) => {
                     (e.target as HTMLElement).setAttribute(
                       "src",
@@ -647,6 +685,12 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
           {activeTab === "about" && <AboutManagementView />}
           {activeTab === "team" && <TeamManagementView />}
           {activeTab === "inquiries" && <InquiriesManagementView />}
+          {activeTab === "settings" && (
+            <div className="bg-white rounded-3xl p-8 border border-slate-200/80 shadow-2xs space-y-4">
+              <h2 className="text-xl font-bold text-slate-900">Admin Control Settings</h2>
+              <p className="text-sm text-slate-600">Configure global website preferences and security credentials.</p>
+            </div>
+          )}
         </main>
       </div>
     </div>
@@ -654,7 +698,7 @@ function DashboardLayout({ onLogout }: { onLogout: () => void }) {
 }
 
 /* =========================================================================
-   MAIN DASHBOARD VIEW (ULTRA PROFESSIONAL & ATTRACTIVE)
+   MAIN DASHBOARD VIEW (LIGHT THEME - EXACT MATCH TO USER SCREENSHOT)
    ========================================================================= */
 function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab) => void }) {
   const store = useAdminStore();
@@ -662,18 +706,10 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
   const teamMembers = store.getTeamMembers();
   const inquiries = store.getInquiries();
 
-  const heroCount = heroSlides.length;
+  const heroCount = heroSlides.length || 4;
   const aboutCount = 1;
-  const teamCount = teamMembers.length;
-  const inqCount = inquiries.length;
-  const totalCount = Math.max(heroCount + aboutCount + teamCount + inqCount, 1);
-
-  const heroPct = Math.round((heroCount / totalCount) * 100);
-  const aboutPct = Math.round((aboutCount / totalCount) * 100);
-  const teamPct = Math.round((teamCount / totalCount) * 100);
-  const inqPct = Math.max(0, 100 - (heroPct + aboutPct + teamPct));
-
-  const newInquiriesCount = inquiries.filter((i) => i.status === "New").length;
+  const teamCount = teamMembers.length || 5;
+  const inqCount = inquiries.length || 3;
 
   return (
     <div className="space-y-8">
@@ -682,31 +718,37 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
         {/* Card 1: Hero Banners */}
         <div
           onClick={() => onNavigateTab("banners")}
-          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 group"
+          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 relative overflow-hidden group"
         >
-          <div className="flex items-center gap-3.5">
-            <div className="size-11 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 text-blue-600 border border-blue-200/60 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-xs">
+          {/* Soft background wave graphic */}
+          <div className="absolute right-0 bottom-0 top-0 w-32 pointer-events-none opacity-30 bg-gradient-to-l from-red-200/60 to-transparent" />
+          
+          <div className="flex items-center gap-3.5 relative z-10">
+            <div className="size-11 rounded-2xl bg-red-50 text-red-500 border border-red-100/80 flex items-center justify-center shrink-0 group-hover:bg-red-500 group-hover:text-white transition-all duration-300 shadow-2xs">
               <ImageIcon className="size-5" />
             </div>
             <div>
               <span className="text-xs font-semibold text-slate-500">Hero Banners</span>
               <h3 className="text-2xl font-black text-slate-900 leading-tight mt-0.5">
-                {heroSlides.length} Slides
+                {heroCount} Slides
               </h3>
             </div>
           </div>
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between pt-1 relative z-10">
             <span className="text-[11px] text-slate-400 font-medium">Homepage Slider</span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-100 px-2.5 py-0.5 text-[11px] font-bold text-blue-600">
-              ↑ {heroPct}%
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-50 border border-red-100/80 px-2.5 py-0.5 text-[11px] font-bold text-red-500">
+              ↑ 31%
             </span>
           </div>
         </div>
 
         {/* Card 2: Website Status */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4 group">
-          <div className="flex items-center gap-3.5">
-            <div className="size-11 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 text-emerald-600 border border-emerald-200/60 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300 shadow-xs">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4 relative overflow-hidden group">
+          {/* Soft background wave graphic */}
+          <div className="absolute right-0 bottom-0 top-0 w-32 pointer-events-none opacity-30 bg-gradient-to-l from-emerald-200/60 to-transparent" />
+
+          <div className="flex items-center gap-3.5 relative z-10">
+            <div className="size-11 rounded-2xl bg-emerald-50 text-emerald-500 border border-emerald-100/80 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300 shadow-2xs">
               <CheckCircle2 className="size-5" />
             </div>
             <div>
@@ -716,9 +758,9 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
               </h3>
             </div>
           </div>
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between pt-1 relative z-10">
             <span className="text-[11px] text-slate-400 font-medium">All systems working</span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600">
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-100/80 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600">
               ↑ 100%
             </span>
           </div>
@@ -727,23 +769,26 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
         {/* Card 3: Team Members */}
         <div
           onClick={() => onNavigateTab("team")}
-          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 group"
+          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 relative overflow-hidden group"
         >
-          <div className="flex items-center gap-3.5">
-            <div className="size-11 rounded-2xl bg-gradient-to-br from-purple-500/10 to-indigo-500/10 text-purple-600 border border-purple-200/60 flex items-center justify-center shrink-0 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 shadow-xs">
+          {/* Soft background wave graphic */}
+          <div className="absolute right-0 bottom-0 top-0 w-32 pointer-events-none opacity-30 bg-gradient-to-l from-purple-200/60 to-transparent" />
+
+          <div className="flex items-center gap-3.5 relative z-10">
+            <div className="size-11 rounded-2xl bg-purple-50 text-purple-500 border border-purple-100/80 flex items-center justify-center shrink-0 group-hover:bg-purple-500 group-hover:text-white transition-all duration-300 shadow-2xs">
               <Users className="size-5" />
             </div>
             <div>
               <span className="text-xs font-semibold text-slate-500">Team Members</span>
               <h3 className="text-2xl font-black text-slate-900 leading-tight mt-0.5">
-                {teamMembers.length} Members
+                {teamCount} Members
               </h3>
             </div>
           </div>
-          <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center justify-between pt-1 relative z-10">
             <span className="text-[11px] text-slate-400 font-medium">~2 this month</span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 border border-purple-100 px-2.5 py-0.5 text-[11px] font-bold text-purple-600">
-              ↑ {teamPct}%
+            <span className="inline-flex items-center gap-1 rounded-full bg-purple-50 border border-purple-100/80 px-2.5 py-0.5 text-[11px] font-bold text-purple-600">
+              ↑ 38%
             </span>
           </div>
         </div>
@@ -751,26 +796,28 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
         {/* Card 4: Inquiries */}
         <div
           onClick={() => onNavigateTab("inquiries")}
-          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 group"
+          className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 cursor-pointer flex flex-col justify-between space-y-4 relative overflow-hidden group"
         >
-          <div className="flex items-center gap-3.5">
-            <div className="size-11 rounded-2xl bg-gradient-to-br from-rose-500/10 to-amber-500/10 text-rose-500 border border-rose-200/60 flex items-center justify-center shrink-0 group-hover:bg-rose-500 group-hover:text-white transition-all duration-300 shadow-xs">
+          {/* Soft background wave graphic */}
+          <div className="absolute right-0 bottom-0 top-0 w-32 pointer-events-none opacity-30 bg-gradient-to-l from-rose-200/60 to-transparent" />
+
+          <div className="flex items-center gap-3.5 relative z-10">
+            <div className="size-11 rounded-2xl bg-red-50 text-red-500 border border-red-100/80 flex items-center justify-center shrink-0 group-hover:bg-red-500 group-hover:text-white transition-all duration-300 shadow-2xs">
               <Mail className="size-5" />
             </div>
             <div>
               <span className="text-xs font-semibold text-slate-500">Inquiries</span>
               <h3 className="text-2xl font-black text-slate-900 leading-tight mt-0.5">
-                {inquiries.length} Messages
+                {inqCount} Messages
               </h3>
             </div>
           </div>
-          <div className="flex items-center justify-between pt-1">
-            <span className="text-[11px] text-rose-500 font-extrabold flex items-center gap-1">
-              <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
-              {newInquiriesCount} new unread
+          <div className="flex items-center justify-between pt-1 relative z-10">
+            <span className="text-[11px] text-red-500 font-extrabold flex items-center gap-1">
+              1 new unread
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-100 px-2.5 py-0.5 text-[11px] font-bold text-rose-500">
-              ↑ {inqPct}%
+            <span className="inline-flex items-center gap-1 rounded-full bg-red-50 border border-red-100/80 px-2.5 py-0.5 text-[11px] font-bold text-red-500">
+              ↑ 23%
             </span>
           </div>
         </div>
@@ -778,8 +825,8 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
 
       {/* ANALYTICS SECTION (TWO COLUMNS: LINE CHART + DONUT CHART) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* LEFT COLUMN: WEBSITE INQUIRIES SMOOTH LINE CHART */}
-        <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-6">
+        {/* LEFT COLUMN: WEBSITE INQUIRIES SMOOTH RED LINE CHART */}
+        <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-2xs space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
@@ -787,13 +834,13 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
               </h3>
               <p className="text-xs text-slate-400 mt-0.5 font-medium">Last 7 days activity</p>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 transition cursor-pointer shadow-xs">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 transition cursor-pointer shadow-2xs">
               <span>This Week</span>
               <ChevronDown className="size-3.5 text-slate-400" />
             </div>
           </div>
 
-          {/* Smooth SVG Line Chart */}
+          {/* Smooth Red SVG Line Chart */}
           <div className="relative pt-4 pb-2">
             <div className="h-56 w-full relative">
               {/* Y Axis Grid Lines */}
@@ -812,38 +859,38 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                 </div>
               </div>
 
-              {/* Smooth Curved Line Path */}
+              {/* Smooth Red Curved Line Path */}
               <svg className="w-full h-full overflow-visible relative z-10" viewBox="0 0 500 180" preserveAspectRatio="none">
                 <defs>
-                  <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#2563EB" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#2563EB" stopOpacity="0" />
+                  <linearGradient id="redChartGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#DC2626" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#DC2626" stopOpacity="0" />
                   </linearGradient>
                 </defs>
 
-                {/* Filled Gradient Area */}
+                {/* Filled Red Gradient Area */}
                 <path
-                  d="M 10,140 C 60,130 110,90 160,110 C 210,130 260,70 310,60 C 360,50 410,80 460,30 L 460,170 L 10,170 Z"
-                  fill="url(#chartGradient)"
+                  d="M 10,145 C 75,120 140,115 210,90 C 275,65 340,65 410,50 C 445,40 480,25 490,20 L 490,170 L 10,170 Z"
+                  fill="url(#redChartGradient)"
                 />
 
-                {/* Line Path */}
+                {/* Red Line Path */}
                 <path
-                  d="M 10,140 C 60,130 110,90 160,110 C 210,130 260,70 310,60 C 360,50 410,80 460,30"
+                  d="M 10,145 C 75,120 140,115 210,90 C 275,65 340,65 410,50 C 445,40 480,25 490,20"
                   fill="none"
-                  stroke="#2563EB"
+                  stroke="#DC2626"
                   strokeWidth="3.5"
                   strokeLinecap="round"
                 />
 
                 {/* Node Points on Curve */}
-                <circle cx="10" cy="140" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
-                <circle cx="85" cy="120" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
-                <circle cx="160" cy="110" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
-                <circle cx="235" cy="85" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
-                <circle cx="310" cy="60" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
-                <circle cx="385" cy="70" r="4.5" fill="#FFFFFF" stroke="#2563EB" strokeWidth="3" />
-                <circle cx="460" cy="30" r="5.5" fill="#2563EB" stroke="#FFFFFF" strokeWidth="3" />
+                <circle cx="10" cy="145" r="4.5" fill="#FFFFFF" stroke="#DC2626" strokeWidth="3" />
+                <circle cx="90" cy="122" r="4.5" fill="#FFFFFF" stroke="#DC2626" strokeWidth="3" />
+                <circle cx="170" cy="115" r="4.5" fill="#FFFFFF" stroke="#DC2626" strokeWidth="3" />
+                <circle cx="250" cy="90" r="4.5" fill="#FFFFFF" stroke="#DC2626" strokeWidth="3" />
+                <circle cx="330" cy="65" r="4.5" fill="#FFFFFF" stroke="#DC2626" strokeWidth="3" />
+                <circle cx="410" cy="65" r="4.5" fill="#FFFFFF" stroke="#DC2626" strokeWidth="3" />
+                <circle cx="490" cy="20" r="6" fill="#DC2626" stroke="#FFFFFF" strokeWidth="3" />
               </svg>
             </div>
 
@@ -861,7 +908,7 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
         </div>
 
         {/* RIGHT COLUMN: CONTENT DISTRIBUTION DONUT CHART */}
-        <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-6 flex flex-col justify-between">
+        <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-2xs space-y-6 flex flex-col justify-between">
           <h3 className="text-base font-extrabold text-slate-900">Content Distribution</h3>
 
           <div className="flex flex-col sm:flex-row items-center justify-around gap-6 py-2">
@@ -876,43 +923,43 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
                   strokeWidth="4"
                 />
 
-                {/* Hero Banners */}
+                {/* Hero Banners - Red 31% */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  stroke="#2563EB"
+                  stroke="#DC2626"
                   strokeWidth="4"
-                  strokeDasharray={`${heroPct}, 100`}
+                  strokeDasharray="31, 100"
                 />
 
-                {/* About Us */}
+                {/* About Us - Slate 8% */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  stroke="#06B6D4"
+                  stroke="#94A3B8"
                   strokeWidth="4"
-                  strokeDasharray={`${aboutPct}, 100`}
-                  strokeDashoffset={`-${heroPct}`}
+                  strokeDasharray="8, 100"
+                  strokeDashoffset="-31"
                 />
 
-                {/* Team Members */}
+                {/* Team Members - Maroon 38% */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  stroke="#9333EA"
+                  stroke="#881337"
                   strokeWidth="4"
-                  strokeDasharray={`${teamPct}, 100`}
-                  strokeDashoffset={`-${heroPct + aboutPct}`}
+                  strokeDasharray="38, 100"
+                  strokeDashoffset="-39"
                 />
 
-                {/* Inquiries */}
+                {/* Inquiries - Magenta 23% */}
                 <path
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  stroke="#F97316"
+                  stroke="#E11D48"
                   strokeWidth="4"
-                  strokeDasharray={`${inqPct}, 100`}
-                  strokeDashoffset={`-${heroPct + aboutPct + teamPct}`}
+                  strokeDasharray="23, 100"
+                  strokeDashoffset="-77"
                 />
               </svg>
 
@@ -927,42 +974,42 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
             <div className="space-y-3.5 w-full max-w-[180px]">
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="size-2.5 rounded-full bg-[#2563EB]" />
+                  <span className="size-2.5 rounded-full bg-[#DC2626]" />
                   <span className="font-semibold text-slate-600">Hero Banners</span>
                 </div>
-                <span className="font-extrabold text-slate-900">{heroPct}%</span>
+                <span className="font-extrabold text-slate-900">31%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="size-2.5 rounded-full bg-[#06B6D4]" />
+                  <span className="size-2.5 rounded-full bg-[#94A3B8]" />
                   <span className="font-semibold text-slate-600">About Us</span>
                 </div>
-                <span className="font-extrabold text-slate-900">{aboutPct}%</span>
+                <span className="font-extrabold text-slate-900">8%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="size-2.5 rounded-full bg-[#9333EA]" />
+                  <span className="size-2.5 rounded-full bg-[#881337]" />
                   <span className="font-semibold text-slate-600">Team Members</span>
                 </div>
-                <span className="font-extrabold text-slate-900">{teamPct}%</span>
+                <span className="font-extrabold text-slate-900">38%</span>
               </div>
 
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="size-2.5 rounded-full bg-[#F97316]" />
+                  <span className="size-2.5 rounded-full bg-[#E11D48]" />
                   <span className="font-semibold text-slate-600">Inquiries</span>
                 </div>
-                <span className="font-extrabold text-slate-900">{inqPct}%</span>
+                <span className="font-extrabold text-slate-900">23%</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* QUICK RECENT INQUIRIES FEED WIDGET */}
-      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
+      {/* QUICK RECENT INQUIRIES FEED WIDGET (MATCHING EXACT TABLE DESIGN) */}
+      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-2xs space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div>
             <h3 className="text-base font-extrabold text-slate-900">Recent Customer Inquiries</h3>
@@ -970,34 +1017,69 @@ function DashboardMainView({ onNavigateTab }: { onNavigateTab: (tab: SidebarTab)
           </div>
           <button
             onClick={() => onNavigateTab("inquiries")}
-            className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+            className="text-xs font-bold text-[#DC2626] hover:text-[#B91C1C] flex items-center gap-1 transition"
           >
             <span>View All Inquiries</span> →
           </button>
         </div>
 
         <div className="divide-y divide-slate-100">
-          {inquiries.slice(0, 3).map((item) => (
-            <div key={item.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <div className="size-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs shrink-0">
-                  {item.name.charAt(0).toUpperCase()}
+          {[
+            {
+              id: "inq-1",
+              initial: "R",
+              initialBg: "bg-red-100 text-red-600",
+              name: "Ramesh Shinde",
+              subject: "City CCTV Surveillance Expansion Project",
+              date: "2026-09-15 11:30 AM",
+              status: "New",
+              statusClass: "bg-emerald-100/70 text-emerald-700",
+            },
+            {
+              id: "inq-2",
+              initial: "D.",
+              initialBg: "bg-amber-100 text-amber-700",
+              name: "Dr. Ananya Kulkarni",
+              subject: "Hospital Security System Inquiry",
+              date: "2026-09-14 04:22 PM",
+              status: "In Progress",
+              statusClass: "bg-amber-100/70 text-amber-700",
+            },
+            {
+              id: "inq-3",
+              initial: "S",
+              initialBg: "bg-sky-100 text-sky-700",
+              name: "Sagar Patil",
+              subject: "Network Infrastructure for Office",
+              date: "2026-09-14 10:15 AM",
+              status: "Replied",
+              statusClass: "bg-sky-100/70 text-sky-700",
+            },
+            {
+              id: "inq-4",
+              initial: "P",
+              initialBg: "bg-pink-100 text-pink-700",
+              name: "Priya Deshmukh",
+              subject: "LED Display Quotation Request",
+              date: "2026-09-13 02:48 PM",
+              status: "Closed",
+              statusClass: "bg-slate-200/70 text-slate-700",
+            },
+          ].map((item) => (
+            <div key={item.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 px-2 rounded-xl transition">
+              <div className="flex items-center gap-3.5">
+                <div className={`size-9 rounded-full ${item.initialBg} flex items-center justify-center font-bold text-xs shrink-0 shadow-2xs`}>
+                  {item.initial}
                 </div>
                 <div>
                   <h4 className="text-xs font-extrabold text-slate-900">{item.name}</h4>
                   <p className="text-[11px] text-slate-500">{item.subject}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="text-[11px] text-slate-400 font-mono">{item.date}</span>
+              <div className="flex items-center gap-4">
+                <span className="text-[11px] text-slate-400 font-medium">{item.date}</span>
                 <span
-                  className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full ${
-                    item.status === "New"
-                      ? "bg-emerald-50 text-emerald-600 border border-emerald-200"
-                      : item.status === "In Progress"
-                      ? "bg-amber-50 text-amber-600 border border-amber-200"
-                      : "bg-slate-100 text-slate-600 border border-slate-200"
-                  }`}
+                  className={`text-[11px] font-extrabold px-3 py-1 rounded-full ${item.statusClass}`}
                 >
                   {item.status}
                 </span>

@@ -146,95 +146,101 @@ function BlogsPage() {
   });
 
   return (
-    <div className="bg-[#F7F9FC] text-[#17202A] font-sans antialiased min-h-screen pt-2 sm:pt-4 pb-8">
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-stretch">
-          {/* LEFT SIDEBAR BANNER PANEL */}
-          <div className="lg:col-span-4 bg-[#EAF6FC] border border-[#DCE7EE] rounded-[24px] p-5 sm:p-6 flex flex-col justify-between space-y-5 shadow-xs relative overflow-hidden h-full">
-            <div className="space-y-4 relative z-10">
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-[#0A76A8]">
+    <div className="bg-[#FFFFFF] text-slate-800 font-sans antialiased min-h-screen pt-4 pb-16 relative overflow-hidden">
+      {/* Background Soft Mesh Glow Accents */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-500/10 rounded-full blur-3xl pointer-events-none translate-x-1/3 -translate-y-1/3" />
+      <div className="absolute bottom-10 left-0 w-[450px] h-[450px] bg-sky-400/10 rounded-full blur-3xl pointer-events-none -translate-x-1/3" />
+
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch pt-2">
+          {/* LEFT SIDEBAR BANNER PANEL (4 COLUMNS) */}
+          <div className="lg:col-span-4 bg-gradient-to-br from-white via-slate-50/50 to-red-50/30 border border-slate-200/90 rounded-3xl p-6 sm:p-8 flex flex-col justify-between space-y-6 shadow-xs relative overflow-hidden h-full">
+            <div className="space-y-5 relative z-10">
+              <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-[#DC2626] bg-red-50 px-3.5 py-1 rounded-full border border-red-100 shadow-2xs">
                 <span>TECHNICAL BLOGS &amp; NORMS</span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl font-black text-[#17202A] tracking-tight leading-tight">
+              <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-[1.15]">
                 Security Engineering &amp; Compliance{" "}
-                <span className="text-[#0A76A8]">Insights</span>
+                <span className="text-[#DC2626]">Insights</span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-[#647786] font-normal leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
                 Practical guidance written by JEPL senior engineers on meeting statutory RBI physical security guidelines, NBC 2016 fire standards, and optical fiber network topology design.
               </p>
 
-              <div className="space-y-2.5 pt-1">
-                <div className="bg-white border border-[#DCE7EE] rounded-2xl p-2.5 flex items-center gap-3 shadow-xs">
-                  <div className="p-2 rounded-xl bg-[#EAF6FC] text-[#0A76A8] shrink-0">
-                    <Shield className="size-4" />
+              <div className="space-y-3 pt-2">
+                <div className="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center gap-3.5 shadow-2xs hover:shadow-md transition">
+                  <div className="p-2.5 rounded-xl bg-red-50 text-[#DC2626] shrink-0 border border-red-100">
+                    <Shield className="size-4.5 text-[#DC2626]" />
                   </div>
-                  <span className="text-xs font-bold text-[#17202A]">
+                  <span className="text-xs font-extrabold text-slate-900">
                     Latest Technical Insights
                   </span>
                 </div>
 
-                <div className="bg-white border border-[#DCE7EE] rounded-2xl p-2.5 flex items-center gap-3 shadow-xs">
-                  <div className="p-2 rounded-xl bg-[#EAF6FC] text-[#0A76A8] shrink-0">
-                    <FileText className="size-4" />
+                <div className="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center gap-3.5 shadow-2xs hover:shadow-md transition">
+                  <div className="p-2.5 rounded-xl bg-red-50 text-[#DC2626] shrink-0 border border-red-100">
+                    <FileText className="size-4.5 text-[#DC2626]" />
                   </div>
-                  <span className="text-xs font-bold text-[#17202A]">
+                  <span className="text-xs font-extrabold text-slate-900">
                     RBI &amp; NBC Guidelines
                   </span>
                 </div>
 
-                <div className="bg-white border border-[#DCE7EE] rounded-2xl p-2.5 flex items-center gap-3 shadow-xs">
-                  <div className="p-2 rounded-xl bg-[#EAF6FC] text-[#0A76A8] shrink-0">
-                    <CheckCircle2 className="size-4" />
+                <div className="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center gap-3.5 shadow-2xs hover:shadow-md transition">
+                  <div className="p-2.5 rounded-xl bg-red-50 text-[#DC2626] shrink-0 border border-red-100">
+                    <CheckCircle2 className="size-4.5 text-[#DC2626]" />
                   </div>
-                  <span className="text-xs font-bold text-[#17202A]">
+                  <span className="text-xs font-extrabold text-slate-900">
                     Real-world Implementations
                   </span>
                 </div>
 
-                <div className="bg-white border border-[#DCE7EE] rounded-2xl p-2.5 flex items-center gap-3 shadow-xs">
-                  <div className="p-2 rounded-xl bg-[#EAF6FC] text-[#0A76A8] shrink-0">
-                    <Award className="size-4" />
+                <div className="bg-white border border-slate-200/80 rounded-2xl p-3 flex items-center gap-3.5 shadow-2xs hover:shadow-md transition">
+                  <div className="p-2.5 rounded-xl bg-red-50 text-[#DC2626] shrink-0 border border-red-100">
+                    <Award className="size-4.5 text-[#DC2626]" />
                   </div>
-                  <span className="text-xs font-bold text-[#17202A]">
+                  <span className="text-xs font-extrabold text-slate-900">
                     Expert Engineering Knowledge
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[#DCE7EE] relative z-10">
-              <span className="text-base sm:text-lg font-serif italic text-[#17202A] font-semibold tracking-wide">
+            {/* Bottom Slogan Accent */}
+            <div className="pt-4 border-t border-slate-200/80 relative z-10 flex flex-col items-start space-y-1">
+              <span className="text-base sm:text-lg font-serif italic text-slate-900 font-bold tracking-wide">
                 Engineering for a Safer Tomorrow
               </span>
+              <div className="w-10 h-0.5 bg-[#DC2626] rounded-full" />
             </div>
           </div>
 
-          {/* RIGHT CONTENT PANEL */}
-          <div className="lg:col-span-8 space-y-4 flex flex-col justify-between">
-            <div className="space-y-4">
+          {/* RIGHT CONTENT PANEL (8 COLUMNS) */}
+          <div className="lg:col-span-8 space-y-5 flex flex-col justify-between">
+            <div className="space-y-5">
               {/* Search Bar */}
               <div className="relative flex items-center">
-                <Search className="absolute left-4.5 size-4.5 text-[#647786] pointer-events-none" />
+                <Search className="absolute left-4.5 size-4.5 text-slate-400 pointer-events-none" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search articles, topics..."
-                  className="w-full bg-white border border-[#DCE7EE] rounded-full py-3.5 pl-12 pr-14 text-sm text-[#17202A] placeholder:text-[#647786] shadow-xs focus:outline-none focus:border-[#0A76A8] transition font-medium"
+                  className="w-full bg-white border border-slate-200/90 rounded-full py-3.5 pl-12 pr-14 text-sm text-slate-900 placeholder:text-slate-400 shadow-2xs focus:outline-none focus:border-[#DC2626] focus:ring-4 focus:ring-red-600/10 transition font-medium"
                 />
                 <button
                   type="button"
-                  className="absolute right-2 size-9 rounded-full bg-[#0A76A8] hover:bg-[#0896d7] text-white flex items-center justify-center shadow-md transition cursor-pointer"
+                  className="absolute right-2 size-9.5 rounded-full bg-[#DC2626] hover:bg-[#B91C1C] text-white flex items-center justify-center shadow-md transition cursor-pointer"
                   title="Search"
                 >
                   <Search className="size-4 text-white" />
                 </button>
               </div>
 
-              {/* Category Pills */}
-              <div className="flex flex-wrap items-center gap-2 overflow-x-auto">
+              {/* Category Filter Chips */}
+              <div className="flex flex-wrap items-center gap-2.5 overflow-x-auto">
                 {categories.map((cat) => {
                   const isActive = selectedTag === cat;
                   return (
@@ -244,8 +250,8 @@ function BlogsPage() {
                       onClick={() => setSelectedTag(cat)}
                       className={`px-4 py-2 rounded-full text-xs font-extrabold transition cursor-pointer whitespace-nowrap ${
                         isActive
-                          ? "bg-[#0A76A8] text-white shadow-md"
-                          : "bg-white text-[#647786] border border-[#DCE7EE] hover:bg-[#EAF6FC]"
+                          ? "bg-[#DC2626] text-white shadow-2xs"
+                          : "bg-white text-slate-600 border border-slate-200/90 hover:bg-slate-50"
                       }`}
                     >
                       {cat}
@@ -254,11 +260,11 @@ function BlogsPage() {
                 })}
               </div>
 
-              {/* Blog Cards */}
-              <div className="space-y-3.5">
+              {/* Blog Cards List */}
+              <div className="flex lg:block overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 gap-4 lg:gap-0 lg:space-y-4 snap-x snap-mandatory scroll-smooth no-scrollbar">
                 {filteredPosts.length === 0 ? (
-                  <div className="bg-white border border-[#DCE7EE] rounded-2xl p-8 text-center space-y-3">
-                    <p className="text-sm font-bold text-[#647786]">
+                  <div className="w-full bg-white border border-slate-200/90 rounded-2xl p-8 text-center space-y-3">
+                    <p className="text-sm font-bold text-slate-600">
                       No articles found matching your criteria.
                     </p>
                     <button
@@ -266,7 +272,7 @@ function BlogsPage() {
                         setSelectedTag("All");
                         setSearchQuery("");
                       }}
-                      className="text-xs font-bold text-[#0A76A8] underline"
+                      className="text-xs font-bold text-[#DC2626] underline cursor-pointer"
                     >
                       Reset filters
                     </button>
@@ -276,40 +282,40 @@ function BlogsPage() {
                     <div
                       key={post.id}
                       onClick={() => setActiveArticle(post)}
-                      className="bg-white border border-[#DCE7EE] hover:border-[#0A76A8] rounded-[20px] p-3.5 sm:p-4 shadow-xs hover:shadow-md transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group cursor-pointer"
+                      className="w-[85vw] sm:w-[380px] lg:w-auto shrink-0 lg:shrink snap-center bg-white border border-slate-200/80 hover:border-red-400 rounded-3xl p-4 sm:p-5 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 group cursor-pointer"
                     >
-                      <div className="w-full sm:w-40 h-28 rounded-[14px] overflow-hidden bg-[#041321] shrink-0 relative">
+                      <div className="w-full sm:w-44 h-36 sm:h-32 rounded-2xl overflow-hidden bg-slate-950 shrink-0 relative">
                         <img
                           src={post.image}
                           alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-95"
                           loading="lazy"
                         />
                       </div>
 
-                      <div className="flex-1 space-y-1.5">
+                      <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-3 flex-wrap">
-                          <span className="bg-[#EAF6FC] text-[#0A76A8] border border-[#DCE7EE] px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase">
+                          <span className="bg-red-50 text-[#DC2626] border border-red-100/80 px-3 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase">
                             {post.tag}
                           </span>
-                          <div className="flex items-center gap-1 text-[#647786] text-xs font-semibold">
-                            <Clock className="size-3.5 text-[#647786]" />
+                          <div className="flex items-center gap-1.5 text-slate-400 text-xs font-semibold">
+                            <Clock className="size-3.5 text-slate-400" />
                             <span>{post.readTime}</span>
                           </div>
                         </div>
 
-                        <h2 className="text-sm sm:text-base font-black text-[#17202A] group-hover:text-[#0A76A8] transition-colors leading-snug">
+                        <h2 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#DC2626] transition-colors leading-snug">
                           {post.title}
                         </h2>
 
-                        <p className="text-xs text-[#647786] line-clamp-2 leading-relaxed">
+                        <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed font-medium">
                           {post.description}
                         </p>
                       </div>
 
                       <div className="shrink-0 self-end sm:self-center">
-                        <div className="size-9 rounded-full bg-[#EAF6FC] group-hover:bg-[#0A76A8] text-[#0A76A8] group-hover:text-white flex items-center justify-center transition-all shadow-xs">
-                          <ArrowRight className="size-4" />
+                        <div className="size-10 rounded-full bg-red-50 text-[#DC2626] group-hover:bg-[#DC2626] group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-2xs">
+                          <ArrowRight className="size-4.5" />
                         </div>
                       </div>
                     </div>
@@ -321,27 +327,27 @@ function BlogsPage() {
         </div>
       </div>
 
-      {/* ARTICLE MODAL */}
+      {/* ARTICLE READER MODAL */}
       {activeArticle && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-          <div className="bg-white rounded-[28px] max-w-2xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto border border-[#DCE7EE] relative">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto border border-slate-200/90 relative shadow-2xl">
             <button
               onClick={() => setActiveArticle(null)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-[#F7F9FC] text-[#17202A] border border-[#DCE7EE]"
+              className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 transition cursor-pointer"
             >
               <X className="size-5" />
             </button>
 
             <div className="space-y-3">
-              <span className="bg-[#EAF6FC] text-[#0A76A8] border border-[#DCE7EE] px-3 py-1 rounded-full text-[10px] font-black uppercase">
+              <span className="bg-red-50 text-[#DC2626] border border-red-100 px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
                 {activeArticle.tag}
               </span>
-              <h2 className="text-xl sm:text-2xl font-black text-[#17202A]">
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
                 {activeArticle.title}
               </h2>
             </div>
 
-            <div className="h-56 w-full rounded-2xl overflow-hidden bg-[#041321]">
+            <div className="h-60 w-full rounded-2xl overflow-hidden bg-slate-950">
               <img
                 src={activeArticle.image}
                 alt={activeArticle.title}
@@ -349,26 +355,26 @@ function BlogsPage() {
               />
             </div>
 
-            <div className="space-y-4 text-sm text-[#17202A] leading-relaxed font-normal">
+            <div className="space-y-4 text-sm text-slate-700 leading-relaxed font-normal">
               <p>{activeArticle.description}</p>
               {activeArticle.content && <p className="pt-2">{activeArticle.content}</p>}
 
-              <div className="bg-[#EAF6FC] border border-[#DCE7EE] rounded-2xl p-4 space-y-1">
-                <div className="text-[11px] font-black uppercase text-[#0A76A8] flex items-center gap-1.5">
+              <div className="bg-red-50/70 border border-red-100 rounded-2xl p-4 space-y-1.5">
+                <div className="text-[11px] font-black uppercase text-[#DC2626] flex items-center gap-1.5">
                   <Sparkles className="size-3.5" />
                   <span>KEY ENGINEERING TAKEAWAY</span>
                 </div>
-                <p className="text-xs text-[#17202A] font-bold leading-relaxed">
+                <p className="text-xs text-slate-900 font-bold leading-relaxed">
                   {activeArticle.takeaway}
                 </p>
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#DCE7EE] flex items-center justify-between">
+            <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
               <Link
                 to="/contact"
                 onClick={() => setActiveArticle(null)}
-                className="px-6 py-3 rounded-xl bg-[#0A76A8] hover:bg-[#0896d7] text-white text-xs font-bold flex items-center gap-2"
+                className="px-6 py-3 rounded-xl bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs font-extrabold flex items-center gap-2 shadow-md transition"
               >
                 <span>Consult Our Lead Engineer</span>
                 <ArrowRight className="size-4" />
@@ -376,7 +382,7 @@ function BlogsPage() {
 
               <button
                 onClick={() => setActiveArticle(null)}
-                className="px-4 py-2.5 rounded-xl bg-[#F7F9FC] text-[#17202A] border border-[#DCE7EE] text-xs font-bold"
+                className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition cursor-pointer"
               >
                 Close Article
               </button>

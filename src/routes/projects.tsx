@@ -3,8 +3,6 @@ import {
   ArrowRight,
   Building2,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
   Cpu,
   Landmark,
   Layers,
@@ -18,7 +16,7 @@ import {
   Video,
   X,
 } from "lucide-react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -181,64 +179,55 @@ const CATEGORIES = [
 function ProjectsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const filteredProjects =
     activeCategory === "All"
       ? PROJECTS_DATA
       : PROJECTS_DATA.filter((p) => p.categoryTag === activeCategory);
 
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -540, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 540, behavior: "smooth" });
-    }
-  };
-
   return (
-    <div className="bg-[#F7F9FC] text-[#17202A] font-sans antialiased min-h-screen pt-4 pb-12">
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div className="bg-[#F8FAFC] text-slate-900 font-sans antialiased min-h-screen pt-4 pb-12 relative overflow-hidden">
+      {/* Subtle Mesh Glow Backgrounds */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-red-500/10 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-10 w-96 h-96 bg-sky-400/10 blur-3xl rounded-full pointer-events-none" />
+
+      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10">
         {/* HERO BANNER CARD */}
-        <div className="bg-white border border-[#DCE7EE] rounded-[28px] p-5 sm:p-6 lg:p-7 shadow-xs relative overflow-hidden space-y-5 sm:space-y-6">
+        <div className="bg-white border border-slate-200/80 rounded-[28px] p-5 sm:p-6 lg:p-7 shadow-sm relative overflow-hidden space-y-5 sm:space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center relative z-10">
             <div className="lg:col-span-6 space-y-3.5">
-              <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#EAF6FC] text-[#0A76A8] text-[10.5px] font-black uppercase tracking-widest border border-[#DCE7EE]">
-                <Building2 className="size-3.5 text-[#0A76A8]" />
+              <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-red-50 text-red-600 text-[10.5px] font-black uppercase tracking-widest border border-red-100">
+                <Building2 className="size-3.5 text-red-600" />
                 <span>LANDMARK DEPLOYMENTS</span>
               </div>
 
               <div className="space-y-1">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#17202A] tracking-tight leading-[1.12]">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-[1.12]">
                   Proven Infrastructure <br />
-                  Across <span className="text-[#0A76A8]">Maharashtra</span>
+                  Across <span className="text-red-600">Maharashtra</span>
                 </h1>
-                <div className="w-7 h-1 bg-[#0A76A8] rounded-full" />
+                <div className="w-7 h-1 bg-red-600 rounded-full" />
               </div>
 
-              <p className="text-[#647786] text-xs sm:text-[13px] font-normal leading-relaxed max-w-xl">
+              <p className="text-slate-600 text-xs sm:text-[13px] font-normal leading-relaxed max-w-xl">
                 Explore our engineering deployments across municipal corporations, industrial foundries, major cooperative bank networks, and multispecialty healthcare campuses.
               </p>
 
-              <div className="flex flex-wrap items-center gap-2 pt-0.5 text-[11px] font-bold text-[#17202A]">
-                <div className="flex items-center gap-1.5 bg-[#F7F9FC] border border-[#DCE7EE] px-2.5 py-1 rounded-full">
-                  <Shield className="size-3 text-[#0A76A8]" />
+              <div className="flex flex-wrap items-center gap-2 pt-0.5 text-[11px] font-bold text-slate-900">
+                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full">
+                  <Shield className="size-3 text-red-600" />
                   <span>Reliable Infrastructure</span>
                 </div>
-                <div className="flex items-center gap-1.5 bg-[#F7F9FC] border border-[#DCE7EE] px-2.5 py-1 rounded-full">
-                  <Settings className="size-3 text-[#0A76A8]" />
+                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full">
+                  <Settings className="size-3 text-red-600" />
                   <span>Engineering Excellence</span>
                 </div>
-                <div className="flex items-center gap-1.5 bg-[#F7F9FC] border border-[#DCE7EE] px-2.5 py-1 rounded-full">
-                  <Users className="size-3 text-[#0A76A8]" />
+                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full">
+                  <Users className="size-3 text-red-600" />
                   <span>Stronger Communities</span>
                 </div>
-                <div className="flex items-center gap-1.5 bg-[#F7F9FC] border border-[#DCE7EE] px-2.5 py-1 rounded-full">
-                  <Leaf className="size-3 text-[#0A76A8]" />
+                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-full">
+                  <Leaf className="size-3 text-red-600" />
                   <span>Sustainable Growth</span>
                 </div>
               </div>
@@ -247,38 +236,38 @@ function ProjectsPage() {
             {/* Skewed Images */}
             <div className="lg:col-span-6 flex items-center justify-end relative">
               <div className="relative flex items-center gap-3 sm:gap-4 w-full max-w-xl justify-end pr-0 sm:pr-24 pt-2 sm:pt-0">
-                <div className="h-52 sm:h-60 lg:h-[255px] w-1/3 overflow-hidden rounded-[20px] transform -skew-x-12 border-2 border-white shadow-lg group bg-[#041321] relative">
+                <div className="h-52 sm:h-60 lg:h-[255px] w-1/3 overflow-hidden rounded-[20px] transform -skew-x-12 border-2 border-white shadow-lg group bg-slate-950 relative">
                   <img
                     src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
                     alt="Smart Cities"
                     className="w-full h-full object-cover object-center transform skew-x-12 scale-[1.28] group-hover:scale-140 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#041321]/95 via-[#041321]/40 to-transparent flex flex-col justify-end p-3.5 transform skew-x-12">
-                    <div className="w-5 h-0.5 bg-[#08A9DF] mb-1.5 rounded-full" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-3.5 transform skew-x-12">
+                    <div className="w-5 h-0.5 bg-red-500 mb-1.5 rounded-full" />
                     <div className="text-xs font-black text-white leading-tight">Smart Cities</div>
                   </div>
                 </div>
 
-                <div className="h-52 sm:h-60 lg:h-[255px] w-1/3 overflow-hidden rounded-[20px] transform -skew-x-12 border-2 border-white shadow-lg group bg-[#041321] relative">
+                <div className="h-52 sm:h-60 lg:h-[255px] w-1/3 overflow-hidden rounded-[20px] transform -skew-x-12 border-2 border-white shadow-lg group bg-slate-950 relative">
                   <img
                     src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
                     alt="Industrial Growth"
                     className="w-full h-full object-cover object-center transform skew-x-12 scale-[1.28] group-hover:scale-140 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#041321]/95 via-[#041321]/40 to-transparent flex flex-col justify-end p-3.5 transform skew-x-12">
-                    <div className="w-5 h-0.5 bg-[#08A9DF] mb-1.5 rounded-full" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-3.5 transform skew-x-12">
+                    <div className="w-5 h-0.5 bg-red-500 mb-1.5 rounded-full" />
                     <div className="text-xs font-black text-white leading-tight">Industrial</div>
                   </div>
                 </div>
 
-                <div className="h-52 sm:h-60 lg:h-[255px] w-1/3 overflow-hidden rounded-[20px] transform -skew-x-12 border-2 border-white shadow-lg group bg-[#041321] relative">
+                <div className="h-52 sm:h-60 lg:h-[255px] w-1/3 overflow-hidden rounded-[20px] transform -skew-x-12 border-2 border-white shadow-lg group bg-slate-950 relative">
                   <img
                     src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=80"
                     alt="Healthcare"
                     className="w-full h-full object-cover object-center transform skew-x-12 scale-[1.28] group-hover:scale-140 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#041321]/95 via-[#041321]/40 to-transparent flex flex-col justify-end p-3.5 transform skew-x-12">
-                    <div className="w-5 h-0.5 bg-[#08A9DF] mb-1.5 rounded-full" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-3.5 transform skew-x-12">
+                    <div className="w-5 h-0.5 bg-red-500 mb-1.5 rounded-full" />
                     <div className="text-xs font-black text-white leading-tight">Healthcare</div>
                   </div>
                 </div>
@@ -287,54 +276,54 @@ function ProjectsPage() {
           </div>
 
           {/* Bottom Floating Stats */}
-          <div className="bg-[#F7F9FC] border border-[#DCE7EE] rounded-[20px] p-3 sm:px-6 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
+          <div className="bg-slate-50 border border-slate-200/80 rounded-[20px] p-3 sm:px-6 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 items-center">
               <div className="flex items-center gap-2.5">
-                <div className="size-9 rounded-full bg-[#EAF6FC] flex items-center justify-center text-[#0A76A8] shrink-0 border border-[#DCE7EE]">
+                <div className="size-9 rounded-full bg-red-50 flex items-center justify-center text-red-600 shrink-0 border border-red-100">
                   <Video className="size-4" />
                 </div>
                 <div>
-                  <div className="text-base font-black text-[#17202A]">240+</div>
-                  <div className="text-[9px] font-black uppercase tracking-wider text-[#647786]">4K CAMERAS</div>
+                  <div className="text-base font-black text-slate-900">240+</div>
+                  <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">4K CAMERAS</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <div className="size-9 rounded-full bg-[#EAF6FC] flex items-center justify-center text-[#0A76A8] shrink-0 border border-[#DCE7EE]">
+                <div className="size-9 rounded-full bg-red-50 flex items-center justify-center text-red-600 shrink-0 border border-red-100">
                   <Layers className="size-4" />
                 </div>
                 <div>
-                  <div className="text-base font-black text-[#17202A]">15 km</div>
-                  <div className="text-[9px] font-black uppercase tracking-wider text-[#647786]">FIBER RING</div>
+                  <div className="text-base font-black text-slate-900">15 km</div>
+                  <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">FIBER RING</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <div className="size-9 rounded-full bg-[#EAF6FC] flex items-center justify-center text-[#0A76A8] shrink-0 border border-[#DCE7EE]">
+                <div className="size-9 rounded-full bg-red-50 flex items-center justify-center text-red-600 shrink-0 border border-red-100">
                   <Landmark className="size-4" />
                 </div>
                 <div>
-                  <div className="text-base font-black text-[#17202A]">32</div>
-                  <div className="text-[9px] font-black uppercase tracking-wider text-[#647786]">BANK BRANCHES</div>
+                  <div className="text-base font-black text-slate-900">32</div>
+                  <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">BANK BRANCHES</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <div className="size-9 rounded-full bg-[#EAF6FC] flex items-center justify-center text-[#0A76A8] shrink-0 border border-[#DCE7EE]">
-                  <ShieldCheck className="size-4 text-[#0A76A8]" />
+                <div className="size-9 rounded-full bg-red-50 flex items-center justify-center text-red-600 shrink-0 border border-red-100">
+                  <ShieldCheck className="size-4 text-red-600" />
                 </div>
                 <div>
-                  <div className="text-base font-black text-[#0A76A8]">99.98%</div>
-                  <div className="text-[9px] font-black uppercase tracking-wider text-[#647786]">UPTIME SLA</div>
+                  <div className="text-base font-black text-red-600">99.98%</div>
+                  <div className="text-[9px] font-black uppercase tracking-wider text-slate-400">UPTIME SLA</div>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 bg-white border border-[#DCE7EE] px-4 py-2 rounded-full">
-              <span className="text-[10px] font-black uppercase tracking-wider text-[#647786]">
+            <div className="flex items-center gap-3 bg-white border border-slate-200 px-4 py-2 rounded-full">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">
                 INFRASTRUCTURE FOR MAHARASHTRA
               </span>
-              <div className="size-7 rounded-full bg-[#0A76A8] flex items-center justify-center text-white shrink-0">
+              <div className="size-7 rounded-full bg-red-600 flex items-center justify-center text-white shrink-0">
                 <ArrowRight className="size-3.5" />
               </div>
             </div>
@@ -342,7 +331,7 @@ function ProjectsPage() {
         </div>
 
         {/* FILTER TABS */}
-        <div className="flex items-center justify-between gap-4 flex-wrap bg-white border border-[#DCE7EE] rounded-2xl p-3 shadow-xs">
+        <div className="flex items-center justify-between gap-4 flex-wrap bg-white border border-slate-200/80 rounded-2xl p-3 shadow-sm">
           <div className="flex flex-wrap items-center gap-2 overflow-x-auto">
             {CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat;
@@ -353,8 +342,8 @@ function ProjectsPage() {
                   onClick={() => setActiveCategory(cat)}
                   className={`px-4 py-2 rounded-full text-xs font-extrabold transition-all duration-300 cursor-pointer whitespace-nowrap ${
                     isActive
-                      ? "bg-[#0A76A8] text-white shadow-md"
-                      : "bg-[#F7F9FC] text-[#647786] border border-[#DCE7EE] hover:bg-[#EAF6FC]"
+                      ? "bg-red-600 text-white shadow-md shadow-red-600/20"
+                      : "bg-slate-50 text-slate-600 border border-slate-200 hover:bg-red-50 hover:text-red-600"
                   }`}
                 >
                   {cat}
@@ -363,117 +352,94 @@ function ProjectsPage() {
             })}
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-[#647786] font-bold hidden sm:inline-block mr-1">
-              Scroll Projects
-            </span>
-            <button
-              type="button"
-              onClick={scrollLeft}
-              className="size-9 rounded-full bg-[#F7F9FC] hover:bg-[#0A76A8] text-[#17202A] hover:text-white flex items-center justify-center transition border border-[#DCE7EE]"
-              title="Scroll Left"
-            >
-              <ChevronLeft className="size-4" />
-            </button>
-            <button
-              type="button"
-              onClick={scrollRight}
-              className="size-9 rounded-full bg-[#F7F9FC] hover:bg-[#0A76A8] text-[#17202A] hover:text-white flex items-center justify-center transition border border-[#DCE7EE]"
-              title="Scroll Right"
-            >
-              <ChevronRight className="size-4" />
-            </button>
+          <div className="text-xs text-slate-400 font-bold px-2">
+            Showing {filteredProjects.length} Projects
           </div>
         </div>
 
-        {/* CAROUSEL */}
-        <div
-          ref={scrollContainerRef}
-          className="flex items-stretch gap-6 overflow-x-auto pb-6 pt-1 scroll-smooth snap-x snap-mandatory"
-        >
+        {/* PROJECTS GRID (2 COLUMNS) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6 pt-1">
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="rounded-[26px] p-[2.5px] shrink-0 w-[90vw] sm:w-[500px] lg:w-[560px] snap-start"
+              className="bg-white border border-slate-200/80 rounded-[23px] h-full flex flex-col justify-between overflow-hidden group shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="bg-white border border-[#DCE7EE] rounded-[23px] h-full flex flex-col justify-between overflow-hidden group shadow-xs">
-                <div>
-                  <div className="relative h-60 sm:h-64 w-full bg-[#041321] overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000";
-                      }}
-                    />
-                    <div className="absolute top-4 left-4 bg-[#0A76A8] text-white text-[10px] font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-md flex items-center gap-1.5">
-                      <Sparkles className="size-3 text-white" />
-                      <span>{project.categoryBadge}</span>
-                    </div>
-
-                    <div className="absolute bottom-4 left-4 bg-[#041321]/90 text-white text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-2 border border-slate-700">
-                      <MapPin className="size-3.5 text-[#08A9DF]" />
-                      <span>{project.location}</span>
-                    </div>
+              <div>
+                <div className="relative h-60 sm:h-64 w-full bg-slate-950 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000";
+                    }}
+                  />
+                  <div className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-md flex items-center gap-1.5">
+                    <Sparkles className="size-3 text-white" />
+                    <span>{project.categoryBadge}</span>
                   </div>
 
-                  <div className="p-5 sm:p-6 space-y-4">
-                    <div className="text-[11px] font-black uppercase tracking-wider text-[#0A76A8]">
-                      {project.scale}
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <h2 className="text-lg sm:text-xl font-black text-[#17202A]">
-                        {project.title}
-                      </h2>
-                      <p className="text-xs text-[#647786] leading-relaxed font-normal line-clamp-2">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    <div className="bg-[#F7F9FC] border border-[#DCE7EE] rounded-2xl p-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-                      {project.metrics.map((m, idx) => (
-                        <div
-                          key={idx}
-                          className="bg-white rounded-xl p-2 border border-[#DCE7EE]"
-                        >
-                          <div className="text-xs font-black text-[#17202A]">
-                            {m.value}
-                          </div>
-                          <div className="text-[8.5px] font-extrabold uppercase tracking-wider text-[#647786] mt-0.5">
-                            {m.label}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="absolute bottom-4 left-4 bg-slate-950/90 text-white text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-2 border border-slate-800">
+                    <MapPin className="size-3.5 text-red-400" />
+                    <span>{project.location}</span>
                   </div>
                 </div>
 
-                <div className="p-5 sm:p-6 pt-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-[#DCE7EE] mt-2">
-                  <div className="flex items-center gap-2 text-xs font-extrabold text-[#0A76A8]">
-                    <ShieldCheck className="size-4 shrink-0 text-[#0A76A8]" />
-                    <span>{project.footerBadge}</span>
+                <div className="p-5 sm:p-6 space-y-4">
+                  <div className="text-[11px] font-black uppercase tracking-wider text-red-600">
+                    {project.scale}
                   </div>
 
-                  <div className="flex items-center gap-2.5 w-full sm:w-auto">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedProject(project)}
-                      className="px-3.5 py-2.5 rounded-xl bg-[#F7F9FC] hover:bg-[#EAF6FC] text-[#17202A] text-xs font-extrabold border border-[#DCE7EE]"
-                    >
-                      Case Study
-                    </button>
-
-                    <Link
-                      to="/contact"
-                      className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-[#0A76A8] hover:bg-[#0896d7] text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-md transition"
-                    >
-                      <span>Request Similar</span>
-                      <ArrowRight className="size-3.5" />
-                    </Link>
+                  <div className="space-y-1.5">
+                    <h2 className="text-lg sm:text-xl font-black text-slate-900">
+                      {project.title}
+                    </h2>
+                    <p className="text-xs text-slate-600 leading-relaxed font-normal line-clamp-2">
+                      {project.description}
+                    </p>
                   </div>
+
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                    {project.metrics.map((m, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-white rounded-xl p-2 border border-slate-200"
+                      >
+                        <div className="text-xs font-black text-slate-900">
+                          {m.value}
+                        </div>
+                        <div className="text-[8.5px] font-extrabold uppercase tracking-wider text-slate-400 mt-0.5">
+                          {m.label}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-5 sm:p-6 pt-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-slate-200 mt-2">
+                <div className="flex items-center gap-2 text-xs font-extrabold text-red-600">
+                  <ShieldCheck className="size-4 shrink-0 text-red-600" />
+                  <span>{project.footerBadge}</span>
+                </div>
+
+                <div className="flex items-center gap-2.5 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProject(project)}
+                    className="px-3.5 py-2.5 rounded-xl bg-slate-50 hover:bg-red-50 text-slate-800 hover:text-red-600 text-xs font-extrabold border border-slate-200 transition-colors cursor-pointer"
+                  >
+                    Case Study
+                  </button>
+
+                  <Link
+                    to="/contact"
+                    className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-md shadow-red-600/20 transition cursor-pointer"
+                  >
+                    <span>Request Similar</span>
+                    <ArrowRight className="size-3.5" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -484,25 +450,25 @@ function ProjectsPage() {
       {/* CASE STUDY MODAL */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
-          <div className="bg-white rounded-[28px] max-w-3xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto border border-[#DCE7EE] relative">
+          <div className="bg-white rounded-[28px] max-w-3xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto border border-slate-200 relative">
             <button
               onClick={() => setSelectedProject(null)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-[#F7F9FC] text-[#17202A] hover:bg-[#EAF6FC] border border-[#DCE7EE]"
+              className="absolute top-5 right-5 p-2 rounded-full bg-slate-50 text-slate-800 hover:bg-red-50 hover:text-red-600 border border-slate-200"
             >
               <X className="size-5" />
             </button>
 
             <div className="space-y-3">
-              <span className="bg-[#0A76A8] text-white px-3 py-1 rounded-full text-[10px] font-black uppercase">
+              <span className="bg-red-600 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase">
                 {selectedProject.categoryBadge}
               </span>
 
-              <h2 className="text-2xl sm:text-3xl font-black text-[#17202A]">
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
                 {selectedProject.title}
               </h2>
             </div>
 
-            <div className="h-64 sm:h-72 w-full rounded-2xl overflow-hidden bg-[#041321]">
+            <div className="h-64 sm:h-72 w-full rounded-2xl overflow-hidden bg-slate-950">
               <img
                 src={selectedProject.image}
                 alt={selectedProject.title}
@@ -511,8 +477,8 @@ function ProjectsPage() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-sm font-black text-[#17202A] uppercase tracking-wider flex items-center gap-2">
-                <Cpu className="size-4 text-[#0A76A8]" />
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                <Cpu className="size-4 text-red-600" />
                 <span>Technical Specifications &amp; Architecture</span>
               </h3>
 
@@ -520,20 +486,20 @@ function ProjectsPage() {
                 {selectedProject.detailedSpecs?.map((spec, idx) => (
                   <div
                     key={idx}
-                    className="bg-[#F7F9FC] border border-[#DCE7EE] rounded-xl p-3 flex items-start gap-2.5 text-xs text-[#17202A] font-medium"
+                    className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-start gap-2.5 text-xs text-slate-800 font-medium"
                   >
-                    <CheckCircle2 className="size-4 text-[#0A76A8] shrink-0 mt-0.5" />
+                    <CheckCircle2 className="size-4 text-red-600 shrink-0 mt-0.5" />
                     <span>{spec}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#DCE7EE] flex items-center justify-between gap-4">
+            <div className="pt-4 border-t border-slate-200 flex items-center justify-between gap-4">
               <Link
                 to="/contact"
                 onClick={() => setSelectedProject(null)}
-                className="px-6 py-3.5 rounded-xl bg-[#0A76A8] hover:bg-[#0896d7] text-white text-xs font-bold flex items-center gap-2"
+                className="px-6 py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold flex items-center gap-2 shadow-md shadow-red-600/20"
               >
                 <span>Consult Our Lead Engineer</span>
                 <ArrowRight className="size-4" />
@@ -541,7 +507,7 @@ function ProjectsPage() {
 
               <button
                 onClick={() => setSelectedProject(null)}
-                className="px-5 py-3 rounded-xl bg-[#F7F9FC] text-[#17202A] border border-[#DCE7EE] text-xs font-bold"
+                className="px-5 py-3 rounded-xl bg-slate-50 text-slate-800 hover:bg-slate-100 border border-slate-200 text-xs font-bold"
               >
                 Close Case Study
               </button>

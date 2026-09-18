@@ -409,24 +409,28 @@ export function SolutionsPage() {
     SOLUTIONS_DATA.find((s) => s.id === selectedSolutionId) || SOLUTIONS_DATA[0]!;
 
   return (
-    <div className="bg-[#F7F9FC] text-[#17202A] font-sans antialiased min-h-screen py-6 sm:py-10">
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
+    <div className="bg-[#F8FAFC] text-slate-900 font-sans antialiased min-h-screen py-6 sm:py-10 relative overflow-hidden">
+      {/* Subtle Mesh Glow Backgrounds */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-red-500/10 blur-3xl rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-10 w-96 h-96 bg-sky-400/10 blur-3xl rounded-full pointer-events-none" />
+
+      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8 relative z-10">
         {/* SUB-HEADER HUB BADGE */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-[#DCE7EE] rounded-2xl p-3.5 sm:px-6 shadow-xs">
-          <div className="flex items-center gap-2.5 text-xs font-bold text-[#17202A]">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EAF6FC] text-[#0A76A8] text-[10px] font-black uppercase tracking-wider border border-[#DCE7EE]">
-              <MapPin className="size-3 text-[#0A76A8]" />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/80 backdrop-blur-md border border-slate-200/80 rounded-2xl p-3.5 sm:px-6 shadow-sm">
+          <div className="flex items-center gap-2.5 text-xs font-bold text-slate-900">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-wider border border-red-100">
+              <MapPin className="size-3 text-red-600" />
               <span>REGIONAL HUBS</span>
             </span>
-            <span className="text-[#17202A] font-extrabold text-xs">SANGLI | KOLHAPUR | PUNE</span>
+            <span className="text-slate-900 font-extrabold text-xs">SANGLI | KOLHAPUR | PUNE</span>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-semibold text-[#647786]">
+          <div className="flex items-center gap-4 text-xs font-semibold text-slate-500">
             <div className="flex items-center gap-1.5">
-              <Clock className="size-3.5 text-[#647786]" />
+              <Clock className="size-3.5 text-slate-400" />
               <span>Mon-Sat 9:30 AM - 7:00 PM</span>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 text-[#0A76A8] font-bold">
+            <div className="hidden sm:flex items-center gap-1.5 text-red-600 font-bold">
               <PhoneCall className="size-3.5" />
               <span>Direct Support Active</span>
             </div>
@@ -434,25 +438,25 @@ export function SolutionsPage() {
         </div>
 
         {/* PAGE HEADER BANNER */}
-        <div className="bg-white border border-[#DCE7EE] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xs space-y-3">
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-sm space-y-3 relative overflow-hidden">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
-            <Link to="/" className="text-[#647786] hover:text-[#0A76A8] transition-colors">
+            <Link to="/" className="text-slate-400 hover:text-red-600 transition-colors">
               Home
             </Link>
-            <span className="text-[#DCE7EE]">/</span>
-            <span className="text-[#0A76A8] font-black">SOLUTIONS</span>
+            <span className="text-slate-300">/</span>
+            <span className="text-red-600 font-black">SOLUTIONS</span>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAF6FC] text-[#0A76A8] text-[10.5px] font-black uppercase tracking-widest border border-[#DCE7EE]">
-            <Building2 className="size-3.5 text-[#0A76A8]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-600 text-[10.5px] font-black uppercase tracking-widest border border-red-100">
+            <Building2 className="size-3.5 text-red-600" />
             <span>ENTERPRISE ARCHITECTURE BLUEPRINTS</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#17202A] tracking-tight leading-tight">
-            Turnkey Technology <span className="text-[#0A76A8]">Solutions</span>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Turnkey Technology <span className="text-red-600">Solutions</span>
           </h1>
 
-          <p className="text-[#647786] text-xs sm:text-sm font-normal leading-relaxed max-w-3xl">
+          <p className="text-slate-600 text-xs sm:text-sm font-normal leading-relaxed max-w-3xl">
             Select a technology architecture from the left menu to inspect detailed engineering blueprints, hardware specifications, statutory standards, and certified deployment OEM brand partners.
           </p>
         </div>
@@ -460,12 +464,12 @@ export function SolutionsPage() {
         {/* MAIN 2-COLUMN LAYOUT */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           {/* LEFT SIDEBAR MENU */}
-          <div className="lg:col-span-5 bg-white border border-[#DCE7EE] rounded-3xl p-4 sm:p-5 shadow-xs space-y-3.5 lg:sticky lg:top-24">
+          <div className="lg:col-span-5 bg-white border border-slate-200/80 rounded-3xl p-4 sm:p-5 shadow-sm space-y-3.5 lg:sticky lg:top-24">
             <div className="flex items-center justify-between px-2 pt-1 pb-1">
-              <span className="text-[11px] font-black uppercase tracking-widest text-[#647786]">
+              <span className="text-[11px] font-black uppercase tracking-widest text-slate-500">
                 SELECT TECHNOLOGY ARCHITECTURE
               </span>
-              <span className="text-[10px] font-black bg-[#EAF6FC] text-[#0A76A8] px-2 py-0.5 rounded-full border border-[#DCE7EE]">
+              <span className="text-[10px] font-black bg-red-50 text-red-600 px-2.5 py-0.5 rounded-full border border-red-100">
                 {SOLUTIONS_DATA.length} MODULES
               </span>
             </div>
@@ -483,32 +487,32 @@ export function SolutionsPage() {
                     }}
                     className={`w-full flex items-center justify-between p-3.5 sm:p-4 rounded-2xl transition-all duration-300 cursor-pointer text-left relative overflow-hidden group ${
                       isSelected
-                        ? "bg-[#041321] text-white shadow-md border border-[#082136]"
-                        : "bg-white hover:bg-[#F7F9FC] text-[#17202A] border border-[#DCE7EE]"
+                        ? "bg-slate-900 text-white shadow-md border border-slate-800"
+                        : "bg-white hover:bg-slate-50 text-slate-800 border border-slate-200/80"
                     }`}
                   >
                     {isSelected && (
-                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#08A9DF] rounded-r-full" />
+                      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-red-600 rounded-r-full" />
                     )}
 
                     <div className="flex items-center gap-3.5 min-w-0 pl-1">
                       <div
                         className={`size-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                           isSelected
-                            ? "bg-[#0A76A8] text-white"
-                            : "bg-[#EAF6FC] text-[#0A76A8]"
+                            ? "bg-red-600 text-white"
+                            : "bg-red-50 text-red-600"
                         }`}
                       >
                         <Icon className="size-5" />
                       </div>
 
                       <div className="min-w-0">
-                        <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#647786]">
+                        <div className={`text-[10px] font-extrabold uppercase tracking-wider ${isSelected ? "text-slate-400" : "text-slate-400"}`}>
                           {item.category}
                         </div>
                         <div
                           className={`truncate text-sm sm:text-base font-black tracking-tight ${
-                            isSelected ? "text-white" : "text-[#17202A]"
+                            isSelected ? "text-white" : "text-slate-900"
                           }`}
                         >
                           {item.title}
@@ -518,7 +522,7 @@ export function SolutionsPage() {
 
                     <ChevronRight
                       className={`size-4 shrink-0 transition-transform ${
-                        isSelected ? "text-[#08A9DF] translate-x-1" : "text-[#647786]"
+                        isSelected ? "text-red-500 translate-x-1" : "text-slate-400"
                       }`}
                     />
                   </button>
@@ -528,9 +532,9 @@ export function SolutionsPage() {
           </div>
 
           {/* RIGHT DISPLAY: ACTIVE SOLUTION DETAILS */}
-          <div className="lg:col-span-7 bg-white border border-[#DCE7EE] rounded-3xl overflow-hidden shadow-xs flex flex-col justify-between">
+          <div className="lg:col-span-7 bg-white border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm flex flex-col justify-between">
             {/* Top Banner */}
-            <div className="relative h-64 sm:h-76 w-full bg-[#041321] overflow-hidden">
+            <div className="relative h-64 sm:h-76 w-full bg-slate-950 overflow-hidden">
               <img
                 src={selectedSolution.image}
                 alt={selectedSolution.title}
@@ -540,24 +544,24 @@ export function SolutionsPage() {
                     "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1000";
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#041321] via-[#041321]/70 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
 
               <div className="absolute bottom-6 left-6 right-6 space-y-2 text-white">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0A76A8] text-white text-[10px] font-black uppercase tracking-widest shadow-md">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600 text-white text-[10px] font-black uppercase tracking-widest shadow-md">
                   <ShieldCheck className="size-3" />
                   <span>{selectedSolution.category}</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white leading-tight">
                   {selectedSolution.title}
                 </h2>
-                <p className="text-xs sm:text-sm text-[#08A9DF] font-semibold tracking-wide">
+                <p className="text-xs sm:text-sm text-red-400 font-semibold tracking-wide">
                   {selectedSolution.tagline}
                 </p>
               </div>
             </div>
 
             {/* Tabs Header Bar */}
-            <div className="flex items-center border-b border-[#DCE7EE] px-4 sm:px-6 bg-[#F7F9FC] overflow-x-auto">
+            <div className="flex items-center border-b border-slate-200 px-4 sm:px-6 bg-slate-50 overflow-x-auto">
               {[
                 { id: "blueprint", label: "System Architecture" },
                 { id: "specs", label: "Hardware & Specs" },
@@ -570,8 +574,8 @@ export function SolutionsPage() {
                     onClick={() => setActiveTab(tab.id as any)}
                     className={`py-4 px-4 sm:px-6 text-xs sm:text-sm font-extrabold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
                       isActive
-                        ? "border-[#0A76A8] text-[#0A76A8] font-black"
-                        : "border-transparent text-[#647786] hover:text-[#17202A]"
+                        ? "border-red-600 text-red-600 font-black"
+                        : "border-transparent text-slate-500 hover:text-slate-900"
                     }`}
                   >
                     {tab.label}
@@ -585,23 +589,23 @@ export function SolutionsPage() {
               {activeTab === "blueprint" && (
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <div className="text-[11px] font-black uppercase tracking-widest text-[#647786]">
+                    <div className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                       ENGINEERING BLUEPRINT &amp; OVERVIEW
                     </div>
-                    <p className="text-xs sm:text-sm text-[#647786] leading-relaxed font-normal bg-[#F7F9FC] border border-[#DCE7EE] p-4 rounded-2xl">
+                    <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal bg-slate-50 border border-slate-200 p-4 rounded-2xl">
                       {selectedSolution.fullDesc}
                     </p>
                   </div>
 
                   <div className="space-y-3">
-                    <div className="text-[11px] font-black uppercase tracking-widest text-[#0A76A8]">
+                    <div className="text-[11px] font-black uppercase tracking-widest text-red-600">
                       KEY TECHNICAL CAPABILITIES
                     </div>
                     <div className="space-y-2.5">
                       {selectedSolution.features.map((feat, idx) => (
-                        <div key={idx} className="flex items-start gap-3 bg-white border border-[#DCE7EE] p-3.5 rounded-2xl shadow-xs">
-                          <CheckCircle2 className="size-4 shrink-0 text-[#0A76A8] mt-0.5" />
-                          <span className="text-xs font-semibold text-[#17202A] leading-relaxed">
+                        <div key={idx} className="flex items-start gap-3 bg-white border border-slate-200/80 p-3.5 rounded-2xl shadow-xs">
+                          <CheckCircle2 className="size-4 shrink-0 text-red-600 mt-0.5" />
+                          <span className="text-xs font-semibold text-slate-800 leading-relaxed">
                             {feat}
                           </span>
                         </div>
@@ -610,14 +614,14 @@ export function SolutionsPage() {
                   </div>
 
                   <div className="space-y-2 pt-2">
-                    <div className="text-[11px] font-black uppercase tracking-widest text-[#647786]">
+                    <div className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                       RECOMMENDED INSTITUTIONAL APPLICATIONS
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {selectedSolution.applications.map((app) => (
                         <span
                           key={app}
-                          className="bg-white border border-[#DCE7EE] text-[#17202A] text-xs font-bold px-3 py-1.5 rounded-full shadow-xs"
+                          className="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-xs hover:border-red-200 hover:text-red-600 transition-colors"
                         >
                           {app}
                         </span>
@@ -629,26 +633,26 @@ export function SolutionsPage() {
 
               {activeTab === "specs" && (
                 <div className="space-y-6">
-                  <div className="text-[11px] font-black uppercase tracking-widest text-[#0A76A8]">
+                  <div className="text-[11px] font-black uppercase tracking-widest text-red-600">
                     HARDWARE SPECIFICATIONS &amp; RATINGS
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {selectedSolution.specs.map((spec, idx) => (
-                      <div key={idx} className="bg-[#F7F9FC] border border-[#DCE7EE] rounded-2xl p-4 space-y-1.5 border-l-4 border-l-[#0A76A8]">
-                        <div className="text-[10px] font-bold uppercase tracking-wider text-[#647786]">
+                      <div key={idx} className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-1.5 border-l-4 border-l-red-600">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                           {spec.label}
                         </div>
-                        <div className="text-xs sm:text-sm font-black text-[#17202A]">
+                        <div className="text-xs sm:text-sm font-black text-slate-900">
                           {spec.value}
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="bg-[#041321] text-white rounded-2xl p-5 space-y-2 border border-slate-700 shadow-md">
-                    <div className="flex items-center gap-2 text-xs font-bold text-[#08A9DF] uppercase tracking-wider">
-                      <Award className="size-4 text-[#08A9DF]" />
+                  <div className="bg-slate-900 text-white rounded-2xl p-5 space-y-2 border border-slate-800 shadow-md">
+                    <div className="flex items-center gap-2 text-xs font-bold text-red-400 uppercase tracking-wider">
+                      <Award className="size-4 text-red-500" />
                       <span>STATUTORY STANDARDS &amp; COMPLIANCE</span>
                     </div>
                     <p className="text-xs text-slate-300 leading-relaxed font-medium">
@@ -660,7 +664,7 @@ export function SolutionsPage() {
 
               {activeTab === "brands" && (
                 <div className="space-y-6">
-                  <div className="text-[11px] font-black uppercase tracking-widest text-[#0A76A8]">
+                  <div className="text-[11px] font-black uppercase tracking-widest text-red-600">
                     CERTIFIED OEM BRAND PARTNERS
                   </div>
 
@@ -668,18 +672,18 @@ export function SolutionsPage() {
                     {selectedSolution.partnerBrands.map((brand) => (
                       <div
                         key={brand}
-                        className="bg-white border border-[#DCE7EE] rounded-2xl p-4 text-center font-extrabold text-sm text-[#17202A] shadow-xs hover:border-[#0A76A8] transition-colors"
+                        className="bg-white border border-slate-200/80 rounded-2xl p-4 text-center font-extrabold text-sm text-slate-800 shadow-xs hover:border-red-600 hover:text-red-600 transition-colors"
                       >
                         {brand}
                       </div>
                     ))}
                   </div>
 
-                  <div className="bg-[#EAF6FC] border border-[#DCE7EE] rounded-2xl p-5 space-y-2">
-                    <div className="text-xs font-bold text-[#0A76A8]">
+                  <div className="bg-red-50/60 border border-red-100 rounded-2xl p-5 space-y-2">
+                    <div className="text-xs font-bold text-red-600">
                       TURNKEY SURVEY &amp; BOQ PREPARATION
                     </div>
-                    <p className="text-xs text-[#17202A] leading-relaxed font-medium">
+                    <p className="text-xs text-slate-700 leading-relaxed font-medium">
                       Need a formal BOQ estimate or site survey for your facility? Our senior engineers prepare detailed technical proposals with CAD layout schematics.
                     </p>
                   </div>
@@ -687,14 +691,14 @@ export function SolutionsPage() {
               )}
 
               {/* Action Bar */}
-              <div className="pt-6 border-t border-[#DCE7EE] flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="text-xs font-semibold text-[#647786] hidden sm:block">
+              <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="text-xs font-semibold text-slate-500 hidden sm:block">
                   Need custom BOQ specs or tender documentation?
                 </div>
 
                 <Link
                   to="/contact"
-                  className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#0A76A8] hover:bg-[#0896d7] text-white text-xs font-black tracking-wide flex items-center justify-center gap-2 transition-all duration-200 group cursor-pointer shadow-md"
+                  className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs font-black tracking-wide flex items-center justify-center gap-2 transition-all duration-200 group cursor-pointer shadow-md shadow-red-600/20"
                 >
                   <span>Request Engineering BOQ &amp; Survey</span>
                   <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
