@@ -145,7 +145,7 @@ function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % totalSlides);
-    }, 4000);
+    }, 4500);
     return () => clearInterval(timer);
   }, [totalSlides]);
 
@@ -173,7 +173,7 @@ function HeroSection() {
 
   return (
     <section
-      className="relative w-full h-[260px] xs:h-[320px] sm:h-[520px] lg:h-[620px] bg-[#041321] overflow-hidden select-none"
+      className="relative w-full h-[calc(100vh-66px)] lg:h-[calc(100vh-74px)] min-h-[500px] max-h-[850px] bg-[#041321] overflow-hidden select-none group"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -181,8 +181,9 @@ function HeroSection() {
       {heroSlides.map((slide, idx) => (
         <div
           key={idx}
-          className={`absolute inset-0 transition-opacity duration-700 ease-in-out pointer-events-none ${currentSlide === idx ? "opacity-100 z-0" : "opacity-0 -z-10"
-            }`}
+          className={`absolute inset-0 transition-opacity duration-700 ease-in-out pointer-events-none ${
+            currentSlide === idx ? "opacity-100 z-0" : "opacity-0 -z-10"
+          }`}
         >
           <img
             src={slide.image}
@@ -195,12 +196,15 @@ function HeroSection() {
         </div>
       ))}
 
+      {/* GRADIENT OVERLAY */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 pointer-events-none z-10" />
+
       {/* LEFT NAVIGATION ARROW */}
       <button
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-30 size-8.5 sm:size-12 rounded-full bg-[#041321]/70 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-2xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
+        className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 size-9 sm:size-11 rounded-full bg-[#041321]/60 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
       >
         <ChevronLeft className="size-4 sm:size-6 text-white" />
       </button>
@@ -210,10 +214,27 @@ function HeroSection() {
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-30 size-8.5 sm:size-12 rounded-full bg-[#041321]/70 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-2xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
+        className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 size-9 sm:size-11 rounded-full bg-[#041321]/60 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
       >
         <ChevronRight className="size-4 sm:size-6 text-white" />
       </button>
+
+      {/* PAGINATION DOTS (CENTERED AT BOTTOM TO AVOID FLOATING BUTTON COLLISION) */}
+      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 sm:gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+        {heroSlides.map((_, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={() => setCurrentSlide(idx)}
+            aria-label={`Go to slide ${idx + 1}`}
+            className={`transition-all duration-300 rounded-full cursor-pointer ${
+              currentSlide === idx
+                ? "w-5 sm:w-7 h-2 sm:h-2.5 bg-[#DC2626]"
+                : "w-2 sm:w-2.5 h-2 sm:h-2.5 bg-white/50 hover:bg-white"
+            }`}
+          />
+        ))}
+      </div>
     </section>
   );
 }
