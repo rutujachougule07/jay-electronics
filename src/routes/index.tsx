@@ -93,8 +93,9 @@ function useAutoScroll(itemCount: number, speedMs: number = 3000) {
 function HomePage() {
   return (
     <div className="bg-white font-sans text-[#0F172A] min-h-screen">
-      {/* FIRST FOLD: SLIDER + OUR IMPACT FIT EXACTLY IN INITIAL VIEWPORT */}
-      <div className="min-h-[calc(100vh-66px)] lg:min-h-[calc(100vh-74px)] flex flex-col justify-between pb-3 sm:pb-5">
+      {/* MOBILE ONLY (< lg): SLIDER + OUR IMPACT FIT EXACTLY IN INITIAL VIEWPORT */}
+      {/* DESKTOP (lg+): FULL HEIGHT HERO SLIDER + IMPACT SECTION BELOW */}
+      <div className="max-lg:min-h-[calc(100vh-66px)] max-lg:flex max-lg:flex-col max-lg:justify-between max-lg:pb-3">
         <HeroSection />
         <ImpactSection />
       </div>
@@ -178,7 +179,7 @@ function HeroSection() {
 
   return (
     <section
-      className="relative w-full flex-1 min-h-[160px] sm:min-h-[240px] max-h-[460px] bg-[#041321] overflow-hidden select-none group shadow-md"
+      className="relative w-full max-lg:flex-1 max-lg:min-h-[160px] max-lg:max-h-[380px] lg:h-[calc(100vh-74px)] lg:min-h-[500px] lg:max-h-[850px] bg-[#041321] overflow-hidden select-none group shadow-md"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -209,9 +210,9 @@ function HeroSection() {
         type="button"
         onClick={prevSlide}
         aria-label="Previous Slide"
-        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 size-7 sm:size-9 rounded-full bg-[#041321]/60 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
+        className="absolute left-2 sm:left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 size-7 sm:size-9 lg:size-11 rounded-full bg-[#041321]/60 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
       >
-        <ChevronLeft className="size-3.5 sm:size-5 text-white" />
+        <ChevronLeft className="size-3.5 sm:size-5 lg:size-6 text-white" />
       </button>
 
       {/* RIGHT NAVIGATION ARROW */}
@@ -219,13 +220,13 @@ function HeroSection() {
         type="button"
         onClick={nextSlide}
         aria-label="Next Slide"
-        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 size-7 sm:size-9 rounded-full bg-[#041321]/60 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
+        className="absolute right-2 sm:right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 size-7 sm:size-9 lg:size-11 rounded-full bg-[#041321]/60 hover:bg-[#DC2626] text-white flex items-center justify-center border border-white/30 shadow-xl transition backdrop-blur-md cursor-pointer hover:scale-110 active:scale-95"
       >
-        <ChevronRight className="size-3.5 sm:size-5 text-white" />
+        <ChevronRight className="size-3.5 sm:size-5 lg:size-6 text-white" />
       </button>
 
       {/* PAGINATION DOTS */}
-      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 sm:gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 shadow-md">
+      <div className="absolute bottom-2 sm:bottom-3 lg:bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 sm:gap-2 bg-black/60 backdrop-blur-md px-2.5 sm:px-3 lg:px-4 py-1 sm:py-1.5 rounded-full border border-white/20 shadow-md">
         {heroSlides.map((_, idx) => (
           <button
             key={idx}
@@ -234,8 +235,8 @@ function HeroSection() {
             aria-label={`Go to slide ${idx + 1}`}
             className={`transition-all duration-300 rounded-full cursor-pointer ${
               currentSlide === idx
-                ? "w-3.5 sm:w-5 h-1.5 bg-[#DC2626]"
-                : "w-1.5 h-1.5 bg-white/50 hover:bg-white"
+                ? "w-3.5 sm:w-5 lg:w-7 h-1.5 sm:h-2 lg:h-2.5 bg-[#DC2626]"
+                : "w-1.5 sm:w-2 lg:w-2.5 h-1.5 sm:h-2 lg:h-2.5 bg-white/50 hover:bg-white"
             }`}
           />
         ))}
@@ -312,10 +313,10 @@ export function ImpactSection() {
   };
 
   return (
-    <section className="relative z-30 mt-2 sm:mt-3.5 lg:mt-4 pb-2 sm:pb-4 w-full bg-transparent">
+    <section className="relative z-30 mt-2 sm:mt-3.5 lg:mt-6 pb-2 sm:pb-4 lg:pb-8 w-full bg-transparent">
       <div className="w-full px-2 sm:px-6 lg:px-8 xl:px-12">
         {/* Full-width Outer Banner Card Container with spacing below slider */}
-        <div className="relative w-full bg-gradient-to-r from-rose-50/90 via-white to-rose-50/90 backdrop-blur-md border border-rose-100 rounded-2xl sm:rounded-3xl p-2.5 sm:p-5 lg:p-7 shadow-xl overflow-hidden">
+        <div className="relative w-full bg-gradient-to-r from-rose-50/90 via-white to-rose-50/90 backdrop-blur-md border border-rose-100 rounded-2xl sm:rounded-3xl p-2.5 sm:p-5 lg:p-8 xl:p-9 shadow-xl overflow-hidden">
           {/* Faint Background Glowing Accent */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-rose-200/20 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-rose-100/30 rounded-full blur-3xl pointer-events-none" />
@@ -323,30 +324,30 @@ export function ImpactSection() {
           {/* Top Header Row */}
           <div className="relative z-10 flex flex-col items-center text-center">
             {/* Top Center Eyebrow Pill Badge */}
-            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 mb-1 sm:mb-1.5">
+            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 mb-1 sm:mb-2">
               <div className="w-4 sm:w-5 h-[1.5px] bg-rose-300" />
-              <span className="px-2.5 py-0.5 rounded-full bg-rose-100/90 border border-rose-200/80 text-[#DC2626] text-[8.5px] sm:text-[10px] font-extrabold tracking-wider uppercase">
+              <span className="px-2.5 sm:px-3 py-0.5 rounded-full bg-rose-100/90 border border-rose-200/80 text-[#DC2626] text-[8.5px] sm:text-[10px] lg:text-[11px] font-extrabold tracking-wider uppercase">
                 OUR IMPACT
               </span>
               <div className="w-4 sm:w-5 h-[1.5px] bg-rose-300" />
             </div>
 
             {/* Main Headline */}
-            <h2 className="text-lg sm:text-2xl lg:text-3xl font-black text-[#0F172A] tracking-tight leading-snug">
+            <h2 className="text-lg sm:text-2xl lg:text-4xl font-black text-[#0F172A] tracking-tight leading-snug">
               Engineering <span className="text-[#DC2626]">Trust</span> Through Numbers
             </h2>
 
             {/* Top Right "INNOVATION FOR A SAFER TOMORROW" badge */}
             <div className="hidden lg:flex flex-col items-end text-right absolute top-0 right-0">
-              <span className="text-[9.5px] font-bold tracking-widest text-slate-400 uppercase leading-tight max-w-[120px]">
+              <span className="text-[10px] font-bold tracking-widest text-slate-400 uppercase leading-tight max-w-[120px]">
                 INNOVATION FOR A SAFER TOMORROW
               </span>
-              <div className="w-7 h-[2px] bg-[#DC2626] mt-1" />
+              <div className="w-8 h-[2px] bg-[#DC2626] mt-1" />
             </div>
           </div>
 
           {/* Dynamic Stat Cards Responsive Grid Layout */}
-          <div className={`mt-2.5 sm:mt-5 grid gap-2 sm:gap-3 xl:gap-3.5 relative z-10 ${homeStats.length === 4
+          <div className={`mt-2.5 sm:mt-5 lg:mt-8 grid gap-2 sm:gap-3.5 xl:gap-4.5 relative z-10 ${homeStats.length === 4
             ? "grid-cols-2 sm:grid-cols-2 lg:grid-cols-4"
             : homeStats.length === 5
               ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
@@ -357,22 +358,22 @@ export function ImpactSection() {
               return (
                 <div
                   key={stat.id || idx}
-                  className={`bg-white/95 backdrop-blur-sm border border-slate-100 rounded-xl sm:rounded-2xl p-2 sm:p-3 xl:p-3.5 flex items-center gap-2 sm:gap-3 xl:gap-3 shadow-2xs hover:shadow-md hover:border-rose-200 transition-all duration-300 w-full ${homeStats.length === 5 && idx === 4
+                  className={`bg-white/95 backdrop-blur-sm border border-slate-100 rounded-xl sm:rounded-2xl p-2 sm:p-4 xl:p-4.5 flex items-center gap-2 sm:gap-3 xl:gap-3.5 shadow-2xs hover:shadow-md hover:border-rose-200 transition-all duration-300 w-full ${homeStats.length === 5 && idx === 4
                     ? "col-span-2 justify-self-center w-full max-w-[calc(50%-0.3125rem)] sm:max-w-none sm:col-span-1"
                     : ""
                     }`}
                 >
                   {/* Left Red Icon Box */}
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#FFF0F0] border border-rose-100/80 flex items-center justify-center shrink-0 text-[#DC2626]">
-                    <IconComp className="size-3.5 sm:size-4.5 text-[#DC2626]" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-xl bg-[#FFF0F0] border border-rose-100/80 flex items-center justify-center shrink-0 text-[#DC2626]">
+                    <IconComp className="size-3.5 sm:size-4.5 lg:size-5.5 text-[#DC2626]" />
                   </div>
 
                   {/* Right Text Column */}
                   <div className="flex flex-col justify-center min-w-0 flex-1">
-                    <div className="text-sm sm:text-xl xl:text-2xl font-black text-[#0F172A] tracking-tight leading-none">
+                    <div className="text-sm sm:text-xl lg:text-2xl xl:text-3xl font-black text-[#0F172A] tracking-tight leading-none">
                       <AnimatedStatCounter targetValue={stat.targetValue} suffix={stat.suffix} />
                     </div>
-                    <div className="text-[8px] sm:text-[9.5px] xl:text-[10px] font-extrabold text-slate-500 tracking-wider uppercase mt-0.5 sm:mt-1 leading-tight whitespace-normal">
+                    <div className="text-[8px] sm:text-[9.5px] lg:text-[10px] xl:text-[10.5px] font-extrabold text-slate-500 tracking-wider uppercase mt-0.5 sm:mt-1 leading-tight whitespace-normal">
                       {stat.label}
                     </div>
                   </div>
