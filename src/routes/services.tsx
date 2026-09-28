@@ -490,7 +490,7 @@ export function SolutionsPage() {
               <MapPin className="size-3 text-red-600" />
               <span>REGIONAL HUBS</span>
             </span>
-            <span className="text-slate-900 font-extrabold text-[11px] sm:text-xs">SANGLI | KOLHAPUR | PUNE</span>
+            <span className="text-slate-900 font-extrabold text-[11px] sm:text-xs">SANGLI | KOLHAPUR</span>
           </div>
 
           <div className="flex items-center gap-4 text-xs font-semibold text-slate-500">
