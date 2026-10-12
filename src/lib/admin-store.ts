@@ -468,7 +468,7 @@ const DEFAULT_SOLUTIONS_DATA: SolutionModule[] = [
     shortDesc:
       "Comprehensive and non-comprehensive AMC maintenance for CCTV, networking, fire alarms, and biometrics with guaranteed 4-hour van dispatch.",
     fullDesc:
-      "Ensure zero system downtime with JEPL's institutional Annual Maintenance Contracts (AMC). Backed by certified diagnostic instruments, resident field engineers, and dedicated spare parts depots in Sangli, Kolhapur, and Pune, we provide quarterly preventive audits, 4-hour emergency van dispatch, and 99.8% SLA uptime guarantees.",
+      "Ensure zero system downtime with JEPL's institutional Annual Maintenance Contracts (AMC). Backed by certified diagnostic instruments, resident field engineers, and dedicated spare parts depots in Sangli and Kolhapur, we provide quarterly preventive audits, 4-hour emergency van dispatch, and 99.8% SLA uptime guarantees.",
     features: [
       "Guaranteed 4-hour emergency field technician van dispatch across Western Maharashtra",
       "Dedicated standby spare inventory (cameras, switches, power supplies, fiber patch cords)",
@@ -480,7 +480,7 @@ const DEFAULT_SOLUTIONS_DATA: SolutionModule[] = [
       { label: "Response SLA", value: "4-Hour Emergency Field Dispatch" },
       { label: "Contract Types", value: "Comprehensive (Parts + Labor) & Non-Comprehensive" },
       { label: "Audits Included", value: "4 Mandatory Quarterly Preventive Audits/Year" },
-      { label: "Coverage Region", value: "Sangli, Kolhapur, Satara, Pune, Belgaum" },
+      { label: "Coverage Region", value: "Sangli, Kolhapur, Satara, Belgaum" },
     ],
     applications: [
       "Co-operative Bank Branch Networks",
